@@ -109,10 +109,7 @@ Enter the store name
 [store name]
 
 Best matches for what you are looking for:
--
--
--
--
+
 
 (choose an item)
 
