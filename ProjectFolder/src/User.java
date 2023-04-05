@@ -155,11 +155,11 @@ public class User {
        for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
            if (product.getName().equals(productCart.get(i))) {
                this.quantity.set(i, this.quantity.get(i) - quantity);
-               return;
+              
            }
        }
        for (int i = 0; i < this.quantity.size(); i++) { //remove the product from cart if there is no quantity
-           if (this.quantity.get(i) == 0) {
+           if (this.quantity.get(i) <= 0) {
                this.productCart.remove(i);
            }
        }
