@@ -72,24 +72,42 @@ The implementations must have the following :-
 
 
 Sample outputs:
+
 Sample 1 where the username exists for a buyer 
-Welcome/
-I have an existing account
-I would like to create an account 
+
+Welcome
+
+1. I have an existing account
+
+2. I would like to create an account 
+
 [1]
+
 Enter your username
+
 [username]
+
 welcome (username) 
-What would you like to buy? 
+
+What would you like to buy?
+
 [keyword]
+
 What is your price range?
+
 [some double]
+
 Do you have a store in mind?
+
 1. Yes
+
 2. No
+
 [1]
 Enter the store name
+
 [store name]
+
 Best matches for what you are looking for:
 -
 -
@@ -97,43 +115,78 @@ Best matches for what you are looking for:
 -
 
 (choose an item)
+
 Would you like to add this item to your cart?
+
 1. Yes
+
 2. no
+
+
 [1]
-Keep browsing
-checkout
+Item added!
+
+1. Keep browsing
+
+2. checkout
+
 [2]
+
 Your total is (cost total of the items)
+
 Are you ready to checkout?
+
 1. Yes
+
 2. no
+
 [1]
+
 (will have to discuss how we do this checking out thing)
+
 Keep browsing
+
 Log off
+
 [2]
+
 Thank you!
 
 
 Sample 2 where the username exists for a seller
+
 Welcome
+
 I have an existing account
+
 I would like to create an account
+
 [1]
-Enter your username 
+
+Enter your username
+
 [username]
+
 Welcome (username)
+
 View buyer carts 
+
 Add new product
+
 [2]
+
 What is the name of the product? 
+
 (i was thinking if the scanner input here matches an existing product, it adds to that instead of having to ask if the product already exists)
+
 How many of this product would you like to add?
+
 [int]
-1. Action complete. 
-2. Keep doing stuff
-Log off
-[2]
+
+ Action complete. 
+1. Keep doing stuff
+2. Log off
+[2] 
+
 Thank you!
 
