@@ -23,45 +23,60 @@ public class Product {
 
     //getters
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public double getPrice(){
+
+    public double getPrice() {
         return price;
     }
-    public int getQuantity(){
-        return  quantity;
+
+    public int getQuantity() {
+        return quantity;
     }
-    public int getQuantitySold(){
-        return  quantitySold;
+
+    public int getQuantitySold() {
+        return quantitySold;
     }
-    public String getSeller(){
+
+    public String getSeller() {
         return seller;
     }
-    public String getStoreName(){
+
+    public String getStoreName() {
         return storeName;
     }
 
     //setters
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
-    public void setPrice(int price){
+
+    public void setPrice(int price) {
         this.price = price;
     }
-    public void setQuantity(int quantity){
+
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public void setQuantitySold(int quantitySold){
+
+    public void setQuantitySold(int quantitySold) {
         this.quantitySold = quantitySold;
     }
-    public void setSeller(String seller){
+
+    public void setSeller(String seller) {
         this.seller = seller;
     }
-    public void setStoreName(String storeName){
+
+    public void setStoreName(String storeName) {
         this.storeName = storeName;
     }
 
+    //THOMAS - ADDING TOSTRING
+    public String toString() { //puts class to string in same format as productList.txt file
+        return String.format("%s,%d,%f,%d,%s,%s", name, quantity, price, quantitySold, seller, storeName);
+    }
 
+}
 //product list extends this class
 //description
