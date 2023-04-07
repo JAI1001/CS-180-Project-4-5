@@ -8,7 +8,7 @@ public class Product {
     private String storeName;
 
 
-    //constructor
+    //constructor - jane
 
     public Product(String name, double price, int quantity, int quantitySold, String seller, String storeName) {
         this.name = name;
@@ -21,7 +21,7 @@ public class Product {
 
     }
 
-    //getters
+    //getters - jane
 
     public String getName() {
         return name;
@@ -47,7 +47,7 @@ public class Product {
         return storeName;
     }
 
-    //setters
+    //setters - jane
     public void setName(String name) {
         this.name = name;
     }
