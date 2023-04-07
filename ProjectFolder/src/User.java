@@ -22,7 +22,8 @@ public class User {
     // specific shopping cart fields by Kuanyu Chen
     //===============================================================
 
-    public User(String username, String emailAddress, String password, boolean buyer) { //constructor for a new user
+    public User(String username, String emailAddress, String password, boolean buyer) { //constructor for a new user - Thomas
+
         this.username = username;
         this.emailAddress = emailAddress;
         this.password = password;
@@ -36,7 +37,13 @@ public class User {
     }
 
 
-    public User(String username) throws UserNotFoundException { //constructor to load already existing user
+    public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
+        /*
+        IMPORTANT: This constructor assumes that an existing user is expected to have been created with the username.
+        If the username is not found in the file, a UserNotFoundException is thrown. This should be used upon loading
+        the program during user login.
+         */
+
         File f = new File("userInfo.txt"); //userInfo contains all users username, password, email, and buyer/seller role (comma separated
         try {
             FileReader fr = new FileReader(f);
@@ -128,14 +135,60 @@ public class User {
     }
 
 
-   /*
-   Need to implement writeUser method that writes the user class to the userInfo.txt file. The method must make sure
-   that if the user is already in the userInfo.txt file, it replaces it with the updated user info.
-   This can be done by adding each line to an arraylist unless it is the line with the old user file, then
-   rewriting those lines to the userInfo.txt file without the old user info and finally writing the new user
-   info into the file.
-   Essentially, the same user cannot be in the userInfo.txt file twice or there will be issues loading later.
-    */
+    public void writeUser() { // -Thomas
+        /*
+        This method will either write a new user to the userInfo.txt file or, if the user already exists, will update
+        the file to include the new user info and not the old user info
+         */
+
+        ArrayList<String> lines = new ArrayList<String>();
+        File f = new File("userInfo.txt");
+        boolean match = false;
+        String matchLine = "";
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                if (line.substring(0, line.indexOf(',')).equalsIgnoreCase(username)) {
+                    matchLine = line;
+                    match = true;
+                    break;
+                }
+                lines.add(line);
+                line = bfr.readLine();
+            }
+            if (match) {
+                /*
+                If there is a match (the user exists already), we will write the updated user to a blank file and then
+                re-write all of the other lines
+                 */
+                line = bfr.readLine();
+                while (line != null) { //read in the rest of the lines
+                    lines.add(line);
+                    line = bfr.readLine();
+                }
+
+                FileOutputStream fos = new FileOutputStream(f, false);
+                PrintWriter pw = new PrintWriter(fos);
+                pw.println(toString()); //first write the updated user to the file
+                for (String s : lines) {
+                    pw.println(s); //write the rest of the lines of the file back in, completely unchanged
+                }
+            } else {
+                /*
+                If the user does not already exist, we can simply append the string of the product to the file
+                 */
+                FileOutputStream fos = new FileOutputStream(f, true);
+                PrintWriter pw = new PrintWriter(fos);
+                pw.println(toString()); //append the new product
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //===============================================================
     //seller methods - Thomas
@@ -172,8 +225,8 @@ public class User {
                  */
                 line = bfr.readLine();
                 while (line != null) { //read in the rest of the lines
-                    line = bfr.readLine();
                     lines.add(line);
+                    line = bfr.readLine();
                 }
 
                 matchLine = matchLine.substring(matchLine.indexOf(',') + 1);
@@ -238,21 +291,16 @@ public class User {
 
 
     @Override
-    public String toString() { //puts user class into readable string
+    public String toString() { //puts user class object into string of the format that userInfo.txt is in - Thomas
         String role;
         if (buyer) {
-            role = "Buyer";
+            role = "b";
         } else {
-            role = "Seller";
+            role = "s";
         }
-        String s = String.format("Name: %s\nEmail Address: %s\nPassword: %s\nRole: %s",
-                username, emailAddress, password, role);
+        String s = String.format("%s,%s,%s,%s",
+                username, password,emailAddress, role);
         return s;
     }
-
-
-
-
-
 
 }
