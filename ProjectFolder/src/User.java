@@ -17,8 +17,9 @@ public class User {
 
     //===============================================================
     // shopping cart fields
-    private ArrayList<Product> productCart = new ArrayList<>(); //ArrayList to store each product added to the shopping cart
+    private ArrayList<String> productCart = new ArrayList<>(); //ArrayList to store each product added to the shopping cart
     private ArrayList<Integer> quantity = new ArrayList<>(); //ArrayList to store quantities of each product
+    private ArrayList<String> storedInfo = new ArrayList<>(); //ArrayList to store file info
     // specific shopping cart fields by Kuanyu Chen
     //===============================================================
 
@@ -260,9 +261,25 @@ public class User {
 
     //===============================================================
     //shopping cart methods - Kuanyu
-    public void addToCart(String name , Product product , int quantity) {
+   public ArrayList<Integer> getQuantity() {                // 2 get methods in case needed
+        return quantity;
+    }
+
+    public ArrayList<String> getProductCart() {
+        return productCart;
+    }
+
+    public void setProductCart(ArrayList<String> productCart) {    // 2 set methods in case needed
+        this.productCart = productCart;
+    }
+
+    public void setQuantity(ArrayList<Integer> quantity) {
+        this.quantity = quantity;
+    }
+
+    public void addToCart(String username , String product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
-            if (product.getName().equals(productCart.get(i))) {
+            if (product.equals(productCart.get(i))) {
                 this.quantity.set(i , this.quantity.get(i) + quantity);
                 return;
             }
@@ -271,9 +288,10 @@ public class User {
         this.quantity.add(quantity);
     }
 
-    public void removeFromCart(String name , Product product , int quantity) {
+
+    public void removeFromCart(String username , String product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
-            if (product.getName().equals(productCart.get(i))) {
+            if (product.equals(productCart.get(i))) {
                 this.quantity.set(i, this.quantity.get(i) - quantity);
 
             }
@@ -284,6 +302,62 @@ public class User {
             }
         }
     }
+
+    public void loadCartData(String username) {
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(new File("ShoppingCart.txt")));
+            while (bfr.ready()) {
+                storedInfo.add(bfr.readLine());
+            }
+            bfr.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Invalid Filename");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error while reading the file");
+            e.printStackTrace();
+        }
+        String targetData = "";
+        for (int i = 0; i < storedInfo.size(); i++) {
+            if (storedInfo.get(i).split(", ")[0].equals(username)) {
+                targetData = storedInfo.get(i);
+            }
+        }
+        String[] data = targetData.split(", ");
+        for (int i = 1; i <= data.length; i++) {
+            this.productCart.add(data[i].split("; ")[0]);
+            this.quantity.add(Integer.parseInt(data[i].split("; ")[1]));
+        }
+    }
+
+    //loads all the lines from ShoppingCart.txt to an Arraylist<String>
+    public void storeCartData(String username) {
+        for (int i = 0; i < storedInfo.size(); i++) {
+            if (storedInfo.get(i).split(", ")[0].equals(username)) { //check the username in the storedInfp
+                String newTxt = username;
+                for (int e = 0; e < productCart.size(); e++) {
+                    newTxt += ", " + productCart.get(e) + "; " + quantity.get(e);
+                }
+                storedInfo.set(i , newTxt);
+            }
+        }
+        try {
+            BufferedWriter bfw = new BufferedWriter(new FileWriter("ShoppingCart.txt"));
+            for (int i = 0; i < storedInfo.size(); i++) {
+                bfw.write(storedInfo.get(i));
+                bfw.newLine();
+            }
+            bfw.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Invalid Filename");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error while writing file");
+            e.printStackTrace();
+        }
+    } //edits and store the new data back to the ShoppingCart.txt
+
     // specific shopping cart methods by Kuanyu Chen
     //===============================================================
 
