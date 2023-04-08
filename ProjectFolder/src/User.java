@@ -257,6 +257,16 @@ public class User {
 
 
     //===============================================================
+   
+    //gets what is inside the cart and returns it - jane
+   /* public ArrayList<Product> getCart(){
+        return this.productCart;
+    }
+    //gets the quantity- jane
+    public ArrayList<Integer> getQuantity(){
+        return this.quantity;
+    }
+    */
     //shopping cart methods - Kuanyu
     public void addToCart(String name , Product product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
