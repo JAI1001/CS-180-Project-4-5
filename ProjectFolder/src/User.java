@@ -1,9 +1,10 @@
+import java.awt.*;
 import java.io.*;
+import java.security.spec.ECField;
 import java.util.ArrayList;
 /*
    Class for all users
    Made by Thomas, feel free to ask questions for clarification
-   Shopping cart methods and fields made by Kuanyu Chen
 */
 
 
@@ -15,17 +16,13 @@ public class User {
     private boolean seller; //a user can only be a buyer or a seller, not both
 
     //===============================================================
-    //shopping cart fields
-    //productCart is for Product names
-    //quantity is for product quantities
-    //
-    private ArrayList<String> productCart = new ArrayList<>(); //ArrayList to store each product added to the shopping cart
+    // shopping cart fields
+    private ArrayList<Product> productCart = new ArrayList<>(); //ArrayList to store each product added to the shopping cart
     private ArrayList<Integer> quantity = new ArrayList<>(); //ArrayList to store quantities of each product
     // specific shopping cart fields by Kuanyu Chen
     //===============================================================
 
     public User(String username, String emailAddress, String password, boolean buyer) { //constructor for a new user - Thomas
-
         this.username = username;
         this.emailAddress = emailAddress;
         this.password = password;
@@ -39,7 +36,7 @@ public class User {
     }
 
 
-        public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
+    public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
         /*
         IMPORTANT: This constructor assumes that an existing user is expected to have been created with the username.
         If the username is not found in the file, a UserNotFoundException is thrown. This should be used upon loading
@@ -87,12 +84,6 @@ public class User {
                 //throw exception if there is no user with the username called in the constructor
                 throw new UserNotFoundException("There is not an existing user with that username");
             }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
         } catch (Exception e) {
@@ -250,6 +241,7 @@ public class User {
                 for (String s : lines) {
                     pw.println(s); //write the rest of the lines of the file back in, completely unchanged
                 }
+                pw.close();
             } else {
                 /*
                 If the product does not already exist, we can simply append the string of the product to the file
@@ -257,6 +249,7 @@ public class User {
                 FileOutputStream fos = new FileOutputStream(f, true);
                 PrintWriter pw = new PrintWriter(fos);
                 pw.println(product.toString()); //append the new product
+                pw.close();
             }
 
 
@@ -269,48 +262,10 @@ public class User {
 
 
     //===============================================================
-    //Make sure you read the stuff below - Kuanyu Chen
-
-    //Don't use the set methods for shopping cart unless necessary. The 2 arraylists are supposed to have
-    //the same size. Setting productCarts and quantity to different sizes will lead to a NullPointerException error
-    //since the shopping methods ASSUMES the Array lengths to be the same.
-    //
-    //Shopping cart methods guide
-    //
-    //The addToCart method simply add the product and its quantity from the arraylists
-    //
-    //The removeFromCart method removes the product and substract the quantity from the arraylists
-    //
-    //The loadCartInfo MUST BE USED since we want the shopping cart info to be saved and accessed
-    //
-    //The writeCartInfo MUST BE USED since it saves the final shopping cart to the file
-    //
-    //The addToCart and removeFromCart takes 3 parameters, the name(This is currently useless, delete if you want :) ),
-    //the product name(name of the product <String>), and the quantity(amount of same product in cart <int>)
-    //
-    //The loadCartInfo and writeCartInfo takes no parameters
-    //
-    //All shopping cart methods except the get methods do not return anything
-
-    public ArrayList<Integer> getQuantity() {                // 2 get methods in case needed
-        return quantity;
-    }
-
-    public ArrayList<String> getProductCart() {
-        return productCart;
-    }
-
-    public void setProductCart(ArrayList<String> productCart) {    // 2 set methods in case needed
-        this.productCart = productCart;
-    }
-
-    public void setQuantity(ArrayList<Integer> quantity) {
-        this.quantity = quantity;
-    }
-
-    public void addToCart(String name , String product , int quantity) {
+    //shopping cart methods - Kuanyu
+    public void addToCart(String name , Product product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
-            if (product.equals(productCart.get(i))) {
+            if (product.getName().equals(productCart.get(i))) {
                 this.quantity.set(i , this.quantity.get(i) + quantity);
                 return;
             }
@@ -319,9 +274,9 @@ public class User {
         this.quantity.add(quantity);
     }
 
-    public void removeFromCart(String name , String product , int quantity) {
+    public void removeFromCart(String name , Product product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
-            if (product.equals(productCart.get(i))) {
+            if (product.getName().equals(productCart.get(i))) {
                 this.quantity.set(i, this.quantity.get(i) - quantity);
 
             }
@@ -332,46 +287,6 @@ public class User {
             }
         }
     }
-
-
-    public void loadCartInfo(String username) {
-        this.productCart = new ArrayList<>(); //reset the program data
-        this.quantity = new ArrayList<>();  //reset the program data
-        try {
-            BufferedReader cartLoader = new BufferedReader(new FileReader(new File(username + "Cart.txt")));  //Summons a new buffered reader to read the Shopping cart info
-
-            while (cartLoader.ready()) { //loads in the existing cart info to the program list productCart and quantity
-                String[] data = cartLoader.readLine().split(";");
-                this.productCart.add(data[0]);
-                this.quantity.add(Integer.parseInt(data[1]));
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Ensure that you enter the correct file name");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("Something went wrong when reading the file");
-            e.printStackTrace();
-        }
-    }
-
-    public void writeCardInfo(String username) {
-        ArrayList<String> userInfo = new ArrayList<>(); //this array will be used to store the info of user when writing
-        try {
-            BufferedWriter cartWriter = new BufferedWriter(new FileWriter(username + "Cart.txt"));
-            for (int i = 0; i < productCart.size(); i++) {
-                cartWriter.write(productCart.get(i) + ";" + quantity.get(i)); //loads the product cart info into the file by format [product name];[quantity]
-                cartWriter.newLine();
-            }
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Ensure that you enter the correct file name");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("Something went wrong when reading the file");
-            e.printStackTrace();
-        }
-    }
-
     // specific shopping cart methods by Kuanyu Chen
     //===============================================================
 
