@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /*
    Class for all users
    Made by Thomas, feel free to ask questions for clarification
+   Shopping cart methods and fields made by Kuanyu Chen
 */
 
 
@@ -16,8 +17,11 @@ public class User {
     private boolean seller; //a user can only be a buyer or a seller, not both
 
     //===============================================================
-    // shopping cart fields
-    private ArrayList<Product> productCart = new ArrayList<>(); //ArrayList to store each product added to the shopping cart
+    //shopping cart fields
+    //productCart is for Product names
+    //quantity is for product quantities
+    //
+    private ArrayList<String> productCart = new ArrayList<>(); //ArrayList to store each product added to the shopping cart
     private ArrayList<Integer> quantity = new ArrayList<>(); //ArrayList to store quantities of each product
     // specific shopping cart fields by Kuanyu Chen
     //===============================================================
@@ -257,20 +261,48 @@ public class User {
 
 
     //===============================================================
-   
-    //gets what is inside the cart and returns it - jane
-   /* public ArrayList<Product> getCart(){
-        return this.productCart;
+    //Make sure you read the stuff below - Kuanyu Chen
+
+    //Don't use the set methods for shopping cart unless necessary. The 2 arraylists are supposed to have
+    //the same size. Setting productCarts and quantity to different sizes will lead to a NullPointerException error
+    //since the shopping methods ASSUMES the Array lengths to be the same.
+    //
+    //Shopping cart methods guide
+    //
+    //The addToCart method simply add the product and its quantity from the arraylists
+    //
+    //The removeFromCart method removes the product and substract the quantity from the arraylists
+    //
+    //The loadCartInfo MUST BE USED since we want the shopping cart info to be saved and accessed
+    //
+    //The writeCartInfo MUST BE USED since it saves the final shopping cart to the file
+    //
+    //The addToCart and removeFromCart takes 3 parameters, the name(This is currently useless, delete if you want :) ),
+    //the product name(name of the product <String>), and the quantity(amount of same product in cart <int>)
+    //
+    //The loadCartInfo and writeCartInfo takes no parameters
+    //
+    //All shopping cart methods except the get methods do not return anything
+
+    public ArrayList<Integer> getQuantity() {                // 2 get methods in case needed
+        return quantity;
     }
-    //gets the quantity- jane
-    public ArrayList<Integer> getQuantity(){
-        return this.quantity;
+
+    public ArrayList<String> getProductCart() {
+        return productCart;
     }
-    */
-    //shopping cart methods - Kuanyu
-    public void addToCart(String name , Product product , int quantity) {
+
+    public void setProductCart(ArrayList<String> productCart) {    // 2 set methods in case needed
+        this.productCart = productCart;
+    }
+
+    public void setQuantity(ArrayList<Integer> quantity) {
+        this.quantity = quantity;
+    }
+
+    public void addToCart(String name , String product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
-            if (product.getName().equals(productCart.get(i))) {
+            if (product.equals(productCart.get(i))) {
                 this.quantity.set(i , this.quantity.get(i) + quantity);
                 return;
             }
@@ -279,9 +311,9 @@ public class User {
         this.quantity.add(quantity);
     }
 
-    public void removeFromCart(String name , Product product , int quantity) {
+    public void removeFromCart(String name , String product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
-            if (product.getName().equals(productCart.get(i))) {
+            if (product.equals(productCart.get(i))) {
                 this.quantity.set(i, this.quantity.get(i) - quantity);
 
             }
@@ -292,6 +324,56 @@ public class User {
             }
         }
     }
+
+
+    public void loadCartInfo() {
+        this.productCart = new ArrayList<>(); //reset the program data
+        this.quantity = new ArrayList<>();  //reset the program data
+        try {
+            BufferedReader cartLoader = new BufferedReader(new FileReader(new File("userInfo.txt")));  //Summons a new buffered reader to read the Shopping cart info
+            for (int i = 0; i < 3; i++) { //ignores the first 3 lines which are not shopping cart info
+                cartLoader.readLine();
+            }
+            while (cartLoader.ready()) { //loads in the existing cart info to the program list productCart and quantity
+                String[] data = cartLoader.readLine().split(";");
+                this.productCart.add(data[0]);
+                this.quantity.add(Integer.parseInt(data[1]));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Ensure that you enter the correct file name");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Something went wrong when reading the file");
+            e.printStackTrace();
+        }
+    }
+
+    public void writeCardInfo() {
+        ArrayList<String> userInfo = new ArrayList<>(); //this array will be used to store the info of user when writing
+        try {
+            BufferedReader InfoLoader = new BufferedReader(new FileReader(new File("userInfo.txt"))); //read file info before rewrite
+            for (int i = 0; i < 3; i++) {
+                userInfo.add(InfoLoader.readLine()); //save the userinfo to the program for later use
+            }
+            BufferedWriter cartWriter = new BufferedWriter(new FileWriter("userInfo.txt"));
+            for (int i = 0; i < userInfo.size(); i++) {
+                cartWriter.write(userInfo.get(i)); //reloads the userInfo to the file
+                cartWriter.newLine();
+            }
+            for (int i = 0; i < productCart.size(); i++) {
+                cartWriter.write(productCart.get(i) + ";" + quantity.get(i)); //loads the product cart info into the file by format [product name];[quantity]
+                cartWriter.newLine();
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Ensure that you enter the correct file name");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Something went wrong when reading the file");
+            e.printStackTrace();
+        }
+    }
+
     // specific shopping cart methods by Kuanyu Chen
     //===============================================================
 
