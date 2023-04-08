@@ -36,7 +36,7 @@ public class User {
     }
 
 
-    public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
+        public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
         /*
         IMPORTANT: This constructor assumes that an existing user is expected to have been created with the username.
         If the username is not found in the file, a UserNotFoundException is thrown. This should be used upon loading
@@ -55,7 +55,6 @@ public class User {
                    BEGIN...
                     */
                     this.username = line.substring(0, line.indexOf(','));
-
                     line = line.substring(line.indexOf(',') + 1); //set line to start with password string;
                     this.password = line.substring(0, line.indexOf(',')); //set this password to password from file
                     line = line.substring(line.indexOf(',') + 1); //set line to start with email string
@@ -72,20 +71,18 @@ public class User {
                    ...END
                    We now have loaded the user and set this object to match it
                     */
-
                     bfr.close();
                     break; //get out of while loop going over lines because we found the line we want
                 } else {
-                    bfr.readLine();
+                    line = bfr.readLine();
                 }
-                bfr.close();
+
             }
             if (line == null) {
                 //throw exception if there is no user with the username called in the constructor
                 throw new UserNotFoundException("There is not an existing user with that username");
             }
-
-
+            bfr.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
