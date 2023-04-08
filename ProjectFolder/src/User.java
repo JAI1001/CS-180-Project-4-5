@@ -261,8 +261,8 @@ public class User {
 
     //===============================================================
     //shopping cart methods - Kuanyu
-   public ArrayList<Integer> getQuantity() {                // 2 get methods in case needed
-        return quantity;
+    public ArrayList<Integer> getQuantity() {                // 2 get methods in case needed
+         return quantity;
     }
 
     public ArrayList<String> getProductCart() {
@@ -323,6 +323,10 @@ public class User {
             if (storedInfo.get(i).split(", ")[0].equals(username)) {
                 targetData = storedInfo.get(i);
             }
+        }
+        if (targetData.equals("")) {
+            throw new UserNotFoundException("User not Found");
+            return;
         }
         String[] data = targetData.split(", ");
         for (int i = 1; i <= data.length; i++) {
