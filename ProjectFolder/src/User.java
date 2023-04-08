@@ -170,6 +170,7 @@ public class User {
                     lines.add(line);
                     line = bfr.readLine();
                 }
+                bfr.close();
 
                 FileOutputStream fos = new FileOutputStream(f, false);
                 PrintWriter pw = new PrintWriter(fos);
@@ -177,6 +178,7 @@ public class User {
                 for (String s : lines) {
                     pw.println(s); //write the rest of the lines of the file back in, completely unchanged
                 }
+                pw.close();
             } else {
                 /*
                 If the user does not already exist, we can simply append the string of the product to the file
@@ -184,6 +186,7 @@ public class User {
                 FileOutputStream fos = new FileOutputStream(f, true);
                 PrintWriter pw = new PrintWriter(fos);
                 pw.println(toString()); //append the new product
+                pw.close();
             }
 
 
