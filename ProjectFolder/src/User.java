@@ -1,6 +1,4 @@
-import java.awt.*;
 import java.io.*;
-import java.security.spec.ECField;
 import java.util.ArrayList;
 /*
    Class for all users
@@ -326,14 +324,12 @@ public class User {
     }
 
 
-    public void loadCartInfo() {
+    public void loadCartInfo(String username) {
         this.productCart = new ArrayList<>(); //reset the program data
         this.quantity = new ArrayList<>();  //reset the program data
         try {
-            BufferedReader cartLoader = new BufferedReader(new FileReader(new File("userInfo.txt")));  //Summons a new buffered reader to read the Shopping cart info
-            for (int i = 0; i < 3; i++) { //ignores the first 3 lines which are not shopping cart info
-                cartLoader.readLine();
-            }
+            BufferedReader cartLoader = new BufferedReader(new FileReader(new File(username + "Cart.txt")));  //Summons a new buffered reader to read the Shopping cart info
+
             while (cartLoader.ready()) { //loads in the existing cart info to the program list productCart and quantity
                 String[] data = cartLoader.readLine().split(";");
                 this.productCart.add(data[0]);
@@ -348,18 +344,10 @@ public class User {
         }
     }
 
-    public void writeCardInfo() {
+    public void writeCardInfo(String username) {
         ArrayList<String> userInfo = new ArrayList<>(); //this array will be used to store the info of user when writing
         try {
-            BufferedReader InfoLoader = new BufferedReader(new FileReader(new File("userInfo.txt"))); //read file info before rewrite
-            for (int i = 0; i < 3; i++) {
-                userInfo.add(InfoLoader.readLine()); //save the userinfo to the program for later use
-            }
-            BufferedWriter cartWriter = new BufferedWriter(new FileWriter("userInfo.txt"));
-            for (int i = 0; i < userInfo.size(); i++) {
-                cartWriter.write(userInfo.get(i)); //reloads the userInfo to the file
-                cartWriter.newLine();
-            }
+            BufferedWriter cartWriter = new BufferedWriter(new FileWriter(username + "Cart.txt"));
             for (int i = 0; i < productCart.size(); i++) {
                 cartWriter.write(productCart.get(i) + ";" + quantity.get(i)); //loads the product cart info into the file by format [product name];[quantity]
                 cartWriter.newLine();
