@@ -84,7 +84,7 @@ public class User {
                 throw new UserNotFoundException("There is not an existing user with that username");
             }
             bfr.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
