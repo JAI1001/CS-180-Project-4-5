@@ -217,6 +217,47 @@ public class User {
 
     //===============================================================
     //seller methods - Thomas
+   
+       public void importFile(String fileName, String storeName) { //seller method to import CSV file with products
+        ArrayList<String> lines = new ArrayList<String>();
+        File f = new File(fileName);
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line =  bfr.readLine();
+            while (line != null) {
+                String pName = line.substring(0, line.indexOf("\t"));
+                pName = pName.strip();
+                line = line.substring(line.indexOf("\t") + 1);
+                double pPrice = Double.parseDouble(line.substring(0, line.indexOf("\t")));
+                line = line.substring(line.indexOf("\t") + 1);
+                int pQuantity = Integer.parseInt(line.substring(0, line.indexOf("\t")));
+                line = line.substring(line.indexOf("\t")+ 1);
+                int pQuantitySold = Integer.parseInt(line);
+
+
+
+                lines.add(pName + "," + pPrice + "," + pQuantity + "," + pQuantitySold + "," + username + "," + storeName);
+                line = bfr.readLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //update to write lines from file into productList file
+        f = new File("productList.txt");
+        try {
+            FileOutputStream fos = new FileOutputStream(f, true);
+            PrintWriter pw = new PrintWriter(fos);
+            for (String line : lines) {
+                pw.println(line);
+            }
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+   
     public void addProduct(Product product) {
         /*
         This method will add products to the productList file. If the seller wants to add a new product, a new product
