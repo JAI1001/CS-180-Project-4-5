@@ -41,6 +41,10 @@ Choose account type:
 2. Add new product
 3. Show statistics
 """;
+
+   ArrayList<String> productName=new ArrayList<String>();
+   ArrayList<String> productQuantitySold=new ArrayList<String>();
+   ArrayList<String> productStoreName=new ArrayList<String>();        
         /*
     //1. to edit existing product, they have to go to a separate scanner prompt that asks "enter the product name"
     if (1)
@@ -118,6 +122,95 @@ Choose account type:
             }
         } while (response != 1 && response != 2);
         return users;
+    }
+    
+    
+    public void statisticsTwo(){
+        try {
+            FileReader fr = new FileReader("productList.txt");
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            int qty=0;
+            while (line != null) {
+                String[] productsList = line.split(",");
+                line = bfr.readLine();
+                productName.add(productsList[0]);
+                productQuantitySold.add(productsList[3]);
+            }
+
+            System.out.println("Product Name - Quantity Sold");
+
+            ArrayList<String> productList = new ArrayList<String>();  // creating a new arraylist storelist with unique store names
+            for (int i = 0; i < productName.size(); i++) {
+                if (!(productList.contains(productName.get(i)))) {
+                    productList.add(productName.get(i));
+                }
+            }
+            qty = 0; // declaring quantity field and setting it to 0
+
+            String[][] statisticsOne = new String[productList.size()][2]; // creating a 2d array named statistics
+            line = bfr.readLine();
+            for (int i = 0; i < productList.size(); i++) {
+                statisticsOne[i][0] = productList.get(i); // adding the the unique store names to the first columns of all rows
+                for (int j = 0; j < productName.size(); j++) {
+                    if (productList.get(i).equals(productName.get(j))) {
+                        qty = qty + Integer.parseInt(productQuantitySold.get(j));
+                    }
+                }
+                String qtystring = String.valueOf(qty);
+                statisticsOne[i][1] = qtystring;  // adding the the quantity of products sold of that store to the second columns of the respective product tows.
+                qty = 0;
+                System.out.println(statisticsOne[i][0]+" - "+statisticsOne[i][1]);
+
+            }
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    public void statisticsThree(){
+        try {
+            int qtyThree=0;
+            FileReader fr = new FileReader("productList.txt");
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] productsList = line.split(",");
+                line = bfr.readLine();
+                productStoreName.add(productsList[5]);
+                productQuantitySold.add(productsList[3]);
+            }
+            ArrayList<String> storelist = new ArrayList<String>();  // creating a new arraylist storelist with unique store names
+            for (int i = 0; i < productStoreName.size(); i++) {
+                if (!(storelist.contains(productStoreName.get(i)))) {
+                    storelist.add(productStoreName.get(i));
+                }
+            }
+            qtyThree = 0; // declaring quantity field and setting it to 0
+            System.out.println("Store Name - Quantity Sold");
+
+            String[][] statistics = new String[storelist.size()][2]; // creating a 2d array named statistics
+            line = bfr.readLine();
+            for (int i = 0; i < storelist.size(); i++) {
+                statistics[i][0] = storelist.get(i); // adding the the unique store names to the first columns of all rows
+                for (int j = 0; j < productStoreName.size(); j++) {
+                    if (storelist.get(i).equals(productStoreName.get(j))) {
+                        qtyThree = qtyThree + Integer.parseInt(productQuantitySold.get(j));
+                    }
+                }
+                String qtystring = String.valueOf(qtyThree);
+                statistics[i][1] = qtystring;  // adding the the quantity of products sold of that store to the second columns of the respective product tows.
+                qtyThree = 0;
+                System.out.println(statistics[i][0]+" - "+statistics[i][1]);
+
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
