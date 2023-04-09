@@ -325,7 +325,6 @@ public class User {
             }
         }
         if (targetData.equals("")) {
-            throw new UserNotFoundException("User not Found");
             return;
         }
         String[] data = targetData.split(", ");
