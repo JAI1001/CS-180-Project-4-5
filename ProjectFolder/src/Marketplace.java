@@ -41,6 +41,25 @@ Choose account type:
 2. Add new product
 3. Show statistics
 """;
+        /*
+    //1. to edit existing product, they have to go to a separate scanner prompt that asks "enter the product name"
+    if (1)
+    then "what is the name of the product you would like to edit?"
+    if substring equals words in that users file, then allow them to write to the file
+    else throw an exception if no such word exists and loop it back to the prompts
+
+    2. for add new product, show a bunch of new prompts
+    "what is the name?"
+    "what is the price?"
+    "how many would you like to add?"
+    "what store will this be sold in?"
+    if the store name doesn't exist, add a new store name to the userinfo file or wherever we're storing it
+    
+    3. show statistics
+    call methods that jai is gonna put in later
+
+
+ */
 
 
     // method for logging in
