@@ -44,7 +44,9 @@ Choose account type:
 
    ArrayList<String> productName=new ArrayList<String>();
    ArrayList<String> productQuantitySold=new ArrayList<String>();
-   ArrayList<String> productStoreName=new ArrayList<String>();        
+   ArrayList<String> productStoreName=new ArrayList<String>();       
+   ArrayList<String> customerName=new ArrayList<String>();
+   ArrayList<String> qtyPurchased=new ArrayList<String>();
         /*
     //1. to edit existing product, they have to go to a separate scanner prompt that asks "enter the product name"
     if (1)
@@ -122,6 +124,27 @@ Choose account type:
             }
         } while (response != 1 && response != 2);
         return users;
+    }
+    
+    
+    public void statisticsOne(){
+        try {
+            FileReader fr = new FileReader("UserProductHistory.txt");
+            BufferedReader bfr=new BufferedReader(fr);
+            String line= bfr.readLine();
+            while (line!=null){
+                String[] customerData=line.split(", ");
+                line= bfr.readLine();
+                customerName.add(customerData[0]);
+                qtyPurchased.add(customerData[1]);
+            }
+            for (int i=0;i<customerName.size();i++){
+                System.out.println(customerName.get(i)+" - "+qtyPurchased.get(i));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
     
     
