@@ -326,7 +326,7 @@ public class User {
 
     //===============================================================
     //shopping cart methods - Kuanyu
-    public ArrayList<Integer> getQuantity() {                // 2 get methods in case needed
+     public ArrayList<Integer> getQuantity() {                // 2 get methods in case needed
         return quantity;
     }
 
@@ -344,6 +344,29 @@ public class User {
 
     public int getTotalQuantity() {
         return totalQuantity;
+    }
+
+    public void addNewUserToCart(String newUser) {
+        try {
+            storedInfo.clear();
+            BufferedReader bfr = new BufferedReader(new FileReader(new File("ShoppingCart.txt")));
+            while ((bfr.ready())) {
+                storedInfo.add(bfr.readLine());
+            }
+            storedInfo.add(newUser + ", ");
+            BufferedWriter bfw = new BufferedWriter(new FileWriter("ShoppingCart.txt"));
+            for (int i = 0; i < storedInfo.size(); i++) {
+                bfw.write(storedInfo.get(i));
+                bfw.newLine();
+            }
+            bfr.close();
+            bfw.close();
+            storedInfo.clear();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public void addToCart(String username , String product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
@@ -393,7 +416,6 @@ public class User {
             }
         }
         if (targetData.equals("")) {
-            return;
         }
         String[] data = targetData.split(", ");
         for (int i = 1; i <= data.length - 1; i++) {
@@ -434,6 +456,52 @@ public class User {
         }
     } //edits and store the new data back to the ShoppingCart.txt
 
+
+
+    public void addProductHistory(String username, String product, int quantity) {
+        try {
+            String checkedData = "";
+            BufferedReader bfr = new BufferedReader(new FileReader(new File("UserProductHistory.txt")));
+            while (bfr.ready()) {
+                String data = bfr.readLine();
+                if (data.split(", ")[0].equals(username)) {
+                    checkedData = data;
+                }
+            }
+            if (checkedData.equals("")) {
+                checkedData = username + ", " + "0";
+            }
+            for (int i = 0; i < productCart.size(); i++) {
+                if (!checkedData.contains(productCart.get(i))) {
+                    int newQuantity = Integer.parseInt(checkedData.split(", ")[1]) + this.quantity.get(i);
+                    checkedData = username + ", " + newQuantity + checkedData.split(", " , 2)[2];
+                    checkedData += ", " + productCart.get(i);
+
+                }
+            }
+            BufferedWriter bfw = new BufferedWriter(new FileWriter("UserProductHistory.txt"));
+            bfr.reset();
+            storedInfo.clear();
+            while (bfr.ready()) {
+                storedInfo.add(bfr.readLine());
+            }
+            for (int i = 0; i < storedInfo.size(); i++) {
+                if (storedInfo.get(i).split(", ")[0].equals(username)) {
+                    storedInfo.set(i, checkedData);
+                }
+            }
+            for (int i = 0; i < storedInfo.size(); i++) {
+                bfw.write(storedInfo.get(i));
+                bfw.newLine();
+            }
+            bfw.close();
+            bfr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     // specific shopping cart methods by Kuanyu Chen
     //===============================================================
 
