@@ -5,8 +5,7 @@ import java.io.*;
 
 public class Tests {
     @Test
-    //didn't write file at all
-    //overloaded constructor that reads file didnt throw exception when expected to
+
     public void TestWriteUser() throws UserNotFoundException {
         User user = new User("user1", "user1@gmail.com", "acbd123", true);
         user.writeUser();
@@ -21,6 +20,8 @@ public class Tests {
         } catch (UserNotFoundException e) {
 
         }
+        //test to see if the user will be correctly written to file
+        //works
 
     }
     //add product
@@ -51,31 +52,63 @@ public class Tests {
 
 
     }
-    //add to cart
-    //added two diff apples into array list instead of updating quantity
+
     @Test
 
     public void TestAddToCart() {
         User user = new User("user1", "user1@gmail.com", "acbd123", true);
         Product apples = new Product("Apples", 5.00, 10, 3, "seller1", "Fruit Store");
-        user.addToCart("Apples", apples, 5);
-        Assert.assertEquals(user.getCart().get(0).getName(),"Apples");
+        user.addToCart("Apples", "Apples", 5);
+        Assert.assertEquals(user.getProductCart().get(0),"Apples");
         Assert.assertEquals(5, user.getQuantity().get(0).intValue());
-        user.addToCart("Apples", apples, 5);
+        user.addToCart("Apples", "Apples", 5);
         Assert.assertEquals(10, user.getQuantity().get(0).intValue());
+
+        //this tests to make sure that products are getting addede to the cart correctly, and if the product exists,
+        // it adds to the quantity instead of adding two diff products
+        // works
 
     }
 
-    //remove from cart
-    //didn't remove correctly
+
     @Test
     public void TestRemoveFromCart(){
         User user = new User("user1", "user1@gmail.com", "acbd123", true);
         Product apples = new Product("Apples", 5.00, 10, 3, "seller1", "Fruit Store");
-        user.addToCart("Apples", apples, 5);
-        user.removeFromCart("Apples", apples, 4);
+        user.addToCart("Apples", "Apples", 5);
+        user.removeFromCart("Apples", "Apples", 4);
         Assert.assertEquals(1, user.getQuantity().get(0).intValue());
+
+        //this tests to make sure things are removed correctly
+        //works
     }
+    //loadCartInfo test
+    @Test
+    public void TestLoadCartData() throws UserNotFoundException {
+        User user = new User("user1", "user1@gmail.com", "acbd123", true);
+        Product apples = new Product("Apples", 5.00, 10, 3, "seller1", "Fruit Store");
+        user.addToCart("Apples", "Apples", 5);
+        user.storeCartData("user1");
+        user.writeUser();
+        User otherUser = new User("user1");
+        otherUser.loadCartData("user1");
+        Assert.assertEquals(user.getProductCart().get(0), "Apples");
+        //test to make sure cart data is showing up correctly
+        //works
+
+    }
+
+
+
+    @Test
+    public void TestLogin(){
+
+    }
+
+    //login test
+    //buyer test
+    //seller test
+    
 
     @Test
     //toString
@@ -86,3 +119,4 @@ public class Tests {
     }
 
 }
+
