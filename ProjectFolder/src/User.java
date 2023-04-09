@@ -20,6 +20,7 @@ public class User {
     private ArrayList<String> productCart = new ArrayList<>(); //ArrayList to store each product added to the shopping cart
     private ArrayList<Integer> quantity = new ArrayList<>(); //ArrayList to store quantities of each product
     private ArrayList<String> storedInfo = new ArrayList<>(); //ArrayList to store file info
+    int totalQuantity = 0;
     // specific shopping cart fields by Kuanyu Chen
     //===============================================================
 
@@ -35,7 +36,7 @@ public class User {
             this.seller = true;
         }
     }
-   
+
     public static boolean userExists(String username) { //returns true if the username being passed in exists
         File f = new File("userInfo.txt");
         try {
@@ -56,11 +57,11 @@ public class User {
         }
         return false;
     }
-   
-   
 
 
-        public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
+
+
+    public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
         /*
         IMPORTANT: This constructor assumes that an existing user is expected to have been created with the username.
         If the username is not found in the file, a UserNotFoundException is thrown. This should be used upon loading
@@ -285,7 +286,7 @@ public class User {
     //===============================================================
     //shopping cart methods - Kuanyu
     public ArrayList<Integer> getQuantity() {                // 2 get methods in case needed
-         return quantity;
+        return quantity;
     }
 
     public ArrayList<String> getProductCart() {
@@ -300,6 +301,9 @@ public class User {
         this.quantity = quantity;
     }
 
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
     public void addToCart(String username , String product , int quantity) {
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
             if (product.equals(productCart.get(i))) {
@@ -351,7 +355,7 @@ public class User {
             return;
         }
         String[] data = targetData.split(", ");
-        for (int i = 1; i <= data.length; i++) {
+        for (int i = 1; i <= data.length - 1; i++) {
             this.productCart.add(data[i].split("; ")[0]);
             this.quantity.add(Integer.parseInt(data[i].split("; ")[1]));
         }
@@ -359,15 +363,20 @@ public class User {
 
     //loads all the lines from ShoppingCart.txt to an Arraylist<String>
     public void storeCartData(String username) {
+        for (int i = 0; i < quantity.size(); i++) {
+            totalQuantity += quantity.get(i);
+        }
         for (int i = 0; i < storedInfo.size(); i++) {
             if (storedInfo.get(i).split(", ")[0].equals(username)) { //check the username in the storedInfp
                 String newTxt = username;
                 for (int e = 0; e < productCart.size(); e++) {
                     newTxt += ", " + productCart.get(e) + "; " + quantity.get(e);
                 }
-                storedInfo.set(i , newTxt);
+                storedInfo.set(i , newTxt + ", " + totalQuantity);
             }
         }
+
+
         try {
             BufferedWriter bfw = new BufferedWriter(new FileWriter("ShoppingCart.txt"));
             for (int i = 0; i < storedInfo.size(); i++) {
