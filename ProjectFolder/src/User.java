@@ -218,6 +218,37 @@ public class User {
     //===============================================================
     //seller methods - Thomas
    
+       public void addStore(String storeName) { //adds store name to store file
+        File f = new File("sellerStores.txt");
+        try {
+            FileOutputStream fos = new FileOutputStream(f, true);
+            PrintWriter pw = new PrintWriter(fos);
+            pw.println(username + "," + storeName);
+            pw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getStoreName() throws UserNotFoundException { //gets the name of the store for the seller
+        try {
+            File f = new File("sellerStores.txt");
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                if (line.substring(0, line.indexOf(",")).equals(username)) {
+                    line = line.substring(line.indexOf(",") + 1);
+                    return line;
+                }
+                line = bfr.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        throw new UserNotFoundException("There is no existing seller with that username.");
+    }
+   
        public void importFile(String fileName, String storeName) { //seller method to import CSV file with products
         ArrayList<String> lines = new ArrayList<String>();
         File f = new File(fileName);
