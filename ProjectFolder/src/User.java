@@ -35,6 +35,29 @@ public class User {
             this.seller = true;
         }
     }
+   
+    public static boolean userExists(String username) { //returns true if the username being passed in exists
+        File f = new File("userInfo.txt");
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                if (line.substring(0, line.indexOf(',')).equals(username)) { //if the username matches a username in userInfo file
+                    return true;
+                }
+                line = bfr.readLine();
+            }
+            if (line == null) {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+   
+   
 
 
         public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
