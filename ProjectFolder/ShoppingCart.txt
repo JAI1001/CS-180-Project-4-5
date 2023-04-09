@@ -1,0 +1,1 @@
+name, productname1; qty, productname2; qty, productname3; qty, productname4; qty, total_qty
