@@ -494,6 +494,7 @@ public class User {
                 bfw.write(storedInfo.get(i));
                 bfw.newLine();
             }
+            storedInfo.clear();
             bfw.close();
             bfr.close();
         } catch (FileNotFoundException e) {
