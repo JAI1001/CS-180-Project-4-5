@@ -58,16 +58,11 @@ Choose account type:
                         loop = true;
                         System.out.println(USER);
                         String user = scan.nextLine();
-                        users = new User(user);
-                        if (users.getName().equals(user)) {
+                        try {
+                            users = new User(user);
                             loop = false;
-                        }
-                        if (loop) {
-                            System.out.println(NOSUCHUSER);
-                            String restart = scan.nextLine();
-                            if (restart.equals("YES")) {
-                                break;
-                            }
+                        } catch (UserNotFoundException e) {
+                            System.out.println(e.getMessage() + ". Please try again.");
                         }
                     } while (loop);
                     String pass;
@@ -77,38 +72,22 @@ Choose account type:
                     } while (!users.testPassword(pass));
                     break;
                 case 2:
-                    String user = null;
-                    boolean buyer = true;
-                    do {
-                        loop = true;
-                        System.out.println(USER);
-                        user = scan.nextLine();
-                        users = new User(user);
-                        if (users.toString().split(",")[0].equals(user)) {
-                            loop = false;
-                        }
-                        if (loop) {
-                            System.out.println(SUCHUSER);
-                        }
-                    } while (loop);
+                    System.out.println("Enter Username:");
+                    String user = scan.nextLine();
+
+                    //make sure user doesn't already exist!
+
                     System.out.println(SETPASS);
-                    pass = scan.nextLine();
+                    String password = scan.nextLine();
                     System.out.println(SETEMAIL);
                     String email = scan.nextLine();
-                    int buySell;
-                    do {
-                        System.out.println(ACCTYPE);
-                        buySell = scan.nextInt();
-                        scan.nextLine();
-                        if (buySell == 1) {
-                            buyer = false;
-                        } else if (buySell == 2) {
-                            buyer = true;
-                        } else {
-                            System.out.println(RIGHTOPTION);
-                        }
-                    } while (buySell != 1 && buySell != 2);
-                    users = new User(user, pass, email, buyer);
+                    System.out.println("Buyer or Seller (enter 'b' or 's':");
+                    boolean buyer = false;
+                    if (scan.nextLine().equalsIgnoreCase("b")) {
+                        buyer = true;
+                    }
+
+                    users = new User(user, password, email, buyer);
                     users.writeUser();
                     break;
                 default:
