@@ -75,7 +75,11 @@ Choose account type:
                     System.out.println("Enter Username:");
                     String user = scan.nextLine();
 
-                    //make sure user doesn't already exist!
+                    while (User.userExists(user)) {
+                        System.out.println(SUCHUSER);
+                        System.out.println("Enter Username:");
+                        user = scan.nextLine();
+                    }
 
                     System.out.println(SETPASS);
                     String password = scan.nextLine();
@@ -107,6 +111,6 @@ Choose account type:
             user = login(scan);
         } while (user.getName() == null);
         System.out.println(user.toString());
-        user.isBuyer()
+        user.isBuyer();
     }
 }
