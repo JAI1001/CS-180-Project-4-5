@@ -269,6 +269,7 @@ public class User {
     }
    
        public void importFile(String fileName, String storeName) { //seller method to import CSV file with products
+          //debugged/redone by Jane
         ArrayList<String> lines = new ArrayList<String>();
         File f = new File(fileName);
         try {
@@ -292,7 +293,17 @@ public class User {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            f = new File("productList.txt");
+            try {
+                FileOutputStream fos = new FileOutputStream(f, true);
+                PrintWriter pw = new PrintWriter(fos);
+                for (String line : lines) {
+                    pw.println(line);
+                }
+                pw.close();
+            } catch (IOException g) {
+                e.printStackTrace();
+            }
         }
         //update to write lines from file into productList file
         f = new File("productList.txt");
@@ -576,7 +587,16 @@ public class User {
             bfw.close();
             bfr.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+           //added in order to actually interact w file - jane
+            BufferedWriter bfw = new BufferedWriter(new FileWriter("UserProductHistory.txt"));
+
+
+            for (int i = 0; i < storedInfo.size(); i++) {
+                bfw.write(storedInfo.get(i));
+                bfw.newLine();
+            }
+
+            bfw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
