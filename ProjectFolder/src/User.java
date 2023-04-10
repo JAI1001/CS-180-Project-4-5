@@ -217,8 +217,8 @@ public class User {
 
     //===============================================================
     //seller methods - Thomas
-   
-       public void addStore(String storeName) { //adds store name to store file
+
+    public void addStore(String storeName) { //adds store name to store file
         File f = new File("sellerStores.txt");
         try {
             FileOutputStream fos = new FileOutputStream(f, true);
@@ -229,22 +229,22 @@ public class User {
             e.printStackTrace();
         }
     }
-   
+
     public boolean doesStoreExist(String storeName) {
         File f = new File("sellerStores.txt");
-            try {
-                FileReader fr = new FileReader(f);
-                BufferedReader bfr = new BufferedReader(fr);
-                String line = bfr.readLine();
-                while (line != null) {
-                    if (line.substring(line.indexOf(",") + 1).equals(storeName)) {
-                        return true;
-                    }
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            String line = bfr.readLine();
+            while (line != null) {
+                if (line.substring(line.indexOf(",") + 1).equals(storeName)) {
+                    return true;
                 }
-                bfr.close();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            bfr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
 
     }
@@ -267,9 +267,9 @@ public class User {
         }
         throw new UserNotFoundException("There is no existing seller with that username.");
     }
-   
-       public void importFile(String fileName, String storeName) { //seller method to import CSV file with products
-          //debugged/redone by Jane
+
+    public void importFile(String fileName, String storeName) { //seller method to import CSV file with products
+        //debugged/redone by Jane
         ArrayList<String> lines = new ArrayList<String>();
         File f = new File(fileName);
         try {
@@ -318,7 +318,7 @@ public class User {
             e.printStackTrace();
         }
     }
-   
+
     public void addProduct(Product product) {
         /*
         This method will add products to the productList file. If the seller wants to add a new product, a new product
@@ -452,16 +452,11 @@ public class User {
             if (productListData.get(i).contains(product.getName())) {
                 productListData.set(i , productListData.get(i).split(",")[0] + ","
                         + (Integer.parseInt(productListData.get(i).split(",")[1]) - quantity)
-                        + "," + productListData.get(i).split(",",2)[1]);
+                        + "," + productListData.get(i).split(",",3)[2]);
             }
         }
 
 
-
-
-        for (int i = 0; i < productListData.size(); i++) {
-            System.out.println(productListData.get(i));
-        }
 
 
 
@@ -493,11 +488,6 @@ public class User {
         this.quantity.add(quantity);
 
 
-        for (int i = 0; i < productCart.size(); i++) {
-            System.out.println(productCart.get(i));
-            System.out.println(this.quantity.get(i));
-        }
-
 
     }
 
@@ -527,13 +517,6 @@ public class User {
                         + (Integer.parseInt(productListData.get(i).split(",")[1]) + quantity)
                         + "," + productListData.get(i).split(",",2)[1]);
             }
-        }
-
-
-
-
-        for (int i = 0; i < productListData.size(); i++) {
-            System.out.println(productListData.get(i));
         }
 
 
@@ -599,7 +582,6 @@ public class User {
             return;
         }
         String[] data = targetData.split(", ");
-        System.out.println(targetData);
         if (data.length < 2) {
             return;
         }
@@ -612,7 +594,7 @@ public class User {
 
 
     //loads all the lines from ShoppingCart.txt to an Arraylist<String>
-     public void storeCartData(String username) {
+    public void storeCartData(String username) {
         totalQuantity = 0;
         for (int i = 0; i < quantity.size(); i++) {
             totalQuantity += quantity.get(i);
@@ -635,7 +617,6 @@ public class User {
                 storedInfo.set(i , data);
             }
         }
-        System.out.println(data);
         try {
             BufferedWriter bfw = new BufferedWriter(new FileWriter("ShoppingCart.txt"));
             for (int i = 0; i < storedInfo.size(); i++) {
@@ -696,17 +677,20 @@ public class User {
             for (int i = 0; i < productCart.size(); i++) {
                 if (!checkedData.contains(productCart.get(i))) {
                     int newQuantity = Integer.parseInt(checkedData.split(", ")[1]) + this.quantity.get(i);
-                    checkedData = username + ", " + newQuantity + checkedData.split(", " , 2)[2];
-                    checkedData += ", " + productCart.get(i);
+                    checkedData = username + ", " + newQuantity;
 
 
                 }
             }
+
+            for (int i = 0; i < productCart.size(); i++) {
+                checkedData += ", " + productCart.get(i);
+            }
             BufferedWriter bfw = new BufferedWriter(new FileWriter("UserProductHistory.txt"));
-            bfr.reset();
+            BufferedReader bfr1 = new BufferedReader(new FileReader("UserProductHistory.txt"));
             storedInfo.clear();
-            while (bfr.ready()) {
-                storedInfo.add(bfr.readLine());
+            while (bfr1.ready()) {
+                storedInfo.add(bfr1.readLine());
             }
             for (int i = 0; i < storedInfo.size(); i++) {
                 if (storedInfo.get(i).split(", ")[0].equals(username)) {
