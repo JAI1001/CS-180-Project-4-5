@@ -527,12 +527,12 @@ public class User {
                 }
             }
             if (checkedData.equals("")) {
-                checkedData = username + ", " + "0";
+                checkedData = username + "; " + "0";
             }
             for (int i = 0; i < productCart.size(); i++) {
                 if (!checkedData.contains(productCart.get(i))) {
                     int newQuantity = Integer.parseInt(checkedData.split(", ")[1]) + this.quantity.get(i);
-                    checkedData = username + ", " + newQuantity + checkedData.split(", " , 2)[2];
+                    checkedData = username + "; " + newQuantity + checkedData.split(", " , 2)[2];
                     checkedData += ", " + productCart.get(i);
 
                 }
