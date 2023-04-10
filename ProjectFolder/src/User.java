@@ -414,7 +414,7 @@ public class User {
 
     public void addNewUserToCart(String newUser) {
         try {
-            storedInfo.clear();
+
             BufferedReader bfr = new BufferedReader(new FileReader(new File("ShoppingCart.txt")));
             while ((bfr.ready())) {
                 storedInfo.add(bfr.readLine());
@@ -638,7 +638,7 @@ public class User {
 
     public void buyCart(String username) {
         try {
-            storedInfo.clear();
+
             BufferedReader bfr = new BufferedReader(new FileReader(new File("ShoppingCart.txt")));
             while (bfr.ready()) {
                 storedInfo.add(bfr.readLine());
@@ -653,6 +653,7 @@ public class User {
                 bfw.write(storedInfo.get(i));
                 bfw.newLine();
             }
+            bfw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
