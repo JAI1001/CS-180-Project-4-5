@@ -2,6 +2,19 @@ import java.io.*;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+
+/**
+ * Project-4 Marketplace
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2023 -- Project-4</p>
+ *
+ * @version April 10, 2023
+ * 
+ * @author: Seungjae Baik, Jane Billa, Thomas Birk, Kuan-Yu Chen, Jai Nanda
+ */
+
+
 public class Marketplace {
 
     // Strings for Login and Account Creation
@@ -9,10 +22,10 @@ public class Marketplace {
     private static final String USER = "Enter username";
     private static final String RIGHTOPTION = "Enter Correct option!";
     private static final String LOGIN = """
-Choose Sign-in or Sign-up:
-1. Log in
-2. Create New Account
-""";
+            Choose Sign-in or Sign-up:
+            1. Log in
+            2. Create New Account
+            """;
     private static final String SUCHUSER = "Username already exists. Choose new name.";
     private static final String SETPASS = "Set password: ";
     private static final String SETEMAIL = "Set email: ";
@@ -22,42 +35,42 @@ Choose Sign-in or Sign-up:
 
     // Strings for buyer menu
     private static final String BUYMENU = """
-1. Enter product search list
-2. Purchase items in Shopping Cart
-3. Show statistics
-4. View Purchase History
-5. Exit
-""";
+            1. Enter product search list
+            2. Purchase items in Shopping Cart
+            3. Show statistics
+            4. View Purchase History
+            5. Exit
+            """;
     private static final String SEARCH = """
-1. Show entire Store List
-2. Search with keyword
-""";
+            1. Show entire Store List
+            2. Search with keyword
+            """;
     private static final String SHOPPING = """
-1. Buy all items
-""";// removing items from cart method was not achieved, did not have enough time
+            1. Buy all items
+            """;// removing items from cart method was not achieved, did not have enough time
 
     // Strings for seller menu
     private static final String SELLMENU = """
-1. Edit existing product
-2. Add new product
-3. Show statistics
-""";
+            1. Edit existing product
+            2. Add new product
+            3. Show statistics
+            """;
     private static final String EXIT = """
-Do you want to exit?
-0. Yes
-1. No
-""";
+            Do you want to exit?
+            0. Yes
+            1. No
+            """;
     private static final String ADDCART = "Press 1 to add to cart or 0 to start over";
     private static final String HOWMUCH = "How much products do you want to purchase?";
     private static final String NOTENOUGH = "There are not enough products";
     private static final String ENTERKEY = "Enter Keyword";
 
-    ArrayList<String> productName=new ArrayList<String>();
-    ArrayList<String> productQuantitySold=new ArrayList<String>();
-    ArrayList<String> productStoreName=new ArrayList<String>();
-    ArrayList<String> customerName=new ArrayList<String>();
-    ArrayList<String> qtyPurchased=new ArrayList<String>();
-    ArrayList<String> storeListOne=new ArrayList<String>();
+    ArrayList<String> productName = new ArrayList<String>();
+    ArrayList<String> productQuantitySold = new ArrayList<String>();
+    ArrayList<String> productStoreName = new ArrayList<String>();
+    ArrayList<String> customerName = new ArrayList<String>();
+    ArrayList<String> qtyPurchased = new ArrayList<String>();
+    ArrayList<String> storeListOne = new ArrayList<String>();
         /*
     //1. to edit existing product, they have to go to a separate scanner prompt that asks "enter the product name"
     if (1)
@@ -76,32 +89,31 @@ Do you want to exit?
  */
 
 
-    public void statisticsOne(){
+    public void statisticsOne() {
         try {
             FileReader fr = new FileReader("UserProductHistory.txt");
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
-            while (line != null){
-                customerName.add(line.substring(0,line.indexOf(";")));
-                qtyPurchased.add(line.substring(line.indexOf(";")+2,line.indexOf(",")));
-                line= bfr.readLine();
+            while (line != null) {
+                customerName.add(line.substring(0, line.indexOf(";")));
+                qtyPurchased.add(line.substring(line.indexOf(";") + 2, line.indexOf(",")));
+                line = bfr.readLine();
             }
-            for (int i=0;i<customerName.size();i++){
-                System.out.println(customerName.get(i)+" - "+qtyPurchased.get(i));
+            for (int i = 0; i < customerName.size(); i++) {
+                System.out.println(customerName.get(i) + " - " + qtyPurchased.get(i));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    public void statisticsTwo(){
+    public void statisticsTwo() {
         try {
             FileReader fr = new FileReader("productList.txt");
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
-            int qty=0;
+            int qty = 0;
             while (line != null) {
                 String[] productsList = line.split(",");
                 line = bfr.readLine();
@@ -111,7 +123,8 @@ Do you want to exit?
 
             System.out.println("Product Name - Quantity Sold");
 
-            ArrayList<String> productList = new ArrayList<String>();  // creating a new arraylist storelist with unique store names
+            ArrayList<String> productList = new ArrayList<String>();  // creating a new arraylist storelist with 
+            // unique store names
             for (int i = 0; i < productName.size(); i++) {
                 if (!(productList.contains(productName.get(i)))) {
                     productList.add(productName.get(i));
@@ -122,29 +135,29 @@ Do you want to exit?
             String[][] statisticsOne = new String[productList.size()][2]; // creating a 2d array named statistics
             line = bfr.readLine();
             for (int i = 0; i < productList.size(); i++) {
-                statisticsOne[i][0] = productList.get(i); // adding the the unique store names to the first columns of all rows
+                statisticsOne[i][0] = productList.get(i); // adding the the unique store names to the first columns of
+                // all rows
                 for (int j = 0; j < productName.size(); j++) {
                     if (productList.get(i).equals(productName.get(j))) {
                         qty = qty + Integer.parseInt(productQuantitySold.get(j));
                     }
                 }
                 String qtystring = String.valueOf(qty);
-                statisticsOne[i][1] = qtystring;  // adding the the quantity of products sold of that store to the second columns of the respective product tows.
+                statisticsOne[i][1] = qtystring;  // adding the the quantity of products sold of that store to the 
+                // second columns of the respective product tows.
                 qty = 0;
-                System.out.println(statisticsOne[i][0]+" - "+statisticsOne[i][1]);
+                System.out.println(statisticsOne[i][0] + " - " + statisticsOne[i][1]);
 
             }
-        }
-
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    public void statisticsThree(){
+    public void statisticsThree() {
         try {
-            int qtyThree=0;
+            int qtyThree = 0;
             FileReader fr = new FileReader("productList.txt");
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
@@ -154,7 +167,8 @@ Do you want to exit?
                 productStoreName.add(productsList[5]);
                 productQuantitySold.add(productsList[3]);
             }
-            ArrayList<String> storelist = new ArrayList<String>();  // creating a new arraylist storelist with unique store names
+            ArrayList<String> storelist = new ArrayList<String>();  // creating a new arraylist storelist with unique 
+            // store names
             for (int i = 0; i < productStoreName.size(); i++) {
                 if (!(storelist.contains(productStoreName.get(i)))) {
                     storelist.add(productStoreName.get(i));
@@ -166,52 +180,54 @@ Do you want to exit?
             String[][] statistics = new String[storelist.size()][2]; // creating a 2d array named statistics
             line = bfr.readLine();
             for (int i = 0; i < storelist.size(); i++) {
-                statistics[i][0] = storelist.get(i); // adding the the unique store names to the first columns of all rows
+                statistics[i][0] = storelist.get(i); // adding the the unique store names to the first columns of all 
+                // rows
                 for (int j = 0; j < productStoreName.size(); j++) {
                     if (storelist.get(i).equals(productStoreName.get(j))) {
                         qtyThree = qtyThree + Integer.parseInt(productQuantitySold.get(j));
                     }
                 }
                 String qtystring = String.valueOf(qtyThree);
-                statistics[i][1] = qtystring;  // adding the the quantity of products sold of that store to the second columns of the respective product tows.
+                statistics[i][1] = qtystring;  // adding the the quantity of products sold of that store to the second 
+                // columns of the respective product tows.
                 qtyThree = 0;
-                System.out.println(statistics[i][0]+" - "+statistics[i][1]);
+                System.out.println(statistics[i][0] + " - " + statistics[i][1]);
 
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void statisticsFour(User user){
+
+    public void statisticsFour(User user) {
         String name = user.getName();
         try {
             System.out.println("Stores List - Products Purchased");
             FileReader fr = new FileReader("UserProductHistory.txt");
-            BufferedReader bfr=new BufferedReader(fr);
+            BufferedReader bfr = new BufferedReader(fr);
             FileReader f = new FileReader("productList.txt");
-            BufferedReader bf=new BufferedReader(f);
-            String line= bfr.readLine();
-            String lineOne=bf.readLine();
-            productStoreName=new ArrayList<String>();
-            while (lineOne!=null){
-                String[] productsList=lineOne.split(",");
+            BufferedReader bf = new BufferedReader(f);
+            String line = bfr.readLine();
+            String lineOne = bf.readLine();
+            productStoreName = new ArrayList<String>();
+            while (lineOne != null) {
+                String[] productsList = lineOne.split(",");
                 lineOne = bf.readLine();
                 productName.add(productsList[0]);
                 productStoreName.add(productsList[5]);
             }
-            while (line!=null){
-                if (name.equals(line.substring(0,line.indexOf(";")))){
-                    String products=line.substring(line.indexOf(",")+2);
+            while (line != null) {
+                if (name.equals(line.substring(0, line.indexOf(";")))) {
+                    String products = line.substring(line.indexOf(",") + 2);
                     //System.out.println(products);
                     String[] productsOne = products.split(", ");
-                    for (int i=0;i<productsOne.length;i++){
+                    for (int i = 0; i < productsOne.length; i++) {
                         storeListOne.add(productsOne[i]);
                         //System.out.println(storeListOne.get(i));
-                        if (productName.contains(storeListOne.get(i))){
-                            int k=productName.indexOf(storeListOne.get(i));
+                        if (productName.contains(storeListOne.get(i))) {
+                            int k = productName.indexOf(storeListOne.get(i));
 
-                            System.out.print(productStoreName.get(k)+" - ");
+                            System.out.print(productStoreName.get(k) + " - ");
                             System.out.print(storeListOne.get(i));
                         }
                         System.out.println();
@@ -219,51 +235,48 @@ Do you want to exit?
                     //storeListOne.add(productsOne[0]);
                     break;
                 }
-                line=bfr.readLine();
+                line = bfr.readLine();
 
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void orderHistory(User user){
+    public void orderHistory(User user) {
         String name = user.getName();
         try {
             System.out.println("Product History :");
             FileReader fr = new FileReader("UserProductHistory.txt");
-            BufferedReader bfr=new BufferedReader(fr);
+            BufferedReader bfr = new BufferedReader(fr);
             FileReader f = new FileReader("productList.txt");
-            BufferedReader bf=new BufferedReader(f);
-            String line= bfr.readLine();
-            String lineOne=bf.readLine();
-            productStoreName=new ArrayList<String>();
-            while (lineOne!=null){
-                String[] productsList=lineOne.split(",");
+            BufferedReader bf = new BufferedReader(f);
+            String line = bfr.readLine();
+            String lineOne = bf.readLine();
+            productStoreName = new ArrayList<String>();
+            while (lineOne != null) {
+                String[] productsList = lineOne.split(",");
                 lineOne = bf.readLine();
                 productName.add(productsList[0]);
                 productStoreName.add(productsList[5]);
             }
-            while (line!=null){
-                if (name.equals(line.substring(0,line.indexOf(";")))){
-                    String products=line.substring(line.indexOf(",")+2);
+            while (line != null) {
+                if (name.equals(line.substring(0, line.indexOf(";")))) {
+                    String products = line.substring(line.indexOf(",") + 2);
                     System.out.println(products);
                     String[] productsOne = products.split(", ");
-                    for (int i=0;i<productsOne.length;i++){
+                    for (int i = 0; i < productsOne.length; i++) {
                         storeListOne.add(productsOne[i]);
                     }
                     break;
                 }
-                line=bfr.readLine();
+                line = bfr.readLine();
 
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
 
     public static boolean editProduct(Product product) {
@@ -393,6 +406,7 @@ Do you want to exit?
         } while (response != 1 && response != 2);
         return users;
     }
+
     public static boolean buyMenu(User user, Scanner scan, Marketplace marketplace) throws IOException {
         System.out.println(BUYMENU);
         boolean output = false;
@@ -482,7 +496,7 @@ Do you want to exit?
                     if (keywordSearch(keyword) == "") {
                         System.out.println("no product with keyword");
                     }
-                } while(keywordSearch(keyword) == "");
+                } while (keywordSearch(keyword) == "");
                 do {
                     response = scan.nextInt();
                     scan.nextLine();
@@ -566,8 +580,7 @@ Do you want to exit?
                 }
             }
             while (userChoiceOne != 1 || userChoiceOne != 2);
-        }
-        else if (response==4){
+        } else if (response == 4) {
             marketplace.orderHistory(user);
         } else if (response == 5) {
             // exit prompt
@@ -585,6 +598,7 @@ Do you want to exit?
 
         return output;
     }
+
     public static String storeList() throws IOException {
         BufferedReader f = new BufferedReader(new FileReader("productList.txt"));
         String product = f.readLine();
@@ -599,6 +613,7 @@ Do you want to exit?
         }
         return list;
     }
+
     public static String chooseStore(int input) throws IOException {
         BufferedReader f = new BufferedReader(new FileReader("productList.txt"));
         String product = f.readLine();
@@ -618,6 +633,7 @@ Do you want to exit?
 
         return store;
     }
+
     public static String storeProductDisplay(String storeName) throws IOException {
         BufferedReader f = new BufferedReader(new FileReader("productList.txt"));
         String product = f.readLine();
@@ -625,7 +641,8 @@ Do you want to exit?
         int i = 1;
         while (product != null) {
             if (product.split(",")[5].equals(storeName)) {
-                list += Integer.toString(i) + ". " + product.split(",")[0] + " " + product.split(",")[1] + " left in stock" + "\n"
+                list += Integer.toString(i) + ". " + product.split(",")[0] + " " + product.split(",")[1] +
+                        " left in stock" + "\n"
                         + "$ " + product.split(",")[2] + "\n";
                 i++;
             }
@@ -633,6 +650,7 @@ Do you want to exit?
         }
         return list;
     }
+
     public static Product storeProductChoose(String storeName, int input) throws IOException {
         BufferedReader f = new BufferedReader(new FileReader("productList.txt"));
         String product = f.readLine();
@@ -641,11 +659,14 @@ Do you want to exit?
         int i = 1;
         while (product != null) {
             if (product.split(",")[5].equals(storeName)) {
-                list += Integer.toString(i) + product.split(",")[0] + " " + product.split(",")[1] + "left in stock" + "\n"
+                list += Integer.toString(i) + product.split(",")[0] + " " + product.split(",")[1] +
+                        "left in stock" + "\n"
                         + "$" + product.split(",")[2] + "\n";
                 if (i == input) {
-                    realProduct = new Product(product.split(",")[0], Double.parseDouble(product.split(",")[2]),
-                            Integer.parseInt(product.split(",")[1]), Integer.parseInt(product.split(",")[3]), product.split(",")[4], product.split(",")[5]);
+                    realProduct = new Product(product.split(",")[0], Double.parseDouble(product.split(",")
+                            [2]),
+                            Integer.parseInt(product.split(",")[1]), Integer.parseInt(product.split(",")
+                            [3]), product.split(",")[4], product.split(",")[5]);
                 }
                 i++;
             }
@@ -661,7 +682,8 @@ Do you want to exit?
         int i = 1;
         while (product != null) {
             if (product.contains(keyword)) {
-                list += Integer.toString(i) + ". "+ product.split(",")[0] + " " + product.split(",")[1] + " left in stock" + "\n"
+                list += Integer.toString(i) + ". " + product.split(",")[0] + " " + product.split(",")[1] +
+                        " left in stock" + "\n"
                         + "$" + product.split(",")[2] + "\n";
                 i++;
             }
@@ -669,6 +691,7 @@ Do you want to exit?
         }
         return list;
     }
+
     public static Product keywordProduct(int input, String keyword) throws IOException {
         BufferedReader f = new BufferedReader(new FileReader("productList.txt"));
         String product = f.readLine();
@@ -677,11 +700,14 @@ Do you want to exit?
         int i = 1;
         while (product != null) {
             if (product.contains(keyword)) {
-                list += Integer.toString(i) + product.split(",")[0] + " " + product.split(",")[1] + "left in stock" + "\n"
+                list += Integer.toString(i) + product.split(",")[0] + " " + product.split(",")[1] +
+                        "left in stock" + "\n"
                         + "$" + product.split(",")[2] + "\n";
                 if (i == input) {
-                    realProduct = new Product(product.split(",")[0], Float.parseFloat(product.split(",")[2]),
-                            Integer.parseInt(product.split(",")[1]), Integer.parseInt(product.split(",")[3]), product.split(",")[4], product.split(",")[5]);
+                    realProduct = new Product(product.split(",")[0], Float.parseFloat(product.split(",")
+                            [2]),
+                            Integer.parseInt(product.split(",")[1]), Integer.parseInt(product.split(",")
+                            [3]), product.split(",")[4], product.split(",")[5]);
                 }
                 i++;
             }
@@ -689,7 +715,6 @@ Do you want to exit?
         }
         return realProduct;
     }
-
 
 
     public static void main(String[] args) throws IOException, UserNotFoundException {
@@ -701,7 +726,7 @@ Do you want to exit?
         do {
             user = login(scan);
         } while (user.getName() == null);
-        if(user.isBuyer()) {
+        if (user.isBuyer()) {
             user.loadCartData(user.getName());
             do {
                 loop = buyMenu(user, scan, marketplace);
@@ -774,16 +799,16 @@ Do you want to exit?
                     do {
                         System.out.println("1. List of customers with the number of items that they have purchased.");
                         System.out.println("2. List of products with the number of sales.");
-                        userChoice=scan.nextInt();
+                        userChoice = scan.nextInt();
                         scan.nextLine();
-                        if (userChoice==1){
+                        if (userChoice == 1) {
                             marketplace.statisticsOne();
                         }
-                        if (userChoice==2){
+                        if (userChoice == 2) {
                             marketplace.statisticsTwo();
                         }
                     }
-                    while (userChoice!=1 || userChoice!=2);
+                    while (userChoice != 1 || userChoice != 2);
 
                 }
 
