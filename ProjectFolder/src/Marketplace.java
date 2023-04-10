@@ -235,6 +235,40 @@ Choose account type:
             e.printStackTrace();
         }
     }
+    
+    public static void editProduct(Product product) {
+        ArrayList<String> lines = new ArrayList<String>();
+        File f = new File("productList.txt");
+        String line;
+        boolean found;
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader bfr = new BufferedReader(fr);
+            line = bfr.readLine();
+            while (line != null) {
+                if (line.substring(0, line.indexOf(",")).equals(product.getName())) {
+                    found = true;
+                } else {
+                    lines.add(line);
+                }
+                line = bfr.readLine();
+            }
+            bfr.close();
+
+            FileOutputStream fos = new FileOutputStream(f, false);
+            PrintWriter pw = new PrintWriter(fos);
+            pw.println(product.toString());
+            for (String s : lines) {
+                pw.println(s);
+            }
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
 
 
 
