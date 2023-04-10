@@ -237,7 +237,7 @@ Choose account type:
     }
     
     
-    public void statisticsFour(User user){
+    public void statisticsFour(String name){
         String name = user.getName();
         try {
             System.out.println("Stores List - Products Purchased");
