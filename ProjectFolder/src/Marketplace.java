@@ -47,6 +47,7 @@ Choose account type:
    ArrayList<String> productStoreName=new ArrayList<String>();       
    ArrayList<String> customerName=new ArrayList<String>();
    ArrayList<String> qtyPurchased=new ArrayList<String>();
+   ArrayList<String> storeListOne=new ArrayList<String>();
         /*
     //1. to edit existing product, they have to go to a separate scanner prompt that asks "enter the product name"
     if (1)
@@ -234,6 +235,54 @@ Choose account type:
             e.printStackTrace();
         }
     }
+    
+    
+    public void statisticsFour(User user){
+        String name = user.getName();
+        try {
+            System.out.println("Stores List - Products Purchased");
+            FileReader fr = new FileReader("UserProductHistory.txt");
+            BufferedReader bfr=new BufferedReader(fr);
+            FileReader f = new FileReader("productList.txt");
+            BufferedReader bf=new BufferedReader(f);
+            String line= bfr.readLine();
+            String lineOne=bf.readLine();
+            productStoreName=new ArrayList<String>();
+            while (lineOne!=null){
+                String[] productsList=lineOne.split(",");
+                lineOne = bf.readLine();
+                productName.add(productsList[0]);
+                productStoreName.add(productsList[5]);
+            }
+            while (line!=null){
+                if (name.equals(line.substring(0,line.indexOf(";")))){
+                    String products=line.substring(line.indexOf(",")+2);
+                    //System.out.println(products);
+                    String[] productsOne = products.split(", ");
+                    for (int i=0;i<productsOne.length;i++){
+                        storeListOne.add(productsOne[i]);
+                        //System.out.println(storeListOne.get(i));
+                        if (productName.contains(storeListOne.get(i))){
+                            int k=productName.indexOf(storeListOne.get(i));
+
+                            System.out.print(productStoreName.get(k)+" - ");
+                            System.out.print(storeListOne.get(i));
+                        }
+                        System.out.println();
+                    }
+                    //storeListOne.add(productsOne[0]);
+                    break;
+                }
+                line=bfr.readLine();
+
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
     
     public static void editProduct(Product product) {
         ArrayList<String> lines = new ArrayList<String>();
