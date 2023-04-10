@@ -450,6 +450,7 @@ public class User {
             }
         }
         if (targetData.equals("")) {
+           return;
         }
         String[] data = targetData.split(", ");
         for (int i = 1; i <= data.length - 1; i++) {
