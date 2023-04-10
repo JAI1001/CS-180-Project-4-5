@@ -472,9 +472,10 @@ public class User {
            return;
         }
         String[] data = targetData.split(", ");
-        for (int i = 1; i <= data.length - 1; i++) {
-            this.productCart.add(data[i].split("; ")[0]);
-            this.quantity.add(Integer.parseInt(data[i].split("; ")[1]));
+        for (int i = 1; i < data.length - 1; i++) {
+            String[] data2 = data[i].split("; ");
+            this.productCart.add(data2[0]);
+            this.quantity.add(Integer.parseInt(data2[1]));
         }
     }
 
