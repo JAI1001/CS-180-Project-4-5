@@ -1,3 +1,5 @@
 jai_1,guess,jai@purdue.edu,b
+thomas_1,abcd,thomas@purdue.edu,b
 MrBeast,ILOVEMONEY!,mrbeast@gmail.com,s
+Jane,1234,jane@purdue.edu,s
 
