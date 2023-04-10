@@ -229,6 +229,25 @@ public class User {
             e.printStackTrace();
         }
     }
+   
+    public boolean doesStoreExist(String storeName) {
+        File f = new File("sellerStores.txt");
+            try {
+                FileReader fr = new FileReader(f);
+                BufferedReader bfr = new BufferedReader(fr);
+                String line = bfr.readLine();
+                while (line != null) {
+                    if (line.substring(line.indexOf(",") + 1).equals(storeName)) {
+                        return true;
+                    }
+                }
+                bfr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return false;
+
+    }
 
     public String getStoreName() throws UserNotFoundException { //gets the name of the store for the seller
         try {
