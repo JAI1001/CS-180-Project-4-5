@@ -228,11 +228,11 @@ Do you want to exit?
             e.printStackTrace();
         }
     }
-    public static void editProduct(Product product) {
+    public static boolean editProduct(Product product) {
         ArrayList<String> lines = new ArrayList<String>();
         File f = new File("productList.txt");
         String line;
-        boolean found;
+        boolean found = false;
         try {
             FileReader fr = new FileReader(f);
             BufferedReader bfr = new BufferedReader(fr);
@@ -259,20 +259,20 @@ Do you want to exit?
         }
 
 
-
+        return found;
     }
 
-    public static void deleteProduct(Product product) {
+    public static boolean deleteProduct(String productName) {
         ArrayList<String> lines = new ArrayList<String>();
         File f = new File("productList.txt");
         String line;
-        boolean found;
+        boolean found = false;
         try {
             FileReader fr = new FileReader(f);
             BufferedReader bfr = new BufferedReader(fr);
             line = bfr.readLine();
             while (line != null) {
-                if (line.substring(0, line.indexOf(",")).equals(product.getName())) {
+                if (line.substring(0, line.indexOf(",")).equals(productName)) {
                     found = true;
                 } else {
                     lines.add(line);
@@ -290,6 +290,7 @@ Do you want to exit?
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return found;
     }
 
 
