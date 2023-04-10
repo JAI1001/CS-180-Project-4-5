@@ -227,7 +227,7 @@ Do you want to exit?
             e.printStackTrace();
         }
     }
-    
+
     public void orderHistory(User user){
         String name = user.getName();
         try {
@@ -260,12 +260,12 @@ Do you want to exit?
             }
         }
         catch (Exception e){
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }
-    
-    
-    
+
+
+
     public static boolean editProduct(Product product) {
         ArrayList<String> lines = new ArrayList<String>();
         File f = new File("productList.txt");
@@ -546,7 +546,6 @@ Do you want to exit?
             if (response == 1) {
                 user.addProductHistory(user.getName(), null, 0);
                 user.buyCart(user.getName());
-                user.addNewUserToCart(user.getName());
             } else {
                 BufferedReader f = new BufferedReader(new FileReader("ShoppingCart.txt"));
 
