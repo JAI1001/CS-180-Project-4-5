@@ -351,7 +351,7 @@ Choose account type:
 
 
 
-    public static void main(String[] args) throws IOException, UserNotFoundException {
+    public static void main(String[] args) throws IOException, UserNotFoundException { //jane and thomas
         Scanner scan = new Scanner(System.in);
         User user;
         System.out.println(WELCOME);
@@ -359,6 +359,77 @@ Choose account type:
             user = login(scan);
         } while (user.getName() == null);
         System.out.println(user.toString());
-        user.isBuyer();
+        user.isSeller();
+
+        if (user.isSeller()) {
+            System.out.println("What is the name of your store?");
+            String storeName = scan.nextLine();
+            if (user.doesStoreExist(storeName)) {
+                System.out.println("Store found.");
+            } else {
+                System.out.println("Creating store...");
+            }
+
+            System.out.println(SELLMENU);
+            int choice = 0;
+            while (choice != 5) {
+                choice = scan.nextInt();
+                scan.nextLine();
+                if (choice == 1) {
+                    System.out.println("Enter the name of the product you want to edit:");
+                    String newName = scan.nextLine();
+                    System.out.println("Enter the price of the product you want to edit:");
+                    double newPrice = scan.nextDouble();
+                    scan.nextLine();
+                    System.out.println("How many units are in stock currently?");
+                    int newQuantity = scan.nextInt();
+                    scan.nextLine();
+                    System.out.println("Enter the number of units you have sold so far:");
+                    int newSold = scan.nextInt();
+                    scan.nextLine();
+
+                    Product product = new Product(newName, newPrice, newQuantity, newSold, user.getName(), storeName);
+                    if (!editProduct(product)) {
+                        System.out.println("Product doesn't exist");
+                    }
+
+                    System.out.println("Product edited");
+                    System.out.println("Would you like to quit?");
+
+
+                }
+                if (choice == 2) {
+                    System.out.println("Enter the name of the product:");
+                    String name = scan.nextLine();
+                    System.out.println("Enter the price of the product:");
+                    double price = scan.nextDouble();
+                    scan.nextLine();
+                    System.out.println("How many units would you like to add?");
+                    int quantity = scan.nextInt();
+                    scan.nextLine();
+
+
+                    Product product = new Product(name, price, quantity, 0, user.getName(), storeName);
+                    user.addProduct(product);
+
+
+                }
+                if (choice == 3) {
+                    System.out.println("Enter the name of the product you would like to delete:");
+                    String deletedProduct = scan.nextLine();
+                    if (!deleteProduct(deletedProduct)) {
+                        System.out.println("This product doesn't exist.");
+                    }
+                }
+
+                if (choice == 4) {
+                    //jai
+
+                }
+
+
+            }
+        }
+
     }
 }
