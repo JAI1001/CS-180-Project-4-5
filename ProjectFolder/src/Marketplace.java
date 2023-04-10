@@ -24,10 +24,9 @@ Choose Sign-in or Sign-up:
     private static final String BUYMENU = """
 1. Enter product search list
 2. Purchase items in Shopping Cart
-3. Show purchase history
-4. List of stores by products purchased
-5. List of stores by products sold
-6. Exit
+3. Show statistics
+4. View Purchase History
+5. Exit
 """;
     private static final String SEARCH = """
 1. Show entire Store List
@@ -228,6 +227,45 @@ Do you want to exit?
             e.printStackTrace();
         }
     }
+    
+    public void orderHistory(User user){
+        String name = user.getName();
+        try {
+            System.out.println("Product History :");
+            FileReader fr = new FileReader("UserProductHistory.txt");
+            BufferedReader bfr=new BufferedReader(fr);
+            FileReader f = new FileReader("productList.txt");
+            BufferedReader bf=new BufferedReader(f);
+            String line= bfr.readLine();
+            String lineOne=bf.readLine();
+            productStoreName=new ArrayList<String>();
+            while (lineOne!=null){
+                String[] productsList=lineOne.split(",");
+                lineOne = bf.readLine();
+                productName.add(productsList[0]);
+                productStoreName.add(productsList[5]);
+            }
+            while (line!=null){
+                if (name.equals(line.substring(0,line.indexOf(";")))){
+                    String products=line.substring(line.indexOf(",")+2);
+                    System.out.println(products);
+                    String[] productsOne = products.split(", ");
+                    for (int i=0;i<productsOne.length;i++){
+                        storeListOne.add(productsOne[i]);
+                    }
+                    break;
+                }
+                line=bfr.readLine();
+
+            }
+        }
+        catch (Exception e){
+        e.printStackTrace();
+        }
+    }
+    
+    
+    
     public static boolean editProduct(Product product) {
         ArrayList<String> lines = new ArrayList<String>();
         File f = new File("productList.txt");
@@ -515,12 +553,24 @@ Do you want to exit?
                 //user.removeFromCart(user.getName(), product, quantity);// Need work done here for removing
             }
         } else if (response == 3) {
-            marketplace.statisticsFour(user);
-        } else if (response == 4) {
-            marketplace.statisticsTwo();
+            int userChoiceOne;
+            do {
+                System.out.println("1. List of stores by number of products sold.");
+                System.out.println("2. List of stores by the products purchased by you.");
+                userChoiceOne = scan.nextInt();
+                scan.nextLine();
+                if (userChoiceOne == 1) {
+                    marketplace.statisticsThree();
+                }
+                if (userChoiceOne == 2) {
+                    marketplace.statisticsFour(user);
+                }
+            }
+            while (userChoiceOne != 1 || userChoiceOne != 2);
+        }
+        else if (response==4){
+            marketplace.orderHistory(user);
         } else if (response == 5) {
-            marketplace.statisticsThree();
-        } else if (response == 6) {
             // exit prompt
             System.out.println(EXIT);
             do {
@@ -721,6 +771,20 @@ Do you want to exit?
 
                 if (choice == 4) {
                     //jai
+                    int userChoice;
+                    do {
+                        System.out.println("1. List of customers with the number of items that they have purchased.");
+                        System.out.println("2. List of products with the number of sales.");
+                        userChoice=scan.nextInt();
+                        scan.nextLine();
+                        if (userChoice==1){
+                            marketplace.statisticsOne();
+                        }
+                        if (userChoice==2){
+                            marketplace.statisticsTwo();
+                        }
+                    }
+                    while (userChoice!=1 || userChoice!=2);
 
                 }
 
