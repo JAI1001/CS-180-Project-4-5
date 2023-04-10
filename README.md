@@ -3,6 +3,59 @@
 3) a) Marketplace.java - This class contains the main method and other methods that deal with running the program, getting user input, and creating objects/instances of other classes. Each method in this class was tested individually, and we worked together to try to debug the main method in the class. Since the main method is large and complicated, we ran through it multiple times and manually debugged everything that we could. This class relates to every other class because it contains the main method and thus needs to, either directly or indirectly, access all functionality.
 
    b) User.java - This class deals with user objects. These objects can be either a buyer or the seller, and the methods within this class are meant to be used by one or the other. This class also includes shopping cart methods, as a shopping cart is something that can be accessed by a buyer/customer. This method deals a lot with file I/O, because this is where user persistance and shopping cart persistance is handled. As for other class interactions, it uses Product.java objects a lot, given that buyers can purchase product objects and sellers can create/edit/delete them. There are JUnit tests for the methods in this class
+   The Shopping cart methods in the User class includes:
+
+   addNewUserToCart(newUser) 
+
+   Parameters:
+   newUser - newly registered Username
+
+   This method adds a new user to ShoppingCart.txt every time a new user registers. Because the loadCartData only loads info which exists in ShoppingCart.txt
+	
+
+   addToCart(username , product , quantity)
+      The purpose of the addToCart method is to simply add a quantity of a product to a specific user’s shopping cart database and store it in the program (ArrayList storedInfo )
+
+   Parameters:
+      username - the name of the user who wants to add the product to their shopping cart
+         product - the product which the user wants to add
+         quantity - the number of products which the user wants to add
+
+           The method will first find the user information from the Arraylist storedInfo using a for loop. Then, the user information will be splitted into a format of [username, product1;quantity, product2; quantity….., totalquantity]. The method will check if the product already exists in the information. If the product exists, it will only add the new  quantity to the quantity already in cart. If not, the method will add the product to the cart as well as the new quantity.
+
+
+   loadCartData(username)
+
+      Parameters:
+         username - the username 
+
+        The loadCartData will load in the info which already exist in the ShoppingCart.txt.
+        it simply loads the file info into the storedInfo ArrayList.
+
+   storeCartData(username)
+
+      parameters:
+         username - the username
+
+      The storeCartData will apply the changes done in program to the storedInfo ArrayList and save the storedInfo back into the ShoppingCart.txt
+
+   buyCart(username)
+
+      Parameters:
+         username - the username
+
+      simply removes all the items in the ShoppingCart for that user
+
+   addProductHistory(username , product , quantity)
+      This methods is used before the buyCart method
+
+      Parameters:
+         username - the username for purchase history
+         product - the product to add to history
+         quantity - the quantity to add to the history
+
+      This method simply handles the UserProductHistory.txt file. Adding new purchase history to it
+
 
 c) Tests.java – This class has JUnits tests to test other classes/methods. Since this is the class that tests, it was manually checked to ensure that it works properly. 
 
