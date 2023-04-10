@@ -133,8 +133,8 @@ Choose account type:
             BufferedReader bfr=new BufferedReader(fr);
             String line= bfr.readLine();
             while (line!=null){
-                customerName.add(line.substring(0,line.indexOf(",")));
-                qtyPurchased.add(line.substring(line.indexOf(",")+2,line.indexOf(";")));
+                customerName.add(line.substring(0,line.indexOf(";")));
+                qtyPurchased.add(line.substring(line.indexOf(";")+2,line.indexOf(",")));
                 line= bfr.readLine();
             }
             for (int i=0;i<customerName.size();i++){
