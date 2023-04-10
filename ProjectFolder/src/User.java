@@ -2,6 +2,18 @@ import java.awt.*;
 import java.io.*;
 import java.security.spec.ECField;
 import java.util.ArrayList;
+
+
+/**
+ * Project-4 Marketplace
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2023 -- Project-4</p>
+ *
+ * @version April 10, 2023
+ *
+ * @author: Seungjae Baik, Jane Billa, Thomas Birk, Kuan-Yu Chen, Jai Nanda
+ */
+
 /*
    Class for all users
    Made by Thomas, feel free to ask questions for clarification
@@ -17,14 +29,15 @@ public class User {
 
     //===============================================================
     // shopping cart fields
-    private ArrayList<String> productCart = new ArrayList<>(); //ArrayList to store each product added to the shopping cart
+    private ArrayList<String> productCart = new ArrayList<>(); //ArrayList to store each product added to the
+
     private ArrayList<Integer> quantity = new ArrayList<>(); //ArrayList to store quantities of each product
     private ArrayList<String> storedInfo = new ArrayList<>(); //ArrayList to store file info
     int totalQuantity = 0;
     // specific shopping cart fields by Kuanyu Chen
     //===============================================================
 
-    public User(String username, String emailAddress, String password, boolean buyer) { //constructor for a new user - Thomas
+    public User(String username, String emailAddress, String password, boolean buyer) { //constructor for a new
         this.username = username;
         this.emailAddress = emailAddress;
         this.password = password;
@@ -44,7 +57,8 @@ public class User {
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
             while (line != null) {
-                if (line.substring(0, line.indexOf(',')).equals(username)) { //if the username matches a username in userInfo file
+                if (line.substring(0, line.indexOf(',')).equals(username)) { //if the username matches a username in
+                    // userInfo file
                     return true;
                 }
                 line = bfr.readLine();
@@ -59,8 +73,6 @@ public class User {
     }
 
 
-
-
     public User(String username) throws UserNotFoundException { //constructor to load already existing user - Thomas
         /*
         IMPORTANT: This constructor assumes that an existing user is expected to have been created with the username.
@@ -68,15 +80,17 @@ public class User {
         the program during user login.
          */
 
-        File f = new File("userInfo.txt"); //userInfo contains all users username, password, email, and buyer/seller role (comma separated
+        File f = new File("userInfo.txt"); //userInfo contains all users username, password, email, and
+        // buyer/seller role (comma separated
         try {
             FileReader fr = new FileReader(f);
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
             while (line != null) { //If the userInfo.txt file is not correctly formatted, this will probably break
-                if (line.substring(0, line.indexOf(',')).equals(username)) { //if the username matches a username in userInfo file
+                if (line.substring(0, line.indexOf(',')).equals(username)) { //if the username matches a username in
+                    // userInfo file
                    /*
-                   The username argument matches with an existing user, so set the password, email, and role to that user
+                   The username argument matches with an existing user, so set the password,email and role to that user
                    BEGIN...
                     */
                     this.username = line.substring(0, line.indexOf(','));
@@ -84,7 +98,8 @@ public class User {
                     this.password = line.substring(0, line.indexOf(',')); //set this password to password from file
                     line = line.substring(line.indexOf(',') + 1); //set line to start with email string
                     this.emailAddress = line.substring(0, line.indexOf(',')); //set this email to email from file
-                    line = line.substring(line.indexOf(',') + 1); //set line to start with b or s for buyer or seller
+                    line = line.substring(line.indexOf(',') + 1); //set line to start with b or s for
+                    // buyer or seller
                     if (line.equals("b")) { //if line from file ends with a 'b', set the user to be a buyer
                         this.buyer = true;
                         this.seller = false;
@@ -128,9 +143,11 @@ public class User {
     public String getPassword() {
         return password;
     }
+
     public boolean isBuyer() {
         return buyer;
     }
+
     public boolean isSeller() {
         return seller;
     }
@@ -140,19 +157,24 @@ public class User {
     public void setName(String username) {
         this.username = username;
     }
+
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public void setBuyer(boolean buyer) {
         this.buyer = buyer;
     }
+
     public void setSeller(boolean seller) {
         this.seller = seller;
     }
-    public boolean testPassword (String password) { //compare password argument to this password, return true if equal
+
+    public boolean testPassword(String password) { //compare password argument to this password, return true if equal
         return (password.equals(this.password));
     }
 
@@ -275,7 +297,7 @@ public class User {
         try {
             FileReader fr = new FileReader(f);
             BufferedReader bfr = new BufferedReader(fr);
-            String line =  bfr.readLine();
+            String line = bfr.readLine();
             while (line != null) {
                 String pName = line.substring(0, line.indexOf("\t"));
                 pName = pName.strip();
@@ -283,12 +305,12 @@ public class User {
                 double pPrice = Double.parseDouble(line.substring(0, line.indexOf("\t")));
                 line = line.substring(line.indexOf("\t") + 1);
                 int pQuantity = Integer.parseInt(line.substring(0, line.indexOf("\t")));
-                line = line.substring(line.indexOf("\t")+ 1);
+                line = line.substring(line.indexOf("\t") + 1);
                 int pQuantitySold = Integer.parseInt(line);
 
 
-
-                lines.add(pName + "," + pPrice + "," + pQuantity + "," + pQuantitySold + "," + username + "," + storeName);
+                lines.add(pName + "," + pPrice + "," + pQuantity + "," + pQuantitySold + "," + username + "," +
+                        storeName);
                 line = bfr.readLine();
             }
 
@@ -358,7 +380,8 @@ public class User {
 
                 matchLine = matchLine.substring(matchLine.indexOf(',') + 1);
                 int quantity = Integer.parseInt(matchLine.substring(0, matchLine.indexOf(','))); //parse the quantity
-                product.setQuantity(product.getQuantity() + quantity); //set the products quantity to add the existing quantity
+                product.setQuantity(product.getQuantity() + quantity); //set the products quantity to add the existing
+                // quantity
                 FileOutputStream fos = new FileOutputStream(f, false);
                 PrintWriter pw = new PrintWriter(fos);
                 pw.println(product.toString()); //first write the updated product to the file
@@ -381,8 +404,6 @@ public class User {
             e.printStackTrace();
         }
     }
-
-
 
 
     //===============================================================
@@ -414,7 +435,7 @@ public class User {
 
     public void addNewUserToCart(String newUser) {
         try {
-
+            storedInfo.clear();
             BufferedReader bfr = new BufferedReader(new FileReader(new File("ShoppingCart.txt")));
             while ((bfr.ready())) {
                 storedInfo.add(bfr.readLine());
@@ -434,7 +455,8 @@ public class User {
             e.printStackTrace();
         }
     }
-    public void addToCart(String username , Product product , int quantity) {
+
+    public void addToCart(String username, Product product, int quantity) {
         ArrayList<String> productListData = new ArrayList<>();
 
         try {
@@ -450,15 +472,11 @@ public class User {
 
         for (int i = 0; i < productListData.size(); i++) {
             if (productListData.get(i).contains(product.getName())) {
-                productListData.set(i , productListData.get(i).split(",")[0] + ","
+                productListData.set(i, productListData.get(i).split(",")[0] + ","
                         + (Integer.parseInt(productListData.get(i).split(",")[1]) - quantity)
-                        + "," + productListData.get(i).split(",",3)[2]);
+                        + "," + productListData.get(i).split(",", 3)[2]);
             }
         }
-
-
-
-
 
 
         try {
@@ -475,27 +493,23 @@ public class User {
         }
 
 
-
-
-        for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
+        for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in
+            // the shopping cart
             if (product.getName().equals(productCart.get(i))) {
                 this.quantity.set(i, this.quantity.get(i) + quantity);
                 return;
             }
         }
 
-        productCart.add(product.getName()); //add new product to array with new quantity value if not existing in the cart
+        productCart.add(product.getName()); //add new product to array with new quantity value if not existing in the
+        // cart
         this.quantity.add(quantity);
-
 
 
     }
 
 
-
-
-    public void removeFromCart(String username , Product product , int quantity) {
-
+    public void removeFromCart(String username, Product product, int quantity) {
 
 
         ArrayList<String> productListData = new ArrayList<>();
@@ -513,13 +527,11 @@ public class User {
 
         for (int i = 0; i < productListData.size(); i++) {
             if (productListData.get(i).contains(product.getName())) {
-                productListData.set(i , productListData.get(i).split(",")[0] + ","
+                productListData.set(i, productListData.get(i).split(",")[0] + ","
                         + (Integer.parseInt(productListData.get(i).split(",")[1]) + quantity)
-                        + "," + productListData.get(i).split(",",2)[1]);
+                        + "," + productListData.get(i).split(",", 2)[1]);
             }
         }
-
-
 
 
         try {
@@ -536,11 +548,8 @@ public class User {
         }
 
 
-
-
-
-
-        for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
+        for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in
+            // the shopping cart
             if (product.equals(productCart.get(i))) {
                 this.quantity.set(i, this.quantity.get(i) - quantity);
 
@@ -614,7 +623,7 @@ public class User {
 
         for (int i = 0; i < storedInfo.size(); i++) {
             if (storedInfo.get(i).split(", ")[0].equals(username)) {
-                storedInfo.set(i , data);
+                storedInfo.set(i, data);
             }
         }
         try {
@@ -634,18 +643,16 @@ public class User {
     } //edits and store the new data back to the ShoppingCart.txt
 
 
-
-
     public void buyCart(String username) {
         try {
-
+            storedInfo.clear();
             BufferedReader bfr = new BufferedReader(new FileReader(new File("ShoppingCart.txt")));
             while (bfr.ready()) {
                 storedInfo.add(bfr.readLine());
             }
             for (int i = 0; i < storedInfo.size(); i++) {
                 if (storedInfo.get(i).split(", ")[0].equals(username)) {
-                    storedInfo.set(i , username + ", ");
+                    storedInfo.set(i, username + ", ");
                 }
             }
             BufferedWriter bfw = new BufferedWriter(new FileWriter("ShoppingCart.txt"));
@@ -653,7 +660,6 @@ public class User {
                 bfw.write(storedInfo.get(i));
                 bfw.newLine();
             }
-            bfw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -716,10 +722,6 @@ public class User {
     //===============================================================
 
 
-
-
-
-
     @Override
     public String toString() { //puts user class object into string of the format that userInfo.txt is in - Thomas
         String role;
@@ -729,7 +731,7 @@ public class User {
             role = "s";
         }
         String s = String.format("%s,%s,%s,%s",
-                username, password,emailAddress, role);
+                username, password, emailAddress, role);
         return s;
     }
 
