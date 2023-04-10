@@ -1,6 +1,28 @@
 1) Compile all .java files. The main method is in the 'Marketplace.java'. When this class is run the program will start.
 2) Jane - Submitted Report on Brightspace. Jai - Submitted Vocareum workspace.
 3) a) Marketplace.java - This class contains the main method and other methods that deal with running the program, getting user input, and creating objects/instances of other classes. Each method in this class was tested individually, and we worked together to try to debug the main method in the class. Since the main method is large and complicated, we ran through it multiple times and manually debugged everything that we could. This class relates to every other class because it contains the main method and thus needs to, either directly or indirectly, access all functionality.
+   
+   method login:
+      Method to log user in. Recieves user input for username and password to check with the userInfo.txt file to see if user exists. There also is a choice to create new user, where a new user can be created and stored while being initalized in the file to store data.
+      
+   method statistics one, two, three, four:
+      Created local Arraylists to store data for the changes in the productlist and to call specific data from the productlist for statistics.
+      
+   method orderHistory:
+      Created method to store and output purchase history
+   
+   method edit/delete product:
+      Method to edit delete products in productlist for sellers in the market
+   
+   method StoreList/ChooseStore/Storeproductdisplay/storeProductChoose:
+      Method to execute searching options going from store to specific item access.
+      
+   method keywordSearch/keywordProduct:
+      Method to search via keyword, display products with keyword and choose from the products
+      
+   method buyMenu:
+      Method to execute the code to run through the buying method by guiding the user through terminal UI with integer mapped choices. User will be able to choose product, add to cart, and purchase the products in the cart which will alter the productlist file.
+      User will be also able to access the buyer statistics via options.
 
    b) User.java - This class deals with user objects. These objects can be either a buyer or the seller, and the methods within this class are meant to be used by one or the other. This class also includes shopping cart methods, as a shopping cart is something that can be accessed by a buyer/customer. This method deals a lot with file I/O, because this is where user persistance and shopping cart persistance is handled. As for other class interactions, it uses Product.java objects a lot, given that buyers can purchase product objects and sellers can create/edit/delete them. There are JUnit tests for the methods in this class
    The Shopping cart methods in the User class includes:
