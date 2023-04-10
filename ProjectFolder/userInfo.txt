@@ -1,3 +1,2 @@
-username,password,email@email.com,'b' for buyer or 's' for seller (this will become a seller if loaded)
 jai_1,guess,jai@purdue.edu,b
 MrBeast,ILOVEMONEY!,mrbeast@gmail.com,s
