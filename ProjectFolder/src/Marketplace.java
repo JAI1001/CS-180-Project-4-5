@@ -35,8 +35,8 @@ Choose Sign-in or Sign-up:
 """;
     private static final String SHOPPING = """
 1. Buy all items
-2. Remove item
-""";
+""";// removing items from cart method was not achieved, did not have enough time
+
     // Strings for seller menu
     private static final String SELLMENU = """
 1. Edit existing product
@@ -53,12 +53,12 @@ Do you want to exit?
     private static final String NOTENOUGH = "There are not enough products";
     private static final String ENTERKEY = "Enter Keyword";
 
-   ArrayList<String> productName=new ArrayList<String>();
-   ArrayList<String> productQuantitySold=new ArrayList<String>();
-   ArrayList<String> productStoreName=new ArrayList<String>();       
-   ArrayList<String> customerName=new ArrayList<String>();
-   ArrayList<String> qtyPurchased=new ArrayList<String>();
-   ArrayList<String> storeListOne=new ArrayList<String>();
+    ArrayList<String> productName=new ArrayList<String>();
+    ArrayList<String> productQuantitySold=new ArrayList<String>();
+    ArrayList<String> productStoreName=new ArrayList<String>();
+    ArrayList<String> customerName=new ArrayList<String>();
+    ArrayList<String> qtyPurchased=new ArrayList<String>();
+    ArrayList<String> storeListOne=new ArrayList<String>();
         /*
     //1. to edit existing product, they have to go to a separate scanner prompt that asks "enter the product name"
     if (1)
@@ -508,8 +508,11 @@ Do you want to exit?
             if (response == 1) {
                 user.addProductHistory(user.getName(), null, 0);
                 user.buyCart(user.getName());
+                user.addNewUserToCart(user.getName());
             } else {
-                user.removeFromCart();// Need work done here for removing
+                BufferedReader f = new BufferedReader(new FileReader("ShoppingCart.txt"));
+
+                //user.removeFromCart(user.getName(), product, quantity);// Need work done here for removing
             }
         } else if (response == 3) {
             marketplace.statisticsFour(user);
@@ -517,6 +520,18 @@ Do you want to exit?
             marketplace.statisticsTwo();
         } else if (response == 5) {
             marketplace.statisticsThree();
+        } else if (response == 6) {
+            // exit prompt
+            System.out.println(EXIT);
+            do {
+                response = scan.nextInt();
+                scan.nextLine();
+            } while (response != 0 && response != 1);
+            if (response == 0) {
+                return false;
+            } else {
+                return true;
+            }
         }
 
         return output;
@@ -562,7 +577,7 @@ Do you want to exit?
         while (product != null) {
             if (product.split(",")[5].equals(storeName)) {
                 list += Integer.toString(i) + ". " + product.split(",")[0] + " " + product.split(",")[1] + " left in stock" + "\n"
-                + "$ " + product.split(",")[2] + "\n";
+                        + "$ " + product.split(",")[2] + "\n";
                 i++;
             }
             product = f.readLine();
@@ -637,7 +652,6 @@ Do you want to exit?
         do {
             user = login(scan);
         } while (user.getName() == null);
-        System.out.println(user.toString());
         if(user.isBuyer()) {
             user.loadCartData(user.getName());
             do {
