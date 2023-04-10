@@ -391,21 +391,26 @@ public class User {
         return quantity;
     }
 
+
     public ArrayList<String> getProductCart() {
         return productCart;
     }
+
 
     public void setProductCart(ArrayList<String> productCart) {    // 2 set methods in case needed
         this.productCart = productCart;
     }
 
+
     public void setQuantity(ArrayList<Integer> quantity) {
         this.quantity = quantity;
     }
 
+
     public int getTotalQuantity() {
         return totalQuantity;
     }
+
 
     public void addNewUserToCart(String newUser) {
         try {
@@ -430,23 +435,132 @@ public class User {
         }
     }
     public void addToCart(String username , Product product , int quantity) {
-        product.setQuantity(product.getQuantity - quantity);
+        ArrayList<String> productListData = new ArrayList<>();
+
+        try {
+            BufferedReader productListReader = new BufferedReader(new FileReader(new File("productList.txt")));
+            while (productListReader.ready()) {
+                productListData.add(productListReader.readLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < productListData.size(); i++) {
+            if (productListData.get(i).contains(product.getName())) {
+                productListData.set(i , productListData.get(i).split(",")[0] + ","
+                        + (Integer.parseInt(productListData.get(i).split(",")[1]) - quantity)
+                        + "," + productListData.get(i).split(",",2)[1]);
+            }
+        }
+
+
+
+
+        for (int i = 0; i < productListData.size(); i++) {
+            System.out.println(productListData.get(i));
+        }
+
+
+
+
+        try {
+            BufferedWriter bfw = new BufferedWriter(new FileWriter("productList.txt"));
+            for (int i = 0; i < productListData.size(); i++) {
+                bfw.write(productListData.get(i));
+                bfw.newLine();
+            }
+            bfw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
-            if (product.equals(productCart.get(i))) {
-                this.quantity.set(i , this.quantity.get(i) + quantity);
+            if (product.getName().equals(productCart.get(i))) {
+                this.quantity.set(i, this.quantity.get(i) + quantity);
                 return;
             }
         }
+
         productCart.add(product.getName()); //add new product to array with new quantity value if not existing in the cart
         this.quantity.add(quantity);
+
+
+        for (int i = 0; i < productCart.size(); i++) {
+            System.out.println(productCart.get(i));
+            System.out.println(this.quantity.get(i));
+        }
+
+
     }
 
 
-    public void removeFromCart(String username , String product , int quantity) {
-        product.setQuantity(product.getQuantity + quantity);
+
+
+    public void removeFromCart(String username , Product product , int quantity) {
+
+
+
+        ArrayList<String> productListData = new ArrayList<>();
+
+        try {
+            BufferedReader productListReader = new BufferedReader(new FileReader(new File("productList.txt")));
+            while (productListReader.ready()) {
+                productListData.add(productListReader.readLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < productListData.size(); i++) {
+            if (productListData.get(i).contains(product.getName())) {
+                productListData.set(i , productListData.get(i).split(",")[0] + ","
+                        + (Integer.parseInt(productListData.get(i).split(",")[1]) + quantity)
+                        + "," + productListData.get(i).split(",",2)[1]);
+            }
+        }
+
+
+
+
+        for (int i = 0; i < productListData.size(); i++) {
+            System.out.println(productListData.get(i));
+        }
+
+
+
+
+        try {
+            BufferedWriter bfw = new BufferedWriter(new FileWriter("productList.txt"));
+            for (int i = 0; i < productListData.size(); i++) {
+                bfw.write(productListData.get(i));
+                bfw.newLine();
+            }
+            bfw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in the shopping cart
             if (product.equals(productCart.get(i))) {
                 this.quantity.set(i, this.quantity.get(i) - quantity);
+
 
             }
         }
@@ -457,6 +571,7 @@ public class User {
         }
     }
 
+
     public void loadCartData(String username) {
         try {
             storedInfo.clear();
@@ -465,6 +580,7 @@ public class User {
                 storedInfo.add(bfr.readLine());
             }
             bfr.close();
+
 
         } catch (FileNotFoundException e) {
             System.out.println("Invalid Filename");
@@ -475,14 +591,18 @@ public class User {
         }
         String targetData = "";
         for (int i = 0; i < storedInfo.size(); i++) {
-            if (storedInfo.get(i).split(", ")[0].equals(username)) {
+            if (storedInfo.get(i).contains(username)) {
                 targetData = storedInfo.get(i);
             }
         }
-        if (targetData.equals("")) {
-           return;
+        if (targetData.equals("") || (targetData.equals(null))) {
+            return;
         }
         String[] data = targetData.split(", ");
+        System.out.println(targetData);
+        if (data.length < 2) {
+            return;
+        }
         for (int i = 1; i < data.length - 1; i++) {
             String[] data2 = data[i].split("; ");
             this.productCart.add(data2[0]);
@@ -490,22 +610,32 @@ public class User {
         }
     }
 
+
     //loads all the lines from ShoppingCart.txt to an Arraylist<String>
-    public void storeCartData(String username) {
+     public void storeCartData(String username) {
+        totalQuantity = 0;
         for (int i = 0; i < quantity.size(); i++) {
             totalQuantity += quantity.get(i);
         }
+        String data = username;
+
         for (int i = 0; i < storedInfo.size(); i++) {
-            if (storedInfo.get(i).split(", ")[0].equals(username)) { //check the username in the storedInfp
-                String newTxt = username;
-                for (int e = 0; e < productCart.size(); e++) {
-                    newTxt += ", " + productCart.get(e) + "; " + quantity.get(e);
+
+            if (storedInfo.get(i).split(", ")[0].equals(username)) { //check the username in the storedInfo
+                for (int j = 0; j < productCart.size(); j++) {
+                    data += ", " + productCart.get(j) + "; " + quantity.get(j);
                 }
-                storedInfo.set(i , newTxt + ", " + totalQuantity);
             }
         }
 
+        data += ", " + totalQuantity;
 
+        for (int i = 0; i < storedInfo.size(); i++) {
+            if (storedInfo.get(i).split(", ")[0].equals(username)) {
+                storedInfo.set(i , data);
+            }
+        }
+        System.out.println(data);
         try {
             BufferedWriter bfw = new BufferedWriter(new FileWriter("ShoppingCart.txt"));
             for (int i = 0; i < storedInfo.size(); i++) {
@@ -521,6 +651,8 @@ public class User {
             e.printStackTrace();
         }
     } //edits and store the new data back to the ShoppingCart.txt
+
+
 
 
     public void buyCart(String username) {
@@ -547,6 +679,7 @@ public class User {
         }
     }
 
+
     public void addProductHistory(String username, String product, int quantity) { //use this before buyCart Method
         try {
             String checkedData = "";
@@ -558,13 +691,14 @@ public class User {
                 }
             }
             if (checkedData.equals("")) {
-                checkedData = username + "; " + "0";
+                checkedData = username + ", " + "0";
             }
             for (int i = 0; i < productCart.size(); i++) {
                 if (!checkedData.contains(productCart.get(i))) {
                     int newQuantity = Integer.parseInt(checkedData.split(", ")[1]) + this.quantity.get(i);
-                    checkedData = username + "; " + newQuantity + checkedData.split(", " , 2)[2];
+                    checkedData = username + ", " + newQuantity + checkedData.split(", " , 2)[2];
                     checkedData += ", " + productCart.get(i);
+
 
                 }
             }
@@ -584,19 +718,11 @@ public class User {
                 bfw.newLine();
             }
 
+
             bfw.close();
             bfr.close();
         } catch (FileNotFoundException e) {
-           //added in order to actually interact w file - jane
-            BufferedWriter bfw = new BufferedWriter(new FileWriter("UserProductHistory.txt"));
-
-
-            for (int i = 0; i < storedInfo.size(); i++) {
-                bfw.write(storedInfo.get(i));
-                bfw.newLine();
-            }
-
-            bfw.close();
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
