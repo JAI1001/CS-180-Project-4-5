@@ -133,10 +133,9 @@ Choose account type:
             BufferedReader bfr=new BufferedReader(fr);
             String line= bfr.readLine();
             while (line!=null){
-                String[] customerData=line.split(", ");
+                customerName.add(line.substring(0,line.indexOf(",")));
+                qtyPurchased.add(line.substring(line.indexOf(",")+2,line.indexOf(";")));
                 line= bfr.readLine();
-                customerName.add(customerData[0]);
-                qtyPurchased.add(customerData[1]);
             }
             for (int i=0;i<customerName.size();i++){
                 System.out.println(customerName.get(i)+" - "+qtyPurchased.get(i));
