@@ -84,3 +84,10 @@ c) Tests.java – This class has JUnits tests to test other classes/methods. Sin
 d) Product.java – This class deals with product objects. The class is used a lot in the User.java class since buyers/sellers need to be able to access products and their info. There are a variety of methods that deal with product objects in this class that are used in the User.java class. Junit testing was done to make sure that methods in this class work as intended. 
 
 e) UserNotFoundException.java – This class is an exception that can be thrown if a user is not found in any method where a user is expected to be found. It should be used with a string message that is common to the general Exception class (super.message). 
+
+
+
+Note :- 
+1. When running the Marketplace.java class, sometimes (depending on the PC) there would be an error message displaying the .txt files do not exist, in that case please copy all the .txt files and place it in the src folder
+2. When compiling the Marketplace.java file in vocareum it shows an error of using ("""), please ignore it as it runs perfectly on intellij.
+3. On compiling the Test.java on vocareum an error is displayed as it doesnt contain junits. Please ignore it and run it on intellij(it works perfectly).
