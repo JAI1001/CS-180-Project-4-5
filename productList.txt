@@ -1,3 +1,0 @@
-name,quantity,price,quantitySold,seller,storeName
-orange,10,1.50,5,thomas_1,Fruit
-phone,50,200.00,17,jai_1,Tech
