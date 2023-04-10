@@ -6,10 +6,10 @@
       Method to log user in. Recieves user input for username and password to check with the userInfo.txt file to see if user exists. There also is a choice to create new user, where a new user can be created and stored while being initalized in the file to store data.
       
    method statistics one, two, three, four:
-      Created local Arraylists to store data for the changes in the productlist and to call specific data from the productlist for statistics.
+      Created local Arraylists to store data for the changes in the productlist and to call specific data from the productlist and UserProductHistory for statistics.
       
    method orderHistory:
-      Created method to store and output purchase history
+      Created method to display the purchase history of that customer
    
    method edit/delete product:
       Method to edit delete products in productlist for sellers in the market
