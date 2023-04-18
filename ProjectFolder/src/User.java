@@ -501,6 +501,7 @@ public class User {
             }
         }
 
+
         productCart.add(product.getName()); //add new product to array with new quantity value if not existing in the
         // cart
         this.quantity.add(quantity);
@@ -529,7 +530,7 @@ public class User {
             if (productListData.get(i).contains(product.getName())) {
                 productListData.set(i, productListData.get(i).split(",")[0] + ","
                         + (Integer.parseInt(productListData.get(i).split(",")[1]) + quantity)
-                        + "," + productListData.get(i).split(",", 2)[1]);
+                        + "," + productListData.get(i).split(",", 3)[2]);
             }
         }
 
@@ -550,7 +551,7 @@ public class User {
 
         for (int i = 0; i < productCart.size(); i++) {    //this loop checks if the Product to add already exists in
             // the shopping cart
-            if (product.equals(productCart.get(i))) {
+            if (product.getName().equals(productCart.get(i))) {
                 this.quantity.set(i, this.quantity.get(i) - quantity);
 
 
@@ -645,7 +646,6 @@ public class User {
 
     public void buyCart(String username) {
         try {
-            storedInfo.clear();
             BufferedReader bfr = new BufferedReader(new FileReader(new File("ShoppingCart.txt")));
             while (bfr.ready()) {
                 storedInfo.add(bfr.readLine());
@@ -655,11 +655,13 @@ public class User {
                     storedInfo.set(i, username + ", ");
                 }
             }
+
             BufferedWriter bfw = new BufferedWriter(new FileWriter("ShoppingCart.txt"));
             for (int i = 0; i < storedInfo.size(); i++) {
                 bfw.write(storedInfo.get(i));
                 bfw.newLine();
             }
+            bfw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
