@@ -60,8 +60,8 @@ public class Marketplace {
             0. Yes
             1. No
             """;
-    private static final String ADDCART = "Press 1 to add to cart or 0 to start over";
-    private static final String HOWMUCH = "How much products do you want to purchase?";
+    private static final String ADDCART = "Press 1 to add to cart\nPress 2 to remove from cart\nPress 0 to start over";
+    private static final String HOWMUCH = "How much products do you want to purchase or remove?";
     private static final String NOTENOUGH = "There are not enough products";
     private static final String ENTERKEY = "Enter Keyword";
 
@@ -414,7 +414,7 @@ public class Marketplace {
         do {
             response = scan.nextInt();
             scan.nextLine();
-        } while (response != 1 && response != 2 && response != 3);
+        } while (response != 1 && response != 2 && response != 3 && response != 4 && response != 5);
         if (response == 1) {
             System.out.println(SEARCH);
             do {
@@ -423,6 +423,10 @@ public class Marketplace {
             } while (response != 1 && response != 2 && response != 0);
             if (response == 1) { // Search case with displaying all stores
                 System.out.println(storeList());
+                if (storeList().equals("") || storeList() == null){
+                    System.out.println("No product!");
+                    return true;
+                }
                 String store;
                 Product product;
                 do {
@@ -442,7 +446,7 @@ public class Marketplace {
                 do {
                     response = scan.nextInt();
                     scan.nextLine();
-                } while (response != 0 && response != 1);
+                } while (response != 0 && response != 1 && response != 2);
                 if (response == 1) {
 
                     // number of products to add to cart
@@ -464,6 +468,31 @@ public class Marketplace {
                     do {
                         response = scan.nextInt();
                         scan.nextLine();
+                    } while (response != 0 && response != 1 && response != 2);
+                    if (response == 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+
+                if (response == 2) {
+
+                    // number of products to remove from cart
+                    System.out.println(HOWMUCH);
+                    response = scan.nextInt();
+                    scan.nextLine();
+                    System.out.println("ENTER CHECK");
+                    user.removeFromCart(user.getName(), product, response);
+                    user.storeCartData(user.getName());
+                    System.out.println("STORED CHECK");
+
+                    // exit prompt
+                    System.out.println(EXIT);
+                    do {
+                        response = scan.nextInt();
+                        scan.nextLine();
                     } while (response != 0 && response != 1);
                     if (response == 0) {
                         return false;
@@ -471,6 +500,9 @@ public class Marketplace {
                         return true;
                     }
                 }
+
+
+
                 if (response == 0) {
 
                     // exit prompt
@@ -495,6 +527,7 @@ public class Marketplace {
                     System.out.println(keywordSearch(keyword));
                     if (keywordSearch(keyword) == "") {
                         System.out.println("no product with keyword");
+                        return true;
                     }
                 } while (keywordSearch(keyword) == "");
                 do {
@@ -604,7 +637,7 @@ public class Marketplace {
         String product = f.readLine();
         String list = "";
         int i = 1;
-        while (product != null) {
+        while ((product != null) && (!product.equals(""))) {
             if (!list.contains(product.split(",")[5])) {
                 list += Integer.toString(i) + ". " + product.split(",")[5] + "\n";
                 i++;
