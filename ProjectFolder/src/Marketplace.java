@@ -95,8 +95,10 @@ public class Marketplace {
             BufferedReader bfr = new BufferedReader(fr);
             String line = bfr.readLine();
             while (line != null) {
-                customerName.add(line.substring(0, line.indexOf(";")));
-                qtyPurchased.add(line.substring(line.indexOf(";") + 2, line.indexOf(",")));
+                if (!(line.equals(""))){
+                    customerName.add(line.substring(0, line.indexOf(";")));
+                    qtyPurchased.add(line.substring(line.indexOf(";") + 2, line.indexOf(",")));
+                }
                 line = bfr.readLine();
             }
             for (int i = 0; i < customerName.size(); i++) {
@@ -116,9 +118,11 @@ public class Marketplace {
             int qty = 0;
             while (line != null) {
                 String[] productsList = line.split(",");
+                if (!(line.equals(""))){
+                    productName.add(productsList[0]);
+                    productQuantitySold.add(productsList[3]);
+                }
                 line = bfr.readLine();
-                productName.add(productsList[0]);
-                productQuantitySold.add(productsList[3]);
             }
 
             System.out.println("Product Name - Quantity Sold");
@@ -163,9 +167,11 @@ public class Marketplace {
             String line = bfr.readLine();
             while (line != null) {
                 String[] productsList = line.split(",");
+                if (!(line.equals(""))){
+                    productStoreName.add(productsList[5]);
+                    productQuantitySold.add(productsList[3]);
+                }
                 line = bfr.readLine();
-                productStoreName.add(productsList[5]);
-                productQuantitySold.add(productsList[3]);
             }
             ArrayList<String> storelist = new ArrayList<String>();  // creating a new arraylist storelist with unique 
             // store names
@@ -212,9 +218,11 @@ public class Marketplace {
             productStoreName = new ArrayList<String>();
             while (lineOne != null) {
                 String[] productsList = lineOne.split(",");
+                if (!(lineOne.equals(""))){
+                    productName.add(productsList[0]);
+                    productStoreName.add(productsList[5]);
+                }
                 lineOne = bf.readLine();
-                productName.add(productsList[0]);
-                productStoreName.add(productsList[5]);
             }
             while (line != null) {
                 if (name.equals(line.substring(0, line.indexOf(";")))) {
@@ -600,18 +608,19 @@ public class Marketplace {
             }
         } else if (response == 3) {
             int userChoiceOne;
-            do {
-                System.out.println("1. List of stores by number of products sold.");
-                System.out.println("2. List of stores by the products purchased by you.");
-                userChoiceOne = scan.nextInt();
-                scan.nextLine();
-                if (userChoiceOne == 1) {
-                    marketplace.statisticsThree();
-                }
-                if (userChoiceOne == 2) {
-                    marketplace.statisticsFour(user);
-                }
+            System.out.println("1. List of stores by number of products sold.");
+            System.out.println("2. List of stores by the products purchased by you.");
+            userChoiceOne = scan.nextInt();
+            scan.nextLine();
+            if (userChoiceOne == 1) {
+                marketplace.statisticsThree();
+                return true;
             }
+            if (userChoiceOne == 2) {
+                marketplace.statisticsFour(user);
+                return true;
+            }
+            
             while (userChoiceOne != 1 || userChoiceOne != 2);
         } else if (response == 4) {
             marketplace.orderHistory(user);
@@ -836,9 +845,11 @@ public class Marketplace {
                         scan.nextLine();
                         if (userChoice == 1) {
                             marketplace.statisticsOne();
+                            return true;
                         }
                         if (userChoice == 2) {
                             marketplace.statisticsTwo();
+                            return true;
                         }
                     }
                     while (userChoice != 1 || userChoice != 2);
