@@ -76,6 +76,17 @@ public class Server {
 
                     writer.println("success");
                     writer.flush();
+                } else if (clientAction == 14) {
+                    System.out.println("process for editing a product");
+                    String newProductname = reader.readLine();
+                    System.out.println("New product name: " + newProductname);
+                    Double newPrice = Double.parseDouble(reader.readLine());
+                    System.out.println("New double: " + newPrice);
+                    int newAmount = Integer.parseInt(reader.readLine());
+                    System.out.println("New amount: " + newAmount);
+                    String newDescription = reader.readLine();
+                    System.out.println("New string: " + newDescription);
+
                 }
             }
 
