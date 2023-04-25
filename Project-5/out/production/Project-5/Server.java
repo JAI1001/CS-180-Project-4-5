@@ -41,7 +41,22 @@ public class Server {
 
                 int clientAction = Integer.parseInt(actionString);
                 System.out.println(clientAction);
-                if (clientAction == 8) { //user wants to create product
+                if (clientAction == 4) {
+                    for (String inputUsername : Marketplace.userNames) {
+                        if (inputUsername.equals(Marketplace.userNames)) {
+                            writer.println("success");
+                        }
+                        boolean buyer = false;
+                        boolean seller = false;
+                        for (User user : Marketplace.users) {
+                            String username = user.getName();
+                            // Check if the last character of the username is "b"
+                            if (username.charAt(username.length() - 1) == 'b') {
+                                buyer = true;
+                            } else {
+                                seller = true;
+                            }
+                        } else if (clientAction == 8) { //user wants to create product
                     System.out.println("process for creating a product as a seller");
                     String productName = reader.readLine();
                     System.out.println("Product Name: " + productName);
