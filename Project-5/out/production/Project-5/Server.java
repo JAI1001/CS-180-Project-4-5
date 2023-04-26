@@ -3,11 +3,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-       
+
 
 
 
 public class Server implements Runnable {
+
     Socket socket;
     //Arraylist product list
     ArrayList<String> productQuantitySold = new ArrayList<String>();
@@ -16,14 +17,22 @@ public class Server implements Runnable {
     ArrayList<String> qtyPurchased = new ArrayList<String>();
     ArrayList<String> storeListOne = new ArrayList<String>();
     ArrayList<String> storedInfo = new ArrayList<>(); //ArrayList to store file info
-    ArrayList<String> userNames = new ArrayList<>();
-    ArrayList<ArrayList<String>> productCart = new ArrayList<ArrayList<String>>();
-    ArrayList<ArrayList<Integer>> quantities = new ArrayList<ArrayList<Integer>>();
+    static ArrayList<String> userNames = new ArrayList<>();
+    static ArrayList<ArrayList<String>> productCart = new ArrayList<ArrayList<String>>();
+    static ArrayList<ArrayList<Integer>> quantities = new ArrayList<ArrayList<Integer>>();
     ArrayList<Integer> totalQuantity = new ArrayList<>();
     ArrayList<User> users = new ArrayList<>();
 
     public Server(Socket socket) {
         this.socket = socket;
+    }
+    public static void clearCart(String userName) {
+        for (int i = 0; i < userNames.size(); i++) {
+            if (userName.equals(userNames.get(i))) {
+                productCart.get(i).clear();
+                quantities.get(i).clear();
+            }
+        }
     }
 
     /*
@@ -78,23 +87,36 @@ public class Server implements Runnable {
                     int clientAction = Integer.parseInt(actionString);
                     System.out.println(clientAction);
                     if (clientAction == 4) {
-                        
+
                         for (String inputUsername : userNames) {
-                            inputUsername = reader.readLine();
-                            if (inputUsername.equals(userNames)) {
-                                writer.println("success");
-                            }
-                            boolean buyer = false;
-                            boolean seller = false;
-                            for (User user : users) {
-                                String username = user.getName();
-                                // Check if the last character of the username is "b"
-                                if (username.charAt(username.length() - 1) == 'b') {
-                                    buyer = true;
-                                } else {
-                                    seller = true;
+                                User thisUser;
+                                boolean isFound = false;
+                                for (User element : users) {
+                                    inputUsername = reader.readLine();
+                                    String inputPassword = reader.readLine();
+                                    if (element.getName().equals(inputUsername)) {
+                                        isFound = true;
+                                        if (element.getPassword().equals(inputPassword)) {
+                                            String thisEmail = element.getEmailAddress();
+                                            boolean thisBuyer = element.isBuyer();
+                                            thisUser = new User(element.getName(), element.getPassword(), element.getEmailAddress(), element.isBuyer(), "null");
+                                        } else {
+                                            System.out.println("The username or password is incorrect");
+                                            //gui to error saying password doesn't match
+
+                                    }
+                                }
+                                if (!(isFound)) {
+                                    //needs to be displayed in gui
+                                    System.out.println("User doesn't exist, try again");
                                 }
                             }
+
+                            //go through each element in user array list, if username matches with any check if password
+                            //matches. if it does, then get all other info and create new user with user constructor
+
+
+
 
 
 
@@ -114,8 +136,8 @@ public class Server implements Runnable {
 
                         //actually create the product and put it in productList ArrayList
                         Product product = new Product(productName, price, amount, 0, null, null, description);
-                        Marketplace.productList.add(product);
-                        System.out.println(Marketplace.productList.size());
+                        productList.add(product);
+                        System.out.println(productList.size());
 
                         //process for creating a product
 
@@ -126,7 +148,7 @@ public class Server implements Runnable {
                         String productName = reader.readLine();
                         System.out.println("Product name: " + productName);
                         Product product = new Product(productName, 0.00, 0, 0, null, null, null);
-                        int index = Marketplace.productList.indexOf(product);
+                        int index = productList.indexOf(product);
                         if (index == -1) { //if the product name doesn't exist
                             writer.println("Product does not exist!");
                         } else {
@@ -141,8 +163,8 @@ public class Server implements Runnable {
                         System.out.println("Delete product: " + productName);
                         //deletes from arrayList
                         Product product = new Product(productName, 0.00, 0, 0, null, null, null);
-                        Marketplace.productList.remove(product);
-                        System.out.println(Marketplace.productList.size());
+                        productList.remove(product);
+                        System.out.println(productList.size());
 
                         //process for deleting product
 
@@ -161,17 +183,16 @@ public class Server implements Runnable {
                         //edits as well
                         Product product = new Product(newProductname, 0.00, 0, 0, null, null, null);
                         Product newProduct = new Product(newProductname, newPrice, newAmount, 0, null, null, newDescription);
-                        Marketplace.productList.remove(product);
-                        Marketplace.productList.add(newProduct);
-                        System.out.println(Marketplace.productList.size());
+                        productList.remove(product);
+                        productList.add(newProduct);
+                        System.out.println(productList.size());
 
-                        writer.println("success");
-                        writer.flush();
+
 
                         //we have to get 9 to go to 14 automatically
 
                     } else if (clientAction == 23) { //shows product list
-                        for (Product product : Marketplace.productList) {
+                        for (Product product : productList) {
                             System.out.println(product);
                         }
 //
@@ -199,11 +220,11 @@ public class Server implements Runnable {
                         //same for 27
 
                     } else if (clientAction == 32) {//buys cart
-                        Marketplace.clearCart("");
+                        clearCart("");
                         //add to array list once stat stuff is done
 
                     } else if (clientAction == 33) {
-                        for (ArrayList<String> cart : Marketplace.productCart) {
+                        for (ArrayList<String> cart : productCart) {
                             System.out.println(cart);
                         }
 
@@ -224,7 +245,9 @@ public class Server implements Runnable {
     }
 
     ArrayList<Product> productList = new ArrayList<Product>();
+
 }
+
 
 
 
