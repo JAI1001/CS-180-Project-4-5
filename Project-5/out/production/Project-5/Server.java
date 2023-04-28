@@ -22,6 +22,8 @@ public class Server implements Runnable {
     static ArrayList<ArrayList<Integer>> quantities = new ArrayList<ArrayList<Integer>>();
     ArrayList<Integer> totalQuantity = new ArrayList<>();
     ArrayList<User> users = new ArrayList<>();
+    ArrayList<Product> productList = new ArrayList<Product>();
+    ArrayList<String> productHistory = new ArrayList<>();
 
     public Server(Socket socket) {
         this.socket = socket;
@@ -188,65 +190,97 @@ public class Server implements Runnable {
                         System.out.println(productList.size());
 
 
-
                         //we have to get 9 to go to 14 automatically
 
-                    } else if (clientAction == 23) { //shows product list
-                        for (Product product : productList) {
-                            System.out.println(product);
+                    } else if (clientAction == 23) { //searches product list
+
+                        String productName = reader.readLine();
+                        Product product = new Product(productName, 0.00, 0, 0, null, null, null);
+                        int index = productList.indexOf(product);
+                        if (index == -1) { //if the product name doesn't exist
+                            writer.println("Product does not exist!");
+                        } else {
+                            writer.println("success");
                         }
+
+
+
 //
-                    } else if (clientAction == 25) {//send client an array list
-                        try (BufferedReader bfr = new BufferedReader(new FileReader("path/to/sellerStores.txt"))) {
-                            String line;
-                            while ((line = bfr.readLine()) != null) {
-                                System.out.println(line);
-                            }
-                        } catch (IOException e) {
-                            System.err.println("Error reading file: " + e.getMessage());
-                        }
+                    } else if (clientAction == 25) {//store list
+                        oos.writeObject(productStoreName);
 
-                    } else if (clientAction == 26) { // send array list
-                        try (BufferedReader bfr = new BufferedReader(new FileReader("path/to/productList.txt"))) {
-                            String line;
-                            while ((line = bfr.readLine()) != null) {
-                                System.out.println(line);
-                            }
-                        } catch (IOException e) {
-                            System.err.println("Error reading file: " + e.getMessage());
 
-                        }
-                    } else if (clientAction == 27) {
-                        //same for 27
+                        oos.flush();
 
-                    } else if (clientAction == 32) {//buys cart
-                        clearCart("");
-                        //add to array list once stat stuff is done
+                        oos.close();
+                        socket.close();
 
-                    } else if (clientAction == 33) {
-                        for (ArrayList<String> cart : productCart) {
-                            System.out.println(cart);
-                        }
 
-                    } else if (clientAction == 35) {
-                        //nothing to do here
+                        //
 
-                    }
+
+                    } else if (clientAction == 26) { // show product list
+                        oos.writeObject(productList);
+
+                        oos.flush();
+
+                        oos.close();
+                        socket.close();
+
+
+                    } else if (clientAction == 27) { //Product name with product details shown, add product to cart array list function
+                        //being buggy
+                        //create new product
+
+                        Product product = new Product(null, 0.00, 0, 0, null, null, null);
+
+                        //productCart.add(null);
+                        //
+
+
+                    } else if (clientAction == 34){//looping back
+                        //will add once this is figured out
+
+
+                    } else if (clientAction == 35) {//clearing cart
+                        productHistory.add(String.valueOf(productCart));
+                        productCart.clear();
+                        writer.println("success");
+
+
+
+                    } else if (clientAction == 33) { //cart
+                        oos.writeObject(productCart);//writes
+
+                        //for(int i = 0; i < productStoreName.size(); i++){//goes through everything in array list
+                        //   productStoreName.get(i);//gets the index
+
+                        // }
+                        oos.flush();
+
+                        oos.close();
+                        socket.close();
+
+
 //
 //
 //                }
+                    }
+
+
                 }
-
-
             }
         } catch (IOException e) {
 
         }
     }
 
-    ArrayList<Product> productList = new ArrayList<Product>();
+
 
 }
+
+
+
 
 
 
