@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  */
 
-public class MarketplaceClient {
+public class MarketplaceClient extends Thread {
     public static void main(String[] args) {
         //User user;
         try {
@@ -144,6 +144,7 @@ public class MarketplaceClient {
         logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("We are in frame 2");
                 frame2.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
                 String uName = usernameText.getText();
@@ -153,6 +154,7 @@ public class MarketplaceClient {
                     marketplaceClient.Twenty(reader,writer,ois,oos);
                 }
                 else {
+                    System.out.println("Here, fields are not blank.");
                     int buyer = options.getSelectedIndex();
                     boolean type = true;
                     if (buyer == 0) {
@@ -161,20 +163,26 @@ public class MarketplaceClient {
                         type = false;
                     }
                     User user2=new User(uName,password,email,type,null);
-                    System.out.println(uName);
-                    System.out.println(password);
-                    System.out.println(email);
-                    System.out.println(buyer);
                     try {
                         //User user2 = new User(uName, password, email, type);
                         //user2.writeUser();
+                        System.out.println("We are sending for frame two, so we will send the string 2");
                         writer.println("2");
-                        oos.writeObject(user2);
-                        //writer.println(uName);
-                        //writer.println(password);
-                        //writer.println(email);
-                        //writer.flush();
-                        marketplaceClient.Three(reader, writer, ois,oos);
+                        writer.flush();
+                        System.out.println("We are now sending the user strings/type");
+                        writer.println(uName);
+                        writer.println(password);
+                        writer.println(email);
+                        writer.println(type);
+                        writer.flush();
+
+                        if (type) {
+                            System.out.println("Going to GUI 7");
+                            marketplaceClient.Seven(reader, writer, ois, oos);
+                        } else {
+                            System.out.println("Going to GUI 3");
+                            marketplaceClient.Three(reader, writer, ois,oos);
+                        }
                     } catch (Exception ex) {
                         marketplaceClient.Five(reader, writer,ois,oos);
                     }
@@ -272,14 +280,18 @@ public class MarketplaceClient {
         logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("We are in GUI 4");
                 frame4.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
                 String uName = usernameText.getText();
                 String uPassword=passwordText.getText();
-                System.out.println(uName);
-                System.out.println(uPassword);
+                System.out.println("username: " + uName);
+                System.out.println("password: " + uPassword);
                 try {
+                    System.out.println("Writing 4");
                     writer.println("4");
+                    writer.flush();
+                    System.out.println("Writing name and password");
                     writer.println(uName);
                     writer.println(uPassword);
                     writer.flush();
@@ -347,6 +359,14 @@ public class MarketplaceClient {
             public void actionPerformed(ActionEvent e) {
                 frame3.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
+                String storeName = sNameText.getText();
+                System.out.println("Writing 3 to server");
+                writer.println("3");
+                writer.flush();
+                System.out.println("Got store name from user: " + storeName);
+                writer.println(storeName);
+                writer.flush();
+                System.out.println("Going to GUI 6");
                 marketplaceClient.Six(reader, writer,ois,oos);
             }
         });
