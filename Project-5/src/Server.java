@@ -260,5 +260,113 @@ public class Server extends Thread implements Runnable {
 
                         writer.println("success");
                         writer.flush();
-                    } ArrayList<Product> productList = new ArrayList<Product>();
-    ArrayList<String> productHistory = new ArrayList<>();
+                    } else if (clientAction == 14) {
+                        System.out.println("process for editing a product");
+                        String newProductname = reader.readLine();
+                        System.out.println("New product name: " + newProductname);
+                        Double newPrice = Double.parseDouble(reader.readLine());
+                        System.out.println("New double: " + newPrice);
+                        int newAmount = Integer.parseInt(reader.readLine());
+                        System.out.println("New amount: " + newAmount);
+                        String newDescription = reader.readLine();
+                        System.out.println("New string: " + newDescription);
+                        //edits as well
+                        Product product = new Product(newProductname, 0.00, 0, 0, null, null, null);
+                        Product newProduct = new Product(newProductname, newPrice, newAmount, 0, null, null, newDescription);
+                        productList.remove(product);
+                        productList.add(newProduct);
+                        System.out.println(productList.size());
+
+
+                        //we have to get 9 to go to 14 automatically
+
+                    } else if (clientAction == 23) { //searches product list
+
+                        String productName = reader.readLine();
+                        Product product = new Product(productName, 0.00, 0, 0, null, null, null);
+                        int index = productList.indexOf(product);
+                        if (index == -1) { //if the product name doesn't exist
+                            writer.println("Product does not exist!");
+                        } else {
+                            writer.println("success");
+                        }
+
+
+
+//
+                    } else if (clientAction == 25) {//store list
+                        oos.writeObject(productStoreName);
+
+
+                        oos.flush();
+
+                        oos.close();
+                        socket.close();
+
+
+                        //
+
+
+                    } else if (clientAction == 26) { // show product list
+                        oos.writeObject(productList);
+
+                        oos.flush();
+
+                        oos.close();
+                        socket.close();
+
+
+                    } else if (clientAction == 27) { //Product name with product details shown, add product to cart array list function
+                        //being buggy
+                        //create new product
+                        //deleted
+
+                        Product product = new Product(null, 0.00, 0, 0, null, null, null);
+
+                        //productCart.add(null);
+                        //
+
+
+                    } else if (clientAction == 34){//looping back
+                        //will add once this is figured out
+
+
+                    } else if (clientAction == 35) {//clearing cart
+                        productHistory.add(String.valueOf(productCart));
+                        productCart.clear();
+                        writer.println("success");
+
+
+
+                    } else if (clientAction == 33) { //cart
+                        oos.writeObject(productCart);//writes
+
+                        //for(int i = 0; i < productStoreName.size(); i++){//goes through everything in array list
+                        //   productStoreName.get(i);//gets the index
+
+                        // }
+                        oos.flush();
+
+                        oos.close();
+                        socket.close();
+
+
+//
+//
+//                }
+                    }
+
+
+                }
+            }
+        } catch (IOException e) {
+
+        }
+    }
+
+
+
+}
+
+
+
