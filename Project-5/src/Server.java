@@ -8,12 +8,10 @@ import java.util.ArrayList;
 
 
 
-public class Server implements Runnable {
+public class Server extends Thread implements Runnable {
 
     Socket socket;
     //Arraylist product list
-
-
     ArrayList<String> productQuantitySold = new ArrayList<String>();
     ArrayList<String> productStoreName = new ArrayList<String>();
     ArrayList<String> customerName = new ArrayList<String>();
@@ -24,14 +22,11 @@ public class Server implements Runnable {
     static ArrayList<ArrayList<String>> productCart = new ArrayList<ArrayList<String>>();
     static ArrayList<ArrayList<Integer>> quantities = new ArrayList<ArrayList<Integer>>();
     ArrayList<Integer> totalQuantity = new ArrayList<>();
-    ArrayList<User> users = new ArrayList<>();
-    ArrayList<Product> productList = new ArrayList<Product>();
-    ArrayList<String> productHistory = new ArrayList<>();
+    static ArrayList<User> users = new ArrayList<>();
 
     public Server(Socket socket) {
         this.socket = socket;
     }
-
     public static void clearCart(String userName) {
         for (int i = 0; i < userNames.size(); i++) {
             if (userName.equals(userNames.get(i))) {
@@ -106,7 +101,7 @@ public class Server implements Runnable {
                         users.add(uUser);
                     }
                 }
-                if (clientAction == 3) {
+                if (clientAction == 3){
                     System.out.println("We are in three");
                     System.out.println("We are reading the store name, and printing after read: ");
                     String uStoreName = reader.readLine();
@@ -158,7 +153,62 @@ public class Server implements Runnable {
                         writer.println("");
                         writer.flush();
                     }
-                } else if (clientAction == 8) { //user wants to create product
+
+
+
+/*
+                        for (String inputUsername : userNames) {
+                            User thisUser = null;
+                            boolean isFound = false;
+                            for (User element : users) {
+                                inputUsername = reader.readLine();
+                                String inputPassword = reader.readLine();
+                                if (element.getName().equals(inputUsername)) {
+                                    isFound = true;
+
+                                    if (element.getPassword().equals(inputPassword)) {
+                                        String thisEmail = element.getEmailAddress();
+                                        boolean thisBuyer = element.isBuyer();
+                                        thisUser = new User(element.getName(), element.getPassword(), element.getEmailAddress(), element.isBuyer(), "null");
+                                    } else {
+                                        writer.println("unsuccess");
+                                        //gui to error saying password doesn't match
+
+                                    }
+                                }
+                                if (!(isFound)) {
+                                    //needs to be displayed in gui
+                                    writer.println("unsuccess");
+                                } else {
+                                    writer.println("success");
+                                }
+                            }
+
+                            try {
+                                if (thisUser.isBuyer()) {
+                                    writer.println("b");
+                                } else  {
+                                    writer.println("s");
+                                }
+                            } catch (Exception e) {
+                                writer.println("s");
+                            }
+
+
+
+
+                            //go through each element in user array list, if username matches with any check if password
+                            //matches. if it does, then get all other info and create new user with user constructor
+
+
+
+
+
+
+                        }
+
+ */
+                }else if (clientAction == 8) { //user wants to create product
                     System.out.println("process for creating a product as a seller");
                     String productName = reader.readLine();
                     System.out.println("Product Name: " + productName);
@@ -174,7 +224,7 @@ public class Server implements Runnable {
                     //actually create the product and put it in productList ArrayList
                     Product product = new Product(productName, price, amount, 0, null, null, description);
                     productList.add(product);
-                    //System.out.println(productList.size());
+                    System.out.println(productList.size());
 
                     //process for creating a product
 
@@ -225,89 +275,61 @@ public class Server implements Runnable {
                     System.out.println(productList.size());
 
 
+
                     //we have to get 9 to go to 14 automatically
 
-                } else if (clientAction == 23) { //searches product list
-
-                    String productName = reader.readLine();
-                    Product product = new Product(productName, 0.00, 0, 0, null, null, null);
-                    int index = productList.indexOf(product);
-                    if (index == -1) { //if the product name doesn't exist
-                        writer.println("Product does not exist!");
-                    } else {
-                        writer.println("success");
+                } else if (clientAction == 23) { //shows product list
+                    for (Product product : productList) {
+                        System.out.println(product);
+                    }
+//
+                } else if (clientAction == 25) {//send client an array list
+                    try (BufferedReader bfr = new BufferedReader(new FileReader("path/to/sellerStores.txt"))) {
+                        String line;
+                        while ((line = bfr.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                    } catch (IOException e) {
+                        System.err.println("Error reading file: " + e.getMessage());
                     }
 
+                } else if (clientAction == 26) { // send array list
+                    try (BufferedReader bfr = new BufferedReader(new FileReader("path/to/productList.txt"))) {
+                        String line;
+                        while ((line = bfr.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                    } catch (IOException e) {
+                        System.err.println("Error reading file: " + e.getMessage());
 
-//
-                } else if (clientAction == 25) {//store list
-                    oos.writeObject(productStoreName);
+                    }
+                } else if (clientAction == 27) {
+                    //same for 27
 
+                } else if (clientAction == 32) {//buys cart
+                    clearCart("");
+                    //add to array list once stat stuff is done
 
-                    oos.flush();
+                } else if (clientAction == 33) {
+                    for (ArrayList<String> cart : productCart) {
+                        System.out.println(cart);
+                    }
 
-                    oos.close();
-                    socket.close();
+                } else if (clientAction == 35) {
+                    //nothing to do here
 
-
-                    //
-
-
-                } else if (clientAction == 26) { // show product list
-                    oos.writeObject(productList);
-
-                    oos.flush();
-
-                    oos.close();
-                    socket.close();
-
-
-                } else if (clientAction == 27) { //Product name with product details shown, add product to cart array list function
-                    //being buggy
-                    //create new product
-                    //deleted
-
-                    Product product = new Product(null, 0.00, 0, 0, null, null, null);
-
-                    //productCart.add(null);
-                    //
-
-
-                } else if (clientAction == 34) {//looping back
-                    //will add once this is figured out
-
-
-                } else if (clientAction == 35) {//clearing cart
-                    productHistory.add(String.valueOf(productCart));
-                    productCart.clear();
-                    writer.println("success");
-
-
-                } else if (clientAction == 33) { //cart
-                    oos.writeObject(productCart);//writes
-
-                    //for(int i = 0; i < productStoreName.size(); i++){//goes through everything in array list
-                    //   productStoreName.get(i);//gets the index
-
-                    // }
-                    oos.flush();
-
-                    oos.close();
-                    socket.close();
-
-
+                }
 //
 //
 //                }
-                }
-
-
             }
-
         } catch (IOException e) {
 
         }
     }
+
+    ArrayList<Product> productList = new ArrayList<Product>();
+
 }
 
 
@@ -317,4 +339,28 @@ public class Server implements Runnable {
 
 
 
+//login method
+//create new account method
+//return if user is seller or buyer
+//exit for client action == 0
+
+/*
+        public boolean createProduct(String productString) {
+            //create new product with constructor
+            try {
+                //Product testProduct = new Product("test", 1, 1, 1, "userName", "storeName");
+            } catch (Exception e) {
+                return false;
+            }
+            return true;
+        }
+        public boolean editProduct(String productString) {
+            //edit product with method
+            return true;
+        }
+        public boolean deleteProduct(String productString) {
+            //delete product with method
+            return true;
+        }
+        */
 
