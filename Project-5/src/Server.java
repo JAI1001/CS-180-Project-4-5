@@ -23,6 +23,9 @@ public class Server extends Thread implements Runnable {
     static ArrayList<ArrayList<Integer>> quantities = new ArrayList<ArrayList<Integer>>();
     ArrayList<Integer> totalQuantity = new ArrayList<>();
     static ArrayList<User> users = new ArrayList<>();
+    ArrayList<Product> productList = new ArrayList<Product>();
+    ArrayList<String> productHistory = new ArrayList<>();
+
 
     public Server(Socket socket) {
         this.socket = socket;
@@ -257,111 +260,5 @@ public class Server extends Thread implements Runnable {
 
                         writer.println("success");
                         writer.flush();
-                    } else if (clientAction == 14) {
-                        System.out.println("process for editing a product");
-                        String newProductname = reader.readLine();
-                        System.out.println("New product name: " + newProductname);
-                        Double newPrice = Double.parseDouble(reader.readLine());
-                        System.out.println("New double: " + newPrice);
-                        int newAmount = Integer.parseInt(reader.readLine());
-                        System.out.println("New amount: " + newAmount);
-                        String newDescription = reader.readLine();
-                        System.out.println("New string: " + newDescription);
-                        //edits as well
-                        Product product = new Product(newProductname, 0.00, 0, 0, null, null, null);
-                        Product newProduct = new Product(newProductname, newPrice, newAmount, 0, null, null, newDescription);
-                        productList.remove(product);
-                        productList.add(newProduct);
-                        System.out.println(productList.size());
-
-
-
-                        //we have to get 9 to go to 14 automatically
-
-                    } else if (clientAction == 23) { //shows product list
-                        for (Product product : productList) {
-                            System.out.println(product);
-                        }
-//
-                    } else if (clientAction == 25) {//send client an array list
-                        try (BufferedReader bfr = new BufferedReader(new FileReader("path/to/sellerStores.txt"))) {
-                            String line;
-                            while ((line = bfr.readLine()) != null) {
-                                System.out.println(line);
-                            }
-                        } catch (IOException e) {
-                            System.err.println("Error reading file: " + e.getMessage());
-                        }
-
-                    } else if (clientAction == 26) { // send array list
-                        try (BufferedReader bfr = new BufferedReader(new FileReader("path/to/productList.txt"))) {
-                            String line;
-                            while ((line = bfr.readLine()) != null) {
-                                System.out.println(line);
-                            }
-                        } catch (IOException e) {
-                            System.err.println("Error reading file: " + e.getMessage());
-
-                        }
-                    } else if (clientAction == 27) {
-                        //same for 27
-
-                    } else if (clientAction == 32) {//buys cart
-                        clearCart("");
-                        //add to array list once stat stuff is done
-
-                    } else if (clientAction == 33) {
-                        for (ArrayList<String> cart : productCart) {
-                            System.out.println(cart);
-                        }
-
-                    } else if (clientAction == 35) {
-                        //nothing to do here
-
-                    }
-//
-//
-//                }
-                }
-        } catch (IOException e) {
-
-        }
-    }
-
-    ArrayList<Product> productList = new ArrayList<Product>();
-
-}
-
-
-
-
-
-
-
-
-//login method
-//create new account method
-//return if user is seller or buyer
-//exit for client action == 0
-
-/*
-        public boolean createProduct(String productString) {
-            //create new product with constructor
-            try {
-                //Product testProduct = new Product("test", 1, 1, 1, "userName", "storeName");
-            } catch (Exception e) {
-                return false;
-            }
-            return true;
-        }
-        public boolean editProduct(String productString) {
-            //edit product with method
-            return true;
-        }
-        public boolean deleteProduct(String productString) {
-            //delete product with method
-            return true;
-        }
-        */
-
-
+                    } ArrayList<Product> productList = new ArrayList<Product>();
+    ArrayList<String> productHistory = new ArrayList<>();
