@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 
 
-public class Server implements Runnable {
+public class Server extends Thread implements Runnable {
 
     Socket socket;
     //Arraylist product list
@@ -22,7 +22,7 @@ public class Server implements Runnable {
     static ArrayList<ArrayList<String>> productCart = new ArrayList<ArrayList<String>>();
     static ArrayList<ArrayList<Integer>> quantities = new ArrayList<ArrayList<Integer>>();
     ArrayList<Integer> totalQuantity = new ArrayList<>();
-    ArrayList<User> users = new ArrayList<>();
+    static ArrayList<User> users = new ArrayList<>();
 
     public Server(Socket socket) {
         this.socket = socket;
@@ -66,48 +66,113 @@ public class Server implements Runnable {
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
+            writer.flush();
 
-            while (true) {
-
-
-
-
-
+            User uUser = new User(null, null, null, false, null);
 
                 //new thread for each user
                 while (true) {
+                    System.out.println("Beginning Loop: ");
+                    System.out.println("Current users array list size: " + users.size());
 
                     String actionString = null;
                     while (actionString == null) {
                         actionString = reader.readLine();
-
-
                     }
-
-
+                    System.out.println("Got first string (action string): " + actionString);
                     int clientAction = Integer.parseInt(actionString);
-                    System.out.println(clientAction);
+                    System.out.println("Action string is now client action int: " + clientAction);
+                    if (clientAction == 2) {
+                        System.out.println("We are in 2");
+                        System.out.println("Here we read the user info. Reading: ");
+                        String uName = reader.readLine();
+                        String uPassword = reader.readLine();
+                        String uEmail = reader.readLine();
+                        String uTypeString = reader.readLine();
+                        boolean uType;
+                        uType = uTypeString.equalsIgnoreCase("true");
+                        System.out.println("Read user info: " + uName + uEmail + uPassword + uType);
+                        uUser.setName(uName);
+                        uUser.setPassword(uPassword);
+                        uUser.setEmailAddress(uEmail);
+                        uUser.setBuyer(uType);
+                        System.out.println("We have now read the object.");
+                        if (uUser.isBuyer()) {
+                            users.add(uUser);
+                        }
+                    }
                     if (clientAction == 3){
+                        System.out.println("We are in three");
+                        System.out.println("We are reading the store name, and printing after read: ");
+                        String uStoreName = reader.readLine();
+                        System.out.println(uStoreName);
+                        uUser.setStoreName(uStoreName);
+                        users.add(uUser);
 
                     }
                     if (clientAction == 4) {
-
-                        for (String inputUsername : userNames) {
-                                User thisUser = null;
-                                boolean isFound = false;
-                                for (User element : users) {
-                                    inputUsername = reader.readLine();
-                                    String inputPassword = reader.readLine();
-                                    if (element.getName().equals(inputUsername)) {
-                                        isFound = true;
-                                        
-                                        if (element.getPassword().equals(inputPassword)) {
-                                            String thisEmail = element.getEmailAddress();
-                                            boolean thisBuyer = element.isBuyer();
-                                            thisUser = new User(element.getName(), element.getPassword(), element.getEmailAddress(), element.isBuyer(), "null");
+                        System.out.println("We are in four");
+                        String username = reader.readLine();
+                        String password = reader.readLine();
+                        System.out.println("Users size: " + users.size());
+                        boolean found = false;
+                        if (users.size() > 0) {
+                            for (User u : users) {
+                                if (u.getName().equalsIgnoreCase(username)) {
+                                    System.out.println("Username exists...");
+                                    if (u.getPassword().equals(password)) {
+                                        System.out.println("And password matches!");
+                                        found = true;
+                                        writer.println("success");
+                                        writer.flush();
+                                        uUser.setName(u.getName());
+                                        uUser.setPassword(u.getPassword());
+                                        uUser.setEmailAddress(u.getEmailAddress());
+                                        uUser.setBuyer(u.isBuyer());
+                                        if ((u.isBuyer())) {
+                                            writer.println("b");
+                                            writer.flush();
                                         } else {
-                                            writer.println("unsuccess");
-                                            //gui to error saying password doesn't match
+                                            writer.println("s");
+                                            writer.flush();
+                                            uUser.setStoreName(u.getStoreName());
+                                        }
+
+                                    }
+                                }
+
+                            }
+                            if (!(found)) {
+                                writer.println("unsuccess");
+                                writer.println("");
+                                writer.flush();
+                            }
+                        } else {
+                            System.out.println("There are no users existant. Writing unsuccess");
+                            writer.println("unsuccess");
+                            writer.println("");
+                            writer.flush();
+                        }
+
+
+
+/*
+                        for (String inputUsername : userNames) {
+                            User thisUser = null;
+                            boolean isFound = false;
+                            for (User element : users) {
+                                inputUsername = reader.readLine();
+                                String inputPassword = reader.readLine();
+                                if (element.getName().equals(inputUsername)) {
+                                    isFound = true;
+
+                                    if (element.getPassword().equals(inputPassword)) {
+                                        String thisEmail = element.getEmailAddress();
+                                        boolean thisBuyer = element.isBuyer();
+                                        thisUser = new User(element.getName(), element.getPassword(), element.getEmailAddress(), element.isBuyer(), "null");
+                                    } else {
+                                        writer.println("unsuccess");
+                                        //gui to error saying password doesn't match
 
                                     }
                                 }
@@ -118,19 +183,19 @@ public class Server implements Runnable {
                                     writer.println("success");
                                 }
                             }
-                                
-                                try {
-                                    if (thisUser.isBuyer()) {
-                                        writer.println("b");
-                                    } else  {
-                                        writer.println("s");
-                                    }
-                                } catch (Exception e) {
+
+                            try {
+                                if (thisUser.isBuyer()) {
+                                    writer.println("b");
+                                } else  {
                                     writer.println("s");
                                 }
-                                
-                                
-                                
+                            } catch (Exception e) {
+                                writer.println("s");
+                            }
+
+
+
 
                             //go through each element in user array list, if username matches with any check if password
                             //matches. if it does, then get all other info and create new user with user constructor
@@ -141,6 +206,8 @@ public class Server implements Runnable {
 
 
                         }
+
+ */
                     }else if (clientAction == 8) { //user wants to create product
                         System.out.println("process for creating a product as a seller");
                         String productName = reader.readLine();
@@ -256,9 +323,6 @@ public class Server implements Runnable {
 //
 //                }
                 }
-
-
-            }
         } catch (IOException e) {
 
         }
@@ -299,6 +363,5 @@ public class Server implements Runnable {
             return true;
         }
         */
-
 
 
