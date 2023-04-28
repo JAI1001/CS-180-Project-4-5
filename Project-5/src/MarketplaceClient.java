@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  */
 
-public class MarketplaceClient extends Thread {
+public class MarketplaceClient extends Thread{
     public static void main(String[] args) {
         //User user;
         try {
@@ -144,7 +144,6 @@ public class MarketplaceClient extends Thread {
         logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("We are in frame 2");
                 frame2.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
                 String uName = usernameText.getText();
@@ -280,18 +279,15 @@ public class MarketplaceClient extends Thread {
         logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("We are in GUI 4");
                 frame4.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
                 String uName = usernameText.getText();
                 String uPassword=passwordText.getText();
-                System.out.println("username: " + uName);
-                System.out.println("password: " + uPassword);
+                System.out.println(uName);
+                System.out.println(uPassword);
+                System.out.println("Hello");
                 try {
-                    System.out.println("Writing 4");
                     writer.println("4");
-                    writer.flush();
-                    System.out.println("Writing name and password");
                     writer.println(uName);
                     writer.println(uPassword);
                     writer.flush();
@@ -1363,7 +1359,9 @@ public class MarketplaceClient extends Thread {
                     if (result.equals("success")){
                         String p_Name=reader.readLine();
                         String p_Price=reader.readLine();
-                        marketplaceClient.TwentySeven(reader,writer,ois,oos,p_Name,p_Price);
+                        String p_Qty=reader.readLine();
+                        String p_Desc=reader.readLine();
+                        marketplaceClient.TwentySeven(reader,writer,ois,oos,p_Name,p_Price,p_Qty,p_Desc);
                     }
                     else {
                         marketplaceClient.TwentyFour(reader,writer,ois,oos);
@@ -1523,7 +1521,9 @@ public class MarketplaceClient extends Thread {
                     writer.flush();
                     String pName=reader.readLine();
                     String pPrice=reader.readLine();
-                    marketplaceClient.TwentySeven(reader, writer,ois,oos,pName,pPrice);
+                    String pQty=reader.readLine();
+                    String pDescription=reader.readLine();
+                    marketplaceClient.TwentySeven(reader, writer,ois,oos,pName,pPrice,pQty,pDescription);
                 }
                 catch (Exception exception){
                     exception.printStackTrace();
@@ -1532,7 +1532,7 @@ public class MarketplaceClient extends Thread {
         });
     }
 
-    public void TwentySeven(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos,String pName,String pPrice) {
+    public void TwentySeven(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos,String pName,String pPrice,String pQty,String pDescription) {
         JFrame frame27 = new JFrame("Online Marketplace"); // creating new frame27
         JPanel panel27 = new JPanel(); // creating new panel27
         frame27.getContentPane();
@@ -1544,20 +1544,43 @@ public class MarketplaceClient extends Thread {
 
         JLabel productName = new JLabel("Product name :"); // new jlabel welcome message
         productName.setForeground(Color.cyan); // welcome message color
-        productName.setBounds(50, 80, 200, size.height); // welcome message position in frame27
+        productName.setBounds(50, 50, 200, size.height); // welcome message position in frame27
 
         JLabel name = new JLabel(pName); // new jlabel welcome message
         name.setForeground(Color.cyan); // welcome message color
-        name.setBounds(202, 80, 200, size.height); // welcome message position in frame27
+        size = name.getPreferredSize();
+        name.setBounds(202, 50, 200, size.height); // welcome message position in frame27
 
-        JLabel productPrice = new JLabel("Product price :"); // new jlabel welcome message
-        productPrice.setForeground(Color.cyan); // welcome message color
-        productPrice.setBounds(50, 100, 200, size.height); // welcome message position in frame27
+        JLabel productPrice = new JLabel("Product Price :"); // new jlabel welcome message
+        productPrice.setForeground(Color.cyan); // welcome message color\
+        size = productPrice.getPreferredSize();
+        productPrice.setBounds(50, 70, 200, size.height); // welcome message position in frame27
 
         JLabel price = new JLabel(pPrice); // new jlabel welcome message
         price.setForeground(Color.cyan); // welcome message color
         size = price.getPreferredSize();
-        price.setBounds(202, 100, size.width, size.height); // welcome message position in frame27
+        price.setBounds(202, 70, size.width, size.height); // welcome message position in frame27
+
+        JLabel productQty = new JLabel("Quantity available :"); // new jlabel welcome message
+        size = productQty.getPreferredSize();
+        productQty.setForeground(Color.cyan); // welcome message color
+        productQty.setBounds(50, 90, 200, size.height); // welcome message position in frame27
+
+        JLabel qty = new JLabel(pQty); // new jlabel welcome message
+        qty.setForeground(Color.cyan); // welcome message color
+        size = qty.getPreferredSize();
+        qty.setBounds(202, 90, size.width, size.height); // welcome message position in frame27
+
+        JLabel productDescription = new JLabel("Product description :"); // new jlabel welcome message
+        productDescription.setForeground(Color.cyan); // welcome message color
+        size = productDescription.getPreferredSize();
+        productDescription.setBounds(50, 110, 200, size.height); // welcome message position in frame27
+
+        JLabel description = new JLabel(pDescription); // new jlabel welcome message
+        description.setForeground(Color.cyan); // welcome message color
+        size = description.getPreferredSize();
+        description.setBounds(202, 110, size.width, size.height); // welcome message position in frame27
+
 
 
         JButton ok27 = new JButton("Add product");// new jlabel login button
@@ -1569,9 +1592,13 @@ public class MarketplaceClient extends Thread {
         panel27.setLayout(null);
         panel27.add(productDetails);
         panel27.add(productName);
+        panel27.add(name);
         panel27.add(productPrice);
         panel27.add(price);
-        panel27.add(name);
+        panel27.add(productQty);
+        panel27.add(qty);
+        panel27.add(productDescription);
+        panel27.add(description);
         panel27.add(ok27);
         panel27.add(back27);
         //panel27.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
