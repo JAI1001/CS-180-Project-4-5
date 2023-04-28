@@ -23,6 +23,8 @@ public class Server extends Thread implements Runnable {
     static ArrayList<ArrayList<Integer>> quantities = new ArrayList<ArrayList<Integer>>();
     ArrayList<Integer> totalQuantity = new ArrayList<>();
     static ArrayList<User> users = new ArrayList<>();
+    ArrayList<Product> productList = new ArrayList<Product>();
+    ArrayList<String> productHistory = new ArrayList<>();
 
     public Server(Socket socket) {
         this.socket = socket;
@@ -165,7 +167,6 @@ public class Server extends Thread implements Runnable {
                                 String inputPassword = reader.readLine();
                                 if (element.getName().equals(inputUsername)) {
                                     isFound = true;
-
                                     if (element.getPassword().equals(inputPassword)) {
                                         String thisEmail = element.getEmailAddress();
                                         boolean thisBuyer = element.isBuyer();
@@ -173,7 +174,6 @@ public class Server extends Thread implements Runnable {
                                     } else {
                                         writer.println("unsuccess");
                                         //gui to error saying password doesn't match
-
                                     }
                                 }
                                 if (!(isFound)) {
@@ -183,7 +183,6 @@ public class Server extends Thread implements Runnable {
                                     writer.println("success");
                                 }
                             }
-
                             try {
                                 if (thisUser.isBuyer()) {
                                     writer.println("b");
@@ -193,20 +192,9 @@ public class Server extends Thread implements Runnable {
                             } catch (Exception e) {
                                 writer.println("s");
                             }
-
-
-
-
                             //go through each element in user array list, if username matches with any check if password
                             //matches. if it does, then get all other info and create new user with user constructor
-
-
-
-
-
-
                         }
-
  */
                 }else if (clientAction == 8) { //user wants to create product
                     System.out.println("process for creating a product as a seller");
