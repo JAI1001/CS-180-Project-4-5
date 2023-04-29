@@ -73,6 +73,8 @@ public class Server extends Thread implements Runnable {
             writer.flush();
 
             User uUser = new User(null, null, null, false, null);
+            Product product = new Product(null, 0.00, 0, 0, null, null, null);
+
 
             //new thread for each user
             while (true) {
@@ -343,7 +345,7 @@ public class Server extends Thread implements Runnable {
 
 //
                 } else if (clientAction == 25) {//store list
-                    oos.writeObject(storeList);
+                    oos.writeObject(uUser.getStoreName());
                     oos.flush();
 
 
