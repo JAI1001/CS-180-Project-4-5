@@ -330,87 +330,89 @@ public class Server extends Thread implements Runnable {
 
                     //we have to get 9 to go to 14 automatically
 
-                } else if (clientAction == 23) { //shows product list
-                    for (Product product : productList) {
-                        System.out.println(product);
+                } else if (clientAction == 23) { //searches product list
+
+                    String productName = reader.readLine();
+                    int index = productList.indexOf(product);
+                    if (index == -1) { //if the product name doesn't exist
+                        writer.println("Product does not exist!");
+                    } else {
+                        writer.println("success");
                     }
+
+
 //
-                } else if (clientAction == 25) {//send client an array list
-                    try (BufferedReader bfr = new BufferedReader(new FileReader("path/to/sellerStores.txt"))) {
-                        String line;
-                        while ((line = bfr.readLine()) != null) {
-                            System.out.println(line);
+                } else if (clientAction == 25) {//store list
+                    oos.writeObject(storeList);
+                    oos.flush();
+
+
+
+                    //
+
+
+                } else if (clientAction == 22) { // show product list
+                    oos.writeObject(productList);
+                    oos.flush();
+
+
+
+                } else if (clientAction == 26) { //Product name with product details shown, add product to cart array list function
+                    //being buggy
+                    //create new product
+                    //deleted
+
+                    String productName = reader.readLine();
+                    for (Product p : productList) {
+                        if (p.getName().equalsIgnoreCase(productName)) {
+                            writer.println(productName);
+                            writer.println(product.getPrice());
+                            writer.println(product.getQuantity());
+                            writer.println(product.getDescription());
                         }
-                    } catch (IOException e) {
-                        System.err.println("Error reading file: " + e.getMessage());
                     }
 
-                } else if (clientAction == 26) { // send array list
-                    try (BufferedReader bfr = new BufferedReader(new FileReader("path/to/productList.txt"))) {
-                        String line;
-                        while ((line = bfr.readLine()) != null) {
-                            System.out.println(line);
-                        }
-                    } catch (IOException e) {
-                        System.err.println("Error reading file: " + e.getMessage());
 
-                    }
-                } else if (clientAction == 27) {
-                    //same for 27
 
-                } else if (clientAction == 32) {//buys cart
-                    clearCart("");
-                    //add to array list once stat stuff is done
+                    //productCart.add(null);
+                    //
 
-                } else if (clientAction == 33) {
-                    for (ArrayList<String> cart : productCart) {
-                        System.out.println(cart);
-                    }
 
-                } else if (clientAction == 35) {
-                    //nothing to do here
+                }  else if(clientAction == 35){
+                    productCart.clear();
+                    writer.println("success");
 
-                }
+                }else if (clientAction == 32) {//clearing cart
+                    productHistory.add(String.valueOf(productCart));
+                    productCart.clear();
+                    writer.println("success");
+
+
+                } else if (clientAction == 31) { //cart
+                    //ois = new ObjectInputStream(pro);
+                    oos.writeObject(productCart);
+                    oos.flush();
+
+                    //for(int i = 0; i < productStoreName.size(); i++){//goes through everything in array list
+                    //   productStoreName.get(i);//gets the index
+
+                    // }
+                    oos.flush();
+
+                    oos.close();
+                    socket.close();
+
+
 //
 //
 //                }
+                }
+
+
             }
+
         } catch (IOException e) {
 
         }
     }
-
 }
-
-
-
-
-
-
-
-
-//login method
-//create new account method
-//return if user is seller or buyer
-//exit for client action == 0
-
-/*
-        public boolean createProduct(String productString) {
-            //create new product with constructor
-            try {
-                //Product testProduct = new Product("test", 1, 1, 1, "userName", "storeName");
-            } catch (Exception e) {
-                return false;
-            }
-            return true;
-        }
-        public boolean editProduct(String productString) {
-            //edit product with method
-            return true;
-        }
-        public boolean deleteProduct(String productString) {
-            //delete product with method
-            return true;
-        }
-        */
-
