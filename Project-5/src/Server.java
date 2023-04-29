@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.spec.ECField;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 
@@ -72,7 +73,7 @@ public class Server extends Thread implements Runnable {
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             writer.flush();
 
-            User uUser = new User(null, null, null, false, null);
+            User uUser = new User(null, null, null, false, null,0);
             Product product = new Product(null, 0.00, 0, 0, null, null, null);
 
 
@@ -226,7 +227,7 @@ public class Server extends Thread implements Runnable {
                         }
 
  */
-                }else if (clientAction == 8) { //user wants to create product
+                }else if (clientAction == 8) {
                     System.out.println("process for creating a product as a seller");
                     String productName = reader.readLine();
                     System.out.println("Product Name: " + productName);
@@ -239,7 +240,7 @@ public class Server extends Thread implements Runnable {
 
 
                     //actually create the product and put it in productList ArrayList
-                    Product product = new Product(productName, price, amount, 0, null, uUser.getStoreName(), description);
+                    product = new Product(productName, price, amount, 0, null, uUser.getStoreName(), description);
                     synchronized (PRODUCT_GATEKEEPER) {
                         productList.add(product);
                     }
@@ -252,7 +253,8 @@ public class Server extends Thread implements Runnable {
 
                     writer.println("success");
                     writer.flush();
-                } else if (clientAction == 9) { //user wants to edit product
+
+                }else if (clientAction == 9) { //user wants to edit product
                     System.out.println("process for editing a product");
                     String productName = reader.readLine();
                     System.out.println("Product name: " + productName);
@@ -332,30 +334,65 @@ public class Server extends Thread implements Runnable {
 
                     //we have to get 9 to go to 14 automatically
 
-                } else if (clientAction == 23) { //searches product list
+                } else if (clientAction == 23) {
 
-                    String productName = reader.readLine();
-                    int index = productList.indexOf(product);
-                    if (index == -1) { //if the product name doesn't exist
-                        writer.println("Product does not exist!");
-                    } else {
-                        writer.println("success");
+
+                    String pName = reader.readLine();
+                    synchronized (PRODUCT_GATEKEEPER){
+                        for (Product p:productList){
+                            if (p.getName().equalsIgnoreCase(pName)){
+                                writer.println("success");
+                                writer.flush();
+                                writer.println(p.getName());
+                                writer.println(p.getPrice());
+                                writer.println(p.getQuantity());
+                                writer.println(p.getDescription());
+                                writer.flush();
+                            }
+                            else {
+                                writer.println("unsuccess");
+                                writer.flush();
+                            }
+                        }
                     }
 
 
-//
-                } else if (clientAction == 25) {//store list
-                    oos.writeObject(uUser.getStoreName());
-                    oos.flush();
 
 
+                }else if (clientAction == 25) {
 
-                    //
+
+                    String pName = reader.readLine();
+                    synchronized (PRODUCT_GATEKEEPER){
+                        for (Product p:productList){
+                            if (p.getName().equalsIgnoreCase(pName)){
+                                writer.println("success");
+                                writer.flush();
+                                writer.println(p.getName());
+                                writer.println(p.getPrice());
+                                writer.println(p.getQuantity());
+                                writer.println(p.getDescription());
+                                writer.flush();
+                            }
+                            else {
+                                writer.println("unsuccess");
+                                writer.flush();
+                            }
+                        }
+                    }
 
 
                 } else if (clientAction == 22) { // show product list
-                    oos.writeObject(productList);
-                    oos.flush();
+                    writer.println(productList.size());
+                    writer.flush();
+                    for (int i=0;i<productList.size();i++){
+                        System.out.println(productList.get(i));
+                        writer.println(productList.get(i));
+                        writer.flush();
+                    }
+                    //oos.writeObject(productList);
+                    //oos.close();
+                    //oos.flush();
 
 
 
