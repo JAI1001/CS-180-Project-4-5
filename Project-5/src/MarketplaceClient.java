@@ -7,16 +7,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- *
  * Client GUI's
  *
  * @author Jai Nanda, lab sec 07
- *
  * @version 24/05/2023
- *
  */
 
-public class MarketplaceClient extends Thread{
+public class MarketplaceClient extends Thread {
     public static void main(String[] args) {
         //User user;
         try {
@@ -43,7 +40,7 @@ public class MarketplaceClient extends Thread{
             signUpButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     frame.dispose();
-                    marketplaceClient.Two(reader, writer, ois,oos);
+                    marketplaceClient.Two(reader, writer, ois, oos);
                 }
             });
 
@@ -51,7 +48,7 @@ public class MarketplaceClient extends Thread{
             loginButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     frame.dispose();
-                    marketplaceClient.Four(reader, writer,ois,oos);
+                    marketplaceClient.Four(reader, writer, ois, oos);
                 }
             });
 
@@ -75,7 +72,7 @@ public class MarketplaceClient extends Thread{
     }
 
 
-    public void Two(BufferedReader reader, PrintWriter writer, ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Two(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame2 = new JFrame("Online Marketplace"); // creating new frame
         JPanel panel2 = new JPanel(); // creating new panel
         frame2.getContentPane();
@@ -149,10 +146,9 @@ public class MarketplaceClient extends Thread{
                 String uName = usernameText.getText();
                 String password = passwordText.getText();
                 String email = emailText.getText();
-                if (uName.equals("")||password.equals("")||email.equals("")){
-                    marketplaceClient.Twenty(reader,writer,ois,oos);
-                }
-                else {
+                if (uName.equals("") || password.equals("") || email.equals("")) {
+                    marketplaceClient.Twenty(reader, writer, ois, oos);
+                } else {
                     System.out.println("Here, fields are not blank.");
                     int buyer = options.getSelectedIndex();
                     boolean type = true;
@@ -161,7 +157,7 @@ public class MarketplaceClient extends Thread{
                     } else {
                         type = false;
                     }
-                    User user2=new User(uName,password,email,type,null);
+                    User user2 = new User(uName, password, email, type, null, 0);
                     try {
                         //User user2 = new User(uName, password, email, type);
                         //user2.writeUser();
@@ -180,10 +176,10 @@ public class MarketplaceClient extends Thread{
                             marketplaceClient.Seven(reader, writer, ois, oos);
                         } else {
                             System.out.println("Going to GUI 3");
-                            marketplaceClient.Three(reader, writer, ois,oos);
+                            marketplaceClient.Three(reader, writer, ois, oos);
                         }
                     } catch (Exception ex) {
-                        marketplaceClient.Five(reader, writer,ois,oos);
+                        marketplaceClient.Five(reader, writer, ois, oos);
                     }
                 }
 
@@ -194,7 +190,7 @@ public class MarketplaceClient extends Thread{
 
     }
 
-    public void Twenty(BufferedReader reader,PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos){
+    public void Twenty(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame20 = new JFrame("Online Marketplace"); // creating new frame20
         JPanel panel20 = new JPanel(); // creating new panel20
         frame20.getContentPane();
@@ -224,13 +220,13 @@ public class MarketplaceClient extends Thread{
         errorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MarketplaceClient marketplaceClient=new MarketplaceClient();
-                marketplaceClient.Two(reader,writer,ois,oos);
+                MarketplaceClient marketplaceClient = new MarketplaceClient();
+                marketplaceClient.Two(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Four(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Four(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame4 = new JFrame("Online Marketplace"); // creating new frame
         JPanel panel4 = new JPanel(); // creating new panel
         frame4.getContentPane();
@@ -282,7 +278,7 @@ public class MarketplaceClient extends Thread{
                 frame4.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
                 String uName = usernameText.getText();
-                String uPassword=passwordText.getText();
+                String uPassword = passwordText.getText();
                 System.out.println(uName);
                 System.out.println(uPassword);
                 System.out.println("Hello");
@@ -291,19 +287,17 @@ public class MarketplaceClient extends Thread{
                     writer.println(uName);
                     writer.println(uPassword);
                     writer.flush();
-                    String result=reader.readLine();
+                    String result = reader.readLine();
                     System.out.println("hello");
-                    String type=reader.readLine();
-                    if (result.equals("success")){
-                        if (type.equals("b")){
-                            marketplaceClient.Seven(reader,writer,ois,oos);
+                    String type = reader.readLine();
+                    if (result.equals("success")) {
+                        if (type.equals("b")) {
+                            marketplaceClient.Seven(reader, writer, ois, oos);
+                        } else {
+                            marketplaceClient.Six(reader, writer, ois, oos);
                         }
-                        else{
-                            marketplaceClient.Six(reader, writer,ois,oos);
-                        }
-                    }
-                    else {
-                        marketplaceClient.Five(reader,writer,ois,oos);
+                    } else {
+                        marketplaceClient.Five(reader, writer, ois, oos);
                     }
                     //marketplaceClient.Seven(reader, writer,ois,oos);
                 } catch (Exception ex) {
@@ -314,7 +308,7 @@ public class MarketplaceClient extends Thread{
     }
 
 
-    public void Three(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Three(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame3 = new JFrame("Online Marketplace"); // creating new frame3
         JPanel panel3 = new JPanel(); // creating new panel3
         frame3.getContentPane();
@@ -363,13 +357,13 @@ public class MarketplaceClient extends Thread{
                 writer.println(storeName);
                 writer.flush();
                 System.out.println("Going to GUI 6");
-                marketplaceClient.Six(reader, writer,ois,oos);
+                marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
     }
 
 
-    public void Five(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Five(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame5 = new JFrame("Online Marketplace"); // creating new frame5
         JPanel panel5 = new JPanel(); // creating new panel5
         frame5.getContentPane();
@@ -401,12 +395,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame5.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Four(reader, writer,ois,oos);
+                marketplaceClient.Four(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Six(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Six(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame6 = new JFrame("Online Marketplace"); // creating new frame6
         JPanel panel6 = new JPanel(); // creating new panel6
         frame6.getContentPane();
@@ -454,7 +448,7 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame6.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Eight(reader, writer,ois,oos);
+                marketplaceClient.Eight(reader, writer, ois, oos);
             }
         });
 
@@ -463,7 +457,7 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame6.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Nine(reader, writer,ois,oos);
+                marketplaceClient.Nine(reader, writer, ois, oos);
             }
         });
 
@@ -472,7 +466,7 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame6.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Ten(reader, writer,ois,oos);
+                marketplaceClient.Ten(reader, writer, ois, oos);
             }
         });
 
@@ -481,7 +475,7 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame6.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Eleven(reader, writer,ois,oos);
+                marketplaceClient.Eleven(reader, writer, ois, oos);
             }
         });
 
@@ -490,12 +484,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame6.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Twelve(reader, writer,ois,oos);
+                marketplaceClient.Twelve(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Seven(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Seven(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame7 = new JFrame("Online Marketplace"); // creating new frame7
         JPanel panel7 = new JPanel(); // creating new panel7
         frame7.getContentPane();
@@ -543,7 +537,7 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame7.dispose();
-                marketplaceClient.TwentyTwo(reader, writer,ois,oos);
+                marketplaceClient.TwentyTwo(reader, writer, ois, oos);
             }
         });
 
@@ -551,7 +545,7 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame7.dispose();
-                marketplaceClient.ThirtyOne(reader, writer,ois,oos);
+                marketplaceClient.ThirtyOne(reader, writer, ois, oos);
             }
         });
 
@@ -559,7 +553,7 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame7.dispose();
-                marketplaceClient.TwentyEight(reader, writer,ois,oos);
+                marketplaceClient.TwentyEight(reader, writer, ois, oos);
             }
         });
 
@@ -567,7 +561,7 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame7.dispose();
-                marketplaceClient.TwentyNine(reader, writer,ois,oos);
+                marketplaceClient.TwentyNine(reader, writer, ois, oos);
             }
         });
 
@@ -575,12 +569,12 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame7.dispose();
-                marketplaceClient.Twelve(reader, writer,ois,oos);
+                marketplaceClient.Twelve(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Eight(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Eight(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame8 = new JFrame("Online Marketplace"); // creating new frame8
         JPanel panel8 = new JPanel(); // creating new panel8
         frame8.getContentPane();
@@ -674,10 +668,10 @@ public class MarketplaceClient extends Thread{
                     String result = reader.readLine();
                     if (result.equals("success")) {
                         System.out.println("success");
-                        marketplaceClient.Thirteen(reader, writer,ois,oos);
+                        marketplaceClient.Thirteen(reader, writer, ois, oos);
                     } else {
                         System.out.println("unsuccessful");
-                        marketplaceClient.Seventeen(reader, writer,ois,oos);
+                        marketplaceClient.Seventeen(reader, writer, ois, oos);
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -693,12 +687,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame8.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Six(reader, writer,ois,oos);
+                marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Nine(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Nine(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame9 = new JFrame("Online Marketplace"); // creating new frame9
         JPanel panel9 = new JPanel(); // creating new panel9
         frame9.getContentPane();
@@ -750,9 +744,9 @@ public class MarketplaceClient extends Thread{
                     writer.flush();
                     String result = reader.readLine();
                     if (result.equals("success")) {
-                        marketplaceClient.Fourteen(reader, writer,ois,oos);
+                        marketplaceClient.Fourteen(reader, writer, ois, oos);
                     } else {
-                        marketplaceClient.Eighteen(reader, writer,ois,oos);
+                        marketplaceClient.Eighteen(reader, writer, ois, oos);
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -765,12 +759,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame9.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Six(reader, writer,ois,oos);
+                marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Ten(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Ten(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame10 = new JFrame("Online Marketplace"); // creating new frame10
         JPanel panel10 = new JPanel(); // creating new panel10
         frame10.getContentPane();
@@ -822,9 +816,9 @@ public class MarketplaceClient extends Thread{
                     writer.flush();
                     String result = reader.readLine();
                     if (result.equals("success")) {
-                        marketplaceClient.Sixteen(reader, writer,ois,oos);
+                        marketplaceClient.Sixteen(reader, writer, ois, oos);
                     } else {
-                        marketplaceClient.Nineteen(reader, writer,ois,oos);
+                        marketplaceClient.Nineteen(reader, writer, ois, oos);
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -837,12 +831,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame10.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Six(reader, writer,ois,oos);
+                marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Eleven(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Eleven(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame11 = new JFrame("Online Marketplace"); // creating new frame11
         JPanel panel11 = new JPanel(); // creating new panel11
         frame11.getContentPane();
@@ -874,12 +868,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame11.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Six(reader, writer,ois,oos);
+                marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Twelve(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Twelve(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame12 = new JFrame("Online Marketplace"); // creating new frame12
         JPanel panel12 = new JPanel(); // creating new panel12
         frame12.getContentPane();
@@ -925,7 +919,7 @@ public class MarketplaceClient extends Thread{
         });
     }
 
-    public void Thirteen(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Thirteen(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame13 = new JFrame("Online Marketplace"); // creating new frame13
         JPanel panel13 = new JPanel(); // creating new panel13
         frame13.getContentPane();
@@ -957,13 +951,13 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame13.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Six(reader, writer,ois,oos);
+                marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
     }
 
 
-    public void Fourteen(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Fourteen(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame14 = new JFrame("Online Marketplace"); // creating new frame14
         JPanel panel14 = new JPanel(); // creating new panel14
         frame14.getContentPane();
@@ -1045,7 +1039,7 @@ public class MarketplaceClient extends Thread{
                     writer.println(pQty);
                     writer.println(pDescription);
                     writer.flush();
-                    marketplaceClient.Fifteen(reader, writer,ois,oos);
+                    marketplaceClient.Fifteen(reader, writer, ois, oos);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -1057,7 +1051,7 @@ public class MarketplaceClient extends Thread{
 
     }
 
-    public void Fifteen(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Fifteen(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame15 = new JFrame("Online Marketplace"); // creating new frame15
         JPanel panel15 = new JPanel(); // creating new panel15
         frame15.getContentPane();
@@ -1089,12 +1083,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame15.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Six(reader, writer,ois,oos);
+                marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Sixteen(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Sixteen(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame16 = new JFrame("Online Marketplace"); // creating new frame16
         JPanel panel16 = new JPanel(); // creating new panel16
         frame16.getContentPane();
@@ -1126,12 +1120,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame16.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Six(reader, writer,ois,oos);
+                marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Seventeen(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Seventeen(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame17 = new JFrame("Online Marketplace"); // creating new frame17
         JPanel panel17 = new JPanel(); // creating new panel17
         frame17.getContentPane();
@@ -1163,12 +1157,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame17.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Eight(reader, writer,ois,oos);
+                marketplaceClient.Eight(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Eighteen(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Eighteen(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame18 = new JFrame("Online Marketplace"); // creating new frame18
         JPanel panel18 = new JPanel(); // creating new panel18
         frame18.getContentPane();
@@ -1200,12 +1194,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame18.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Nine(reader, writer,ois,oos);
+                marketplaceClient.Nine(reader, writer, ois, oos);
             }
         });
     }
 
-    public void Nineteen(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void Nineteen(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame19 = new JFrame("Online Marketplace"); // creating new frame19
         JPanel panel19 = new JPanel(); // creating new panel19
         frame19.getContentPane();
@@ -1237,12 +1231,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame19.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Ten(reader, writer,ois,oos);
+                marketplaceClient.Ten(reader, writer, ois, oos);
             }
         });
     }
 
-    public void TwentyTwo(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void TwentyTwo(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame22 = new JFrame("Online Marketplace"); // creating new frame22
         JPanel panel22 = new JPanel(); // creating new panel22
         frame22.getContentPane();
@@ -1253,7 +1247,7 @@ public class MarketplaceClient extends Thread{
         menuLabel22.setBounds(155, 10, size.width, size.height); // welcome message position in frame22
 
 
-        JButton showEntireStoreList = new JButton("Show entire store list");// new jlabel login button
+        JButton showEntireStoreList = new JButton("Show entire product list");// new jlabel login button
         size = showEntireStoreList.getPreferredSize();
         showEntireStoreList.setBounds(20, 80, size.width, 60); // login button position in frame22
 
@@ -1281,7 +1275,7 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame22.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.TwentyThree(reader, writer,ois,oos);
+                marketplaceClient.TwentyThree(reader, writer, ois, oos);
             }
         });
 
@@ -1290,14 +1284,18 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame22.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                //ArrayList<String> storeList=ois.readObject(ArrayList);
                 try {
                     writer.println("22");
                     writer.flush();
-                    ArrayList<String> storeList= (ArrayList<String>) ois.readObject();
-                    marketplaceClient.TwentyFive(reader, writer,ois,oos,storeList);
-                }
-                catch (Exception exception){
+                    int size = Integer.parseInt(reader.readLine());
+                    ArrayList<String> storeList = new ArrayList<>();
+                    for (int i = 0; i < size; i++) {
+                        String a = reader.readLine();
+                        storeList.add(a.substring(0, a.indexOf(",")));
+                        System.out.println(storeList.get(i));
+                    }
+                    marketplaceClient.TwentyFive(reader, writer, ois, oos, storeList);
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
                 //marketplaceClient.TwentyFive(reader, writer,ois,oos);
@@ -1305,7 +1303,7 @@ public class MarketplaceClient extends Thread{
         });
     }
 
-    public void TwentyThree(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void TwentyThree(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame23 = new JFrame("Online Marketplace"); // creating new frame23
         JPanel panel9 = new JPanel(); // creating new panel9
         frame23.getContentPane();
@@ -1350,31 +1348,34 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame23.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                String pName=searchNameText23.getText();
+                String pName = searchNameText23.getText();
                 try {
                     writer.println("23");
                     writer.println(pName);
                     writer.flush();
-                    String result=reader.readLine();
-                    if (result.equals("success")){
-                        String p_Name=reader.readLine();
-                        String p_Price=reader.readLine();
-                        String p_Qty=reader.readLine();
-                        String p_Desc=reader.readLine();
-                        marketplaceClient.TwentySeven(reader,writer,ois,oos,p_Name,p_Price,p_Qty,p_Desc);
+                    String result = reader.readLine();
+                    System.out.println(result);
+                    if (result.equals("success")) {
+                        String p_Name = reader.readLine();
+                        String p_Price = reader.readLine();
+                        String p_Qty = reader.readLine();
+                        String p_Desc = reader.readLine();
+                        System.out.println(p_Name);
+                        System.out.println(p_Price);
+                        System.out.println(p_Qty);
+                        System.out.println(p_Desc);
+                        marketplaceClient.TwentySeven(reader, writer, ois, oos, p_Name, p_Price, p_Qty, p_Desc);
+                    } else {
+                        marketplaceClient.TwentyFour(reader, writer, ois, oos);
                     }
-                    else {
-                        marketplaceClient.TwentyFour(reader,writer,ois,oos);
-                    }
-                }
-                catch (Exception exception){
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
         });
     }
 
-    public void TwentyFour(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void TwentyFour(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame24 = new JFrame("Online Marketplace"); // creating new frame24
         JPanel panel24 = new JPanel(); // creating new panel24
         frame24.getContentPane();
@@ -1406,12 +1407,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame24.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.TwentyThree(reader, writer,ois,oos);
+                marketplaceClient.TwentyThree(reader, writer, ois, oos);
             }
         });
     }
 
-    public void TwentyFive(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos,ArrayList<String> storeList) {
+    public void TwentyFive(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos, ArrayList<String> storeList) {
         JFrame frame25 = new JFrame("Online Marketplace"); // creating new frame25
         JPanel panel25 = new JPanel(); // creating new panel25
         frame25.getContentPane();
@@ -1424,9 +1425,9 @@ public class MarketplaceClient extends Thread{
         JComboBox<String> options25 = new JComboBox();
         //ArrayList<String> arrayList=new ArrayList<>();
         //arrayList.add("Buyer");
-        options25.addItem("Buyer");
-        options25.addItem("Seller");
-        for (int i=0;i<storeList.size();i++){
+        //options25.addItem("Buyer");
+        //options25.addItem("Seller");
+        for (int i = 0; i < storeList.size(); i++) {
             options25.addItem(storeList.get(i));
         }
         //options25.addItem(arrayList.get(0));
@@ -1460,79 +1461,26 @@ public class MarketplaceClient extends Thread{
                     writer.println("25");
                     writer.println(storeList.get(options25.getSelectedIndex()));
                     writer.flush();
-                    ArrayList<String> productList= (ArrayList<String>) ois.readObject();
-                    marketplaceClient.TwentySix(reader, writer,ois,oos,productList);
-                }
-                catch (Exception exception){
+                    String result = reader.readLine();
+                    if (result.equals("success")) {
+                        String p_Name = reader.readLine();
+                        String p_Price = reader.readLine();
+                        String p_Qty = reader.readLine();
+                        String p_Desc = reader.readLine();
+                        System.out.println(p_Name);
+                        System.out.println(p_Price);
+                        System.out.println(p_Qty);
+                        System.out.println(p_Desc);
+                        marketplaceClient.TwentySeven(reader, writer, ois, oos, p_Name, p_Price, p_Qty, p_Desc);
+                    }
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
         });
     }
 
-    public void TwentySix(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos,ArrayList<String> productList) {
-        JFrame frame26 = new JFrame("Online Marketplace"); // creating new frame26
-        JPanel panel26 = new JPanel(); // creating new panel26
-        frame26.getContentPane();
-
-        JLabel productLabel26 = new JLabel("Product List :"); // new jlabel welcome message
-        productLabel26.setForeground(Color.cyan); // welcome message color
-        Dimension size = productLabel26.getPreferredSize();
-        productLabel26.setBounds(120, 50, size.width, size.height); // welcome message position in frame26
-
-        JComboBox<String> options26 = new JComboBox();
-        //ArrayList<String> arrayList=new ArrayList<>();
-        //arrayList.add("Buyer");
-        options26.addItem("Buyer");
-        options26.addItem("Seller");
-        for (int i=0;i<productList.size();i++){
-            options26.addItem(productList.get(i));
-        }
-        //options26.addItem(arrayList.get(0));
-        size = options26.getPreferredSize();
-        options26.setBounds(210, 45, size.width, 30);
-
-
-        JButton ok26 = new JButton("Ok");// new jlabel login button
-        ok26.setBounds(250, 120, 100, 30); // login button position in frame26
-
-        panel26.setLayout(null);
-        panel26.add(productLabel26);
-        panel26.add(options26);
-        panel26.add(ok26);
-        //panel26.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-
-        panel26.setBackground(Color.darkGray);
-        frame26.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame26.add(panel26);
-        frame26.setSize(400, 250);
-        frame26.setLocationRelativeTo(null);
-        frame26.setVisible(true);
-
-        ok26.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame26.dispose();
-                MarketplaceClient marketplaceClient = new MarketplaceClient();
-                try {
-                    writer.println("26");
-                    writer.println(productList.get(options26.getSelectedIndex()));
-                    writer.flush();
-                    String pName=reader.readLine();
-                    String pPrice=reader.readLine();
-                    String pQty=reader.readLine();
-                    String pDescription=reader.readLine();
-                    marketplaceClient.TwentySeven(reader, writer,ois,oos,pName,pPrice,pQty,pDescription);
-                }
-                catch (Exception exception){
-                    exception.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void TwentySeven(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos,String pName,String pPrice,String pQty,String pDescription) {
+    public void TwentySeven(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos, String pName, String pPrice, String pQty, String pDescription) {
         JFrame frame27 = new JFrame("Online Marketplace"); // creating new frame27
         JPanel panel27 = new JPanel(); // creating new panel27
         frame27.getContentPane();
@@ -1582,7 +1530,6 @@ public class MarketplaceClient extends Thread{
         description.setBounds(202, 110, size.width, size.height); // welcome message position in frame27
 
 
-
         JButton ok27 = new JButton("Add product");// new jlabel login button
         ok27.setBounds(250, 150, 120, 30); // login button position in frame27
 
@@ -1616,7 +1563,7 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame27.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Seven(reader, writer,ois,oos);
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
 
@@ -1624,13 +1571,13 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame27.dispose();
-                MarketplaceClient marketplaceClient=new MarketplaceClient();
-                marketplaceClient.Seven(reader,writer,ois,oos);
+                MarketplaceClient marketplaceClient = new MarketplaceClient();
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
     }
 
-    public void TwentyEight(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void TwentyEight(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame28 = new JFrame("Online Marketplace"); // creating new frame28
         JPanel panel28 = new JPanel(); // creating new panel28
         frame28.getContentPane();
@@ -1662,12 +1609,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame28.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Seven(reader, writer,ois,oos);
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
     }
 
-    public void TwentyNine(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void TwentyNine(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame29 = new JFrame("Online Marketplace"); // creating new frame29
         JPanel panel29 = new JPanel(); // creating new panel29
         frame29.getContentPane();
@@ -1699,12 +1646,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame29.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Seven(reader, writer,ois,oos);
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
     }
 
-    public void ThirtyOne(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void ThirtyOne(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame31 = new JFrame("Online Marketplace"); // creating new frame31
         JPanel panel31 = new JPanel(); // creating new panel31
         frame31.getContentPane();
@@ -1749,10 +1696,9 @@ public class MarketplaceClient extends Thread{
                 try {
                     writer.println("31");
                     writer.flush();
-                    ArrayList<String> viewCart= (ArrayList<String>) ois.readObject();
-                    marketplaceClient.ThirtyThree(reader, writer,ois,oos,viewCart);
-                }
-                catch (Exception exception){
+                    ArrayList<String> viewCart = (ArrayList<String>) ois.readObject();
+                    marketplaceClient.ThirtyThree(reader, writer, ois, oos, viewCart);
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
@@ -1762,7 +1708,7 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame31.dispose();
-                marketplaceClient.ThirtyTwo(reader, writer,ois,oos);
+                marketplaceClient.ThirtyTwo(reader, writer, ois, oos);
             }
         });
 
@@ -1770,12 +1716,12 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame31.dispose();
-                marketplaceClient.ThirtyFour(reader, writer,ois,oos);
+                marketplaceClient.ThirtyFour(reader, writer, ois, oos);
             }
         });
     }
 
-    public void ThirtyTwo(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void ThirtyTwo(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame32 = new JFrame("Online Marketplace"); // creating new frame32
         JPanel panel32 = new JPanel(); // creating new panel32
         frame32.getContentPane();
@@ -1820,9 +1766,8 @@ public class MarketplaceClient extends Thread{
                 try {
                     writer.println("32");
                     writer.flush();
-                    marketplaceClient.Seven(reader, writer,ois,oos);
-                }
-                catch (Exception exception){
+                    marketplaceClient.Seven(reader, writer, ois, oos);
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
@@ -1833,12 +1778,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame32.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Seven(reader, writer,ois,oos);
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
     }
 
-    public void ThirtyThree(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos,ArrayList<String> viewCart) {
+    public void ThirtyThree(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos, ArrayList<String> viewCart) {
         JFrame frame33 = new JFrame("Online Marketplace"); // creating new frame33
         JPanel panel33 = new JPanel(); // creating new panel33
         frame33.getContentPane();
@@ -1854,7 +1799,7 @@ public class MarketplaceClient extends Thread{
         options33.addItem("Buyer");
         options33.addItem("Seller");
         //options33.addItem(arrayList.get(0));
-        for (int i=0;i<viewCart.size();i++){
+        for (int i = 0; i < viewCart.size(); i++) {
             options33.addItem(viewCart.get(i));
         }
         size = options33.getPreferredSize();
@@ -1887,7 +1832,7 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame33.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Seven(reader, writer,ois,oos);
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
 
@@ -1895,13 +1840,13 @@ public class MarketplaceClient extends Thread{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame33.dispose();
-                MarketplaceClient marketplaceClient=new MarketplaceClient();
-                marketplaceClient.Seven(reader,writer,ois,oos);
+                MarketplaceClient marketplaceClient = new MarketplaceClient();
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
     }
 
-    public void ThirtyFour(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void ThirtyFour(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame34 = new JFrame("Online Marketplace"); // creating new frame34
         JPanel panel34 = new JPanel(); // creating new panel34
         frame34.getContentPane();
@@ -1941,9 +1886,8 @@ public class MarketplaceClient extends Thread{
                 try {
                     writer.println("34");
                     writer.flush();
-                    marketplaceClient.ThirtyFive(reader, writer,ois,oos);
-                }
-                catch (Exception exception){
+                    marketplaceClient.ThirtyFive(reader, writer, ois, oos);
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
@@ -1954,12 +1898,12 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame34.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Seven(reader, writer,ois,oos);
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
     }
 
-    public void ThirtyFive(BufferedReader reader, PrintWriter writer,ObjectInputStream ois,ObjectOutputStream oos) {
+    public void ThirtyFive(BufferedReader reader, PrintWriter writer, ObjectInputStream ois, ObjectOutputStream oos) {
         JFrame frame35 = new JFrame("Online Marketplace"); // creating new frame35
         JPanel panel35 = new JPanel(); // creating new panel35
         frame35.getContentPane();
@@ -1991,7 +1935,7 @@ public class MarketplaceClient extends Thread{
             public void actionPerformed(ActionEvent e) {
                 frame35.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Seven(reader, writer,ois,oos);
+                marketplaceClient.Seven(reader, writer, ois, oos);
             }
         });
     }
