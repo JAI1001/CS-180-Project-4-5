@@ -63,8 +63,10 @@ Shopping cart test
 
 Buy shopping cart test
 
+Expected result: User will purchase items in cart and record purchase history
 Test Status: Not passed
 
 Empty shopping cart test
 
+Expected result: User will empty items in cart and re add the items in the product list
 Test Status: Not passed
