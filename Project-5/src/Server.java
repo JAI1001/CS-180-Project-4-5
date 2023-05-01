@@ -82,7 +82,7 @@ public class Server extends Thread implements Runnable {
 
             //new thread for each user
             while (true) {
-                System.out.println("Beginning Loop: ");
+                //System.out.println("Beginning Loop: ");
                 System.out.println("Current users array list size: " + users.size());
 
                 String actionString = null;
@@ -215,7 +215,31 @@ public class Server extends Thread implements Runnable {
                             //matches. if it does, then get all other info and create new user with user constructor
                         }
  */
-                } else if (clientAction == 8) {
+                }
+                else if (clientAction == 6){
+                    ArrayList<String> uList=new ArrayList<String>();
+                    ArrayList<Integer> qList=new ArrayList<Integer>();
+                    synchronized (USER_GATEKEEPER){
+                        for (User u : users){
+                            if (u.isBuyer()){
+                                uList.add(u.getName());
+                                qList.add(u.getQuantity());
+                            }
+                        }
+                    }
+                    writer.println(uList.size());
+                    for (int i=0;i<uList.size();i++){
+                        writer.println(uList.get(i));
+                    }
+                    writer.println(qList.size());
+                    for (int j=0;j<qList.size();j++){
+                        writer.println(qList.size());
+                    }
+
+                }
+
+
+                else if (clientAction == 8) {
                     System.out.println("process for creating a product as a seller");
                     String productName = reader.readLine();
                     System.out.println("Product Name: " + productName);
