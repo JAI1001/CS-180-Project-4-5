@@ -5,9 +5,12 @@ import java.security.spec.ECField;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
-
-
-
+/**
+ * Server side
+ *
+ * @author Thomas Birk and Jane Billa, lab sec 07
+ * @version 04/30/2023
+ */
 
 public class Server extends Thread implements Runnable {
     private static final Object PRODUCT_GATEKEEPER = new Object();
