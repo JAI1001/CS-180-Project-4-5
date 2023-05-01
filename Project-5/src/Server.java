@@ -418,7 +418,7 @@ public class Server extends Thread implements Runnable {
 
 
                 }  else if(clientAction == 35){
-                    for (int i = 0; i < userNames.size(); i++) {
+                    for (int i = 0; i < productCart.size(); i++) {
                             productCart.get(i).clear();
                             quantities.get(i).clear();
                         
@@ -427,7 +427,7 @@ public class Server extends Thread implements Runnable {
 
                 }else if (clientAction == 32) {//clearing cart
                     productHistory.add(String.valueOf(productCart));
-                    for (int i = 0; i < userNames.size(); i++) {
+                    for (int i = 0; i < productCart.size(); i++) {
                             productCart.get(i).clear();
                             quantities.get(i).clear();
                     }
