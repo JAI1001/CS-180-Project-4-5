@@ -1,7 +1,7 @@
 1) Compile all .java files. Run Server.java first and then MarketplaceClient.java to actually use the program.
 
 
-2) Jane - Submitted Report on Brightspace. Jai - Submitted Vocareum workspace.
+2) Jane - Submitted Report on Brightspace. Jai - Submitted Vocareum workspace, and the presentation.
 
 
 3) a) Server.java - This class contains the server side of the client server connection as well as the concurrency implementation. All array lists that are used in the project are also in this class. This class was where all the processing of the user interaction in the client class happened. 
