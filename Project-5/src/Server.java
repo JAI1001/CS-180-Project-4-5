@@ -76,7 +76,7 @@ public class Server extends Thread implements Runnable {
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             writer.flush();
 
-            User uUser = new User(null, null, null, false, null,0);
+            User uUser = new User(null, null, null, false, null, 0);
             Product product = new Product(null, 0.00, 0, 0, null, null, null);
 
 
@@ -115,7 +115,7 @@ public class Server extends Thread implements Runnable {
 
                     }
                 }
-                if (clientAction == 3){
+                if (clientAction == 3) {
                     System.out.println("We are in three");
                     System.out.println("We are reading the store name, and printing after read: ");
                     String uStoreName = reader.readLine();
@@ -124,7 +124,6 @@ public class Server extends Thread implements Runnable {
                     synchronized (USER_GATEKEEPER) {
                         users.add(uUser);
                     }
-
 
 
                 }
@@ -230,7 +229,7 @@ public class Server extends Thread implements Runnable {
                         }
 
  */
-                }else if (clientAction == 8) {
+                } else if (clientAction == 8) {
                     System.out.println("process for creating a product as a seller");
                     String productName = reader.readLine();
                     System.out.println("Product Name: " + productName);
@@ -257,7 +256,7 @@ public class Server extends Thread implements Runnable {
                     writer.println("success");
                     writer.flush();
 
-                }else if (clientAction == 9) { //user wants to edit product
+                } else if (clientAction == 9) { //user wants to edit product
                     System.out.println("process for editing a product");
                     String productName = reader.readLine();
                     System.out.println("Product name: " + productName);
@@ -298,8 +297,6 @@ public class Server extends Thread implements Runnable {
                     }
 
 
-
-
                     if (!(found)) {
                         writer.println("unsuccess");
                         writer.flush();
@@ -334,16 +331,15 @@ public class Server extends Thread implements Runnable {
                     System.out.println("Product list size: " + productList.size());
 
 
-
                     //we have to get 9 to go to 14 automatically
 
                 } else if (clientAction == 23) {
 
 
                     String pName = reader.readLine();
-                    synchronized (PRODUCT_GATEKEEPER){
-                        for (Product p:productList){
-                            if (p.getName().equalsIgnoreCase(pName)){
+                    synchronized (PRODUCT_GATEKEEPER) {
+                        for (Product p : productList) {
+                            if (p.getName().equalsIgnoreCase(pName)) {
                                 writer.println("success");
                                 writer.flush();
                                 writer.println(p.getName());
@@ -351,8 +347,7 @@ public class Server extends Thread implements Runnable {
                                 writer.println(p.getQuantity());
                                 writer.println(p.getDescription());
                                 writer.flush();
-                            }
-                            else {
+                            } else {
                                 writer.println("unsuccess");
                                 writer.flush();
                             }
@@ -360,15 +355,13 @@ public class Server extends Thread implements Runnable {
                     }
 
 
-
-
-                }else if (clientAction == 25) {
+                } else if (clientAction == 25) {
 
 
                     String pName = reader.readLine();
-                    synchronized (PRODUCT_GATEKEEPER){
-                        for (Product p:productList){
-                            if (p.getName().equalsIgnoreCase(pName)){
+                    synchronized (PRODUCT_GATEKEEPER) {
+                        for (Product p : productList) {
+                            if (p.getName().equalsIgnoreCase(pName)) {
                                 writer.println("success");
                                 writer.flush();
                                 writer.println(p.getName());
@@ -376,8 +369,7 @@ public class Server extends Thread implements Runnable {
                                 writer.println(p.getQuantity());
                                 writer.println(p.getDescription());
                                 writer.flush();
-                            }
-                            else {
+                            } else {
                                 writer.println("unsuccess");
                                 writer.flush();
                             }
@@ -388,51 +380,41 @@ public class Server extends Thread implements Runnable {
                 } else if (clientAction == 22) { // show product list
                     writer.println(productList.size());
                     writer.flush();
-                    for (int i=0;i<productList.size();i++){
+                    for (int i = 0; i < productList.size(); i++) {
                         System.out.println(productList.get(i));
                         writer.println(productList.get(i));
                         writer.flush();
                     }
-                    //oos.writeObject(productList);
-                    //oos.close();
-                    //oos.flush();
 
 
-
-                } else if (clientAction == 26) { //Product name with product details shown, add product to cart array list function
-                    //being buggy
-                    //create new product
-                    //deleted
-
-                    String productName = reader.readLine();
-                    for (Product p : productList) {
-                        if (p.getName().equalsIgnoreCase(productName)) {
-                            writer.println(productName);
-                            writer.println(product.getPrice());
-                            writer.println(product.getQuantity());
-                            writer.println(product.getDescription());
-                        }
-                    }
-
-
-
-                    //productCart.add(null);
-                    //
-
-
-                }  else if(clientAction == 34){
+                } else if (clientAction == 27) {
+                    String pName = reader.readLine();
+                    ArrayList<String> viewCart = new ArrayList<>();
+                    viewCart.add(pName);
+                    productCart.add(viewCart);
+                    writer.println(productCart.size());
+                    writer.flush();
                     for (int i = 0; i < productCart.size(); i++) {
-                            productCart.get(i).clear();
-                            quantities.get(i).clear();
+                        //System.out.println(productCart.get(i));
+                        writer.println(productCart.get(i));
+                        writer.flush();
+                    }
+                }
+                else if (clientAction == 34) {
+
+
+                    for (int i = 0; i < productCart.size(); i++) {
+                        productCart.get(i).clear();
+                        quantities.get(i).clear();
 
                     }
                     writer.println("success");
 
-                }else if (clientAction == 32) {//clearing cart
+                } else if (clientAction == 32) {//clearing cart
                     productHistory.add(String.valueOf(productCart));
                     for (int i = 0; i < productCart.size(); i++) {
-                            productCart.get(i).clear();
-                            quantities.get(i).clear();
+                        productCart.get(i).clear();
+                        quantities.get(i).clear();
                     }
                     writer.println("success");
 
@@ -440,20 +422,18 @@ public class Server extends Thread implements Runnable {
                 } else if (clientAction == 31) { //cart
                     writer.println(productList.size());
                     writer.flush();
-                    for (int i=0;i<productCart.size();i++){
+                    for (int i = 0; i < productCart.size(); i++) {
                         //System.out.println(productList.get(i));
                         writer.println(productCart.get(i));
                         writer.flush();
                     }
 
 
-            
-
+                }
 
             }
+        }catch (IOException e) {
 
-        } catch (IOException e) {
-
+            }
         }
     }
-}
