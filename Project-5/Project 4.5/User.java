@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * <p>Purdue University -- CS18000 -- Spring 2023 -- Project-4</p>
  *
  * @version April 10, 2023
- *
  * @author: Seungjae Baik, Jane Billa, Thomas Birk, Kuan-Yu Chen, Jai Nanda
  */
 
@@ -26,13 +25,15 @@ public class User {
     private String password;
     private boolean buyer; //a user can only be a buyer or a seller, not both
     private String storeName;
+    private int quantity;
 
-    public User(String username, String password, String emailAddress, boolean buyer, String storeName) { //constructor for a new
+    public User(String username, String password, String emailAddress, boolean buyer, String storeName, int quantity) { //constructor for a new
         this.username = username;
         this.password = password;
         this.emailAddress = emailAddress;
         this.buyer = buyer;
         this.storeName = storeName;
+        this.quantity = quantity;
     }
 
     public String getName() {
@@ -57,6 +58,10 @@ public class User {
         return storeName;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
     //setters below
     public void setName(String username) {
         this.username = username;
@@ -76,5 +81,9 @@ public class User {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
