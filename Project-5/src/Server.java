@@ -83,30 +83,30 @@ public class Server extends Thread implements Runnable {
             //new thread for each user
             while (true) {
                 //System.out.println("Beginning Loop: ");
-                System.out.println("Current users array list size: " + users.size());
+                //System.out.println("Current users array list size: " + users.size());
 
                 String actionString = null;
                 while (actionString == null) {
                     actionString = reader.readLine();
                 }
-                System.out.println("Got first string (action string): " + actionString);
+                //System.out.println("Got first string (action string): " + actionString);
                 int clientAction = Integer.parseInt(actionString);
-                System.out.println("Action string is now client action int: " + clientAction);
+                //System.out.println("Action string is now client action int: " + clientAction);
                 if (clientAction == 2) {
-                    System.out.println("We are in 2");
-                    System.out.println("Here we read the user info. Reading: ");
+                    //System.out.println("We are in 2");
+                    //System.out.println("Here we read the user info. Reading: ");
                     String uName = reader.readLine();
                     String uPassword = reader.readLine();
                     String uEmail = reader.readLine();
                     String uTypeString = reader.readLine();
                     boolean uType;
                     uType = uTypeString.equalsIgnoreCase("true");
-                    System.out.println("Read user info: " + uName + uEmail + uPassword + uType);
+                    //System.out.println("Read user info: " + uName + uEmail + uPassword + uType);
                     uUser.setName(uName);
                     uUser.setPassword(uPassword);
                     uUser.setEmailAddress(uEmail);
                     uUser.setBuyer(uType);
-                    System.out.println("We have now read the object.");
+                    //System.out.println("We have now read the object.");
                     if (uUser.isBuyer()) {
                         synchronized (USER_GATEKEEPER) {
                             users.add(uUser);
@@ -116,10 +116,10 @@ public class Server extends Thread implements Runnable {
                     }
                 }
                 if (clientAction == 3) {
-                    System.out.println("We are in three");
-                    System.out.println("We are reading the store name, and printing after read: ");
+                    //System.out.println("We are in three");
+                    //System.out.println("We are reading the store name, and printing after read: ");
                     String uStoreName = reader.readLine();
-                    System.out.println(uStoreName);
+                    //System.out.println(uStoreName);
                     uUser.setStoreName(uStoreName);
                     synchronized (USER_GATEKEEPER) {
                         users.add(uUser);
@@ -128,18 +128,18 @@ public class Server extends Thread implements Runnable {
 
                 }
                 if (clientAction == 4) {
-                    System.out.println("We are in four");
+                    //System.out.println("We are in four");
                     String username = reader.readLine();
                     String password = reader.readLine();
-                    System.out.println("Users size: " + users.size());
+                    //System.out.println("Users size: " + users.size());
                     boolean found = false;
                     synchronized (USER_GATEKEEPER) {
                         if (users.size() > 0) {
                             for (User u : users) {
                                 if (u.getName().equalsIgnoreCase(username)) {
-                                    System.out.println("Username exists...");
+                                    //System.out.println("Username exists...");
                                     if (u.getPassword().equals(password)) {
-                                        System.out.println("And password matches!");
+                                        // System.out.println("And password matches!");
                                         found = true;
                                         writer.println("success");
                                         writer.flush();
@@ -166,7 +166,7 @@ public class Server extends Thread implements Runnable {
                                 writer.flush();
                             }
                         } else {
-                            System.out.println("There are no users existant. Writing unsuccess");
+                            //System.out.println("There are no users existant. Writing unsuccess");
                             writer.println("unsuccess");
                             writer.println("");
                             writer.flush();
@@ -240,15 +240,15 @@ public class Server extends Thread implements Runnable {
 
 
                 else if (clientAction == 8) {
-                    System.out.println("process for creating a product as a seller");
+                    //System.out.println("process for creating a product as a seller");
                     String productName = reader.readLine();
-                    System.out.println("Product Name: " + productName);
+                    //System.out.println("Product Name: " + productName);
                     double price = Double.parseDouble(reader.readLine());
-                    System.out.println("Price: " + price);
+                    //System.out.println("Price: " + price);
                     int amount = Integer.parseInt(reader.readLine());
-                    System.out.println("Amount: " + amount);
+                    //System.out.println("Amount: " + amount);
                     String description = reader.readLine();
-                    System.out.println("Description: " + description);
+                    //System.out.println("Description: " + description);
 
 
                     //actually create the product and put it in productList ArrayList
@@ -258,8 +258,8 @@ public class Server extends Thread implements Runnable {
                     }
 
 
-                    System.out.println("Created product added to product list. Showing size: ");
-                    System.out.println(productList.size());
+                    //System.out.println("Created product added to product list. Showing size: ");
+                    //System.out.println(productList.size());
 
                     //process for creating a product
 
@@ -267,14 +267,14 @@ public class Server extends Thread implements Runnable {
                     writer.flush();
 
                 } else if (clientAction == 9) { //user wants to edit product
-                    System.out.println("process for editing a product");
+                    //System.out.println("process for editing a product");
                     String productName = reader.readLine();
-                    System.out.println("Product name: " + productName);
+                    // System.out.println("Product name: " + productName);
                     boolean found = false;
                     synchronized (PRODUCT_GATEKEEPER) {
                         for (Product p : productList) {
                             if (p.getName().equalsIgnoreCase(productName)) {
-                                System.out.println("There is a product that matches, printing success");
+                                //System.out.println("There is a product that matches, printing success");
                                 writer.println("success");
                                 writer.flush();
                                 found = true;
@@ -284,14 +284,14 @@ public class Server extends Thread implements Runnable {
 
 
                     if (!(found)) {
-                        System.out.println("No product that matches, sending unsuccess");
+                        //System.out.println("No product that matches, sending unsuccess");
                         writer.println("unsuccess");
                         writer.flush();
                     }
                 } else if (clientAction == 10) {
-                    System.out.println("process for deleting a product");
+                    //System.out.println("process for deleting a product");
                     String productName = reader.readLine();
-                    System.out.println("Delete product: " + productName);
+                    //System.out.println("Delete product: " + productName);
                     //deletes from arrayList
                     boolean found = false;
                     int i = 0;
@@ -315,19 +315,19 @@ public class Server extends Thread implements Runnable {
                             productList.remove(i - 1);
                         }
                     }
-                    System.out.println(productList.size());
+                    // System.out.println(productList.size());
 
                     //process for deleting product
                 } else if (clientAction == 14) {
-                    System.out.println("process for editing a product");
+                    //System.out.println("process for editing a product");
                     String newProductname = reader.readLine();
-                    System.out.println("New product name: " + newProductname);
+                    // System.out.println("New product name: " + newProductname);
                     Double newPrice = Double.parseDouble(reader.readLine());
-                    System.out.println("New double: " + newPrice);
+                    //System.out.println("New double: " + newPrice);
                     int newAmount = Integer.parseInt(reader.readLine());
-                    System.out.println("New amount: " + newAmount);
+                    //System.out.println("New amount: " + newAmount);
                     String newDescription = reader.readLine();
-                    System.out.println("New string: " + newDescription);
+                    //System.out.println("New string: " + newDescription);
                     //edits as well
                     synchronized (PRODUCT_GATEKEEPER) {
                         for (Product p : productList) {
@@ -338,7 +338,7 @@ public class Server extends Thread implements Runnable {
                             }
                         }
                     }
-                    System.out.println("Product list size: " + productList.size());
+                    //System.out.println("Product list size: " + productList.size());
 
 
                     //we have to get 9 to go to 14 automatically
