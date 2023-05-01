@@ -20,6 +20,7 @@ Buyer:
 6. User logs back in with entered username and password “pop”
 
 Expected result: Application verifies the user's username and password and loads their homepage automatically for both buyer and seller. 
+
 Test Status: Passed. 
 
 
@@ -33,6 +34,7 @@ Add product test
 6. User checks to see if the product information shows in the terminal
 
 Expected result: User will create an product  
+
 Test Status: Passed. 
 
 
@@ -46,6 +48,7 @@ Edit product test
 6. User clicks ok button
 
 Expected result: User will edit the product
+
 Test Status: Passed.
 
 See statistics test
@@ -58,7 +61,13 @@ Test Status: Passed?????????
 
 Purchase product test
 
+Search product test
+
+1. User logs in to account "pop"
+2. User clicks
+
 Expected result: User will purchase product and purchase will be recorded in purchase history
+
 Test Status: not passed
 
 Shopping cart test
@@ -66,9 +75,11 @@ Shopping cart test
 Buy shopping cart test
 
 Expected result: User will purchase items in cart and record purchase history
+
 Test Status: Not passed
 
 Empty shopping cart test
 
 Expected result: User will empty items in cart and re add the items in the product list
+
 Test Status: Not passed
