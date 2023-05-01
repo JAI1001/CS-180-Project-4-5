@@ -20,3 +20,4 @@ e) UserNotFoundException.java – This class is an exception that can be thrown 
 
 Notes: There are several System.out.printlns that are commented out in the Server class. These were created to show what was actually working and going through in the terminal as a method of testing. They are left in there to show our thought processes and can be uncommented to see what is being printed out in the terminal. 
 
+There is a project 4.5 which includes the fixed program for project 4, which works as intended for the previous project.
