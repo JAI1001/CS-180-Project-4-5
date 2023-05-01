@@ -417,11 +417,11 @@ public class Server extends Thread implements Runnable {
                     //
 
 
-                }  else if(clientAction == 35){
+                }  else if(clientAction == 34){
                     for (int i = 0; i < productCart.size(); i++) {
                             productCart.get(i).clear();
                             quantities.get(i).clear();
-                        
+
                     }
                     writer.println("success");
 
@@ -435,17 +435,13 @@ public class Server extends Thread implements Runnable {
 
 
                 } else if (clientAction == 31) { //cart
-                            writer.println(productList);
-                    oos.flush();
-
-                    oos.close();
-                    socket.close();
-
-
-//
-//
-//                }
-                }
+                    writer.println(productList.size());
+                    writer.flush();
+                    for (int i=0;i<productCart.size();i++){
+                        //System.out.println(productList.get(i));
+                        writer.println(productCart.get(i));
+                        writer.flush();
+                    }
 
 
             
