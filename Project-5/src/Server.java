@@ -418,24 +418,24 @@ public class Server extends Thread implements Runnable {
 
 
                 }  else if(clientAction == 35){
-                    productCart.clear();
+                    for (int i = 0; i < userNames.size(); i++) {
+                            productCart.get(i).clear();
+                            quantities.get(i).clear();
+                        
+                    }
                     writer.println("success");
 
                 }else if (clientAction == 32) {//clearing cart
                     productHistory.add(String.valueOf(productCart));
-                    productCart.clear();
+                    for (int i = 0; i < userNames.size(); i++) {
+                            productCart.get(i).clear();
+                            quantities.get(i).clear();
+                    }
                     writer.println("success");
 
 
                 } else if (clientAction == 31) { //cart
-                    //ois = new ObjectInputStream(pro);
-                    oos.writeObject(productCart);
-                    oos.flush();
-
-                    //for(int i = 0; i < productStoreName.size(); i++){//goes through everything in array list
-                    //   productStoreName.get(i);//gets the index
-
-                    // }
+                            writer.println(productList);
                     oos.flush();
 
                     oos.close();
@@ -446,6 +446,9 @@ public class Server extends Thread implements Runnable {
 //
 //                }
                 }
+
+
+            
 
 
             }
