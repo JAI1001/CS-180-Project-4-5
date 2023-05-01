@@ -186,7 +186,6 @@ public class Server extends Thread implements Runnable {
                                 String inputPassword = reader.readLine();
                                 if (element.getName().equals(inputUsername)) {
                                     isFound = true;
-
                                     if (element.getPassword().equals(inputPassword)) {
                                         String thisEmail = element.getEmailAddress();
                                         boolean thisBuyer = element.isBuyer();
@@ -194,7 +193,6 @@ public class Server extends Thread implements Runnable {
                                     } else {
                                         writer.println("unsuccess");
                                         //gui to error saying password doesn't match
-
                                     }
                                 }
                                 if (!(isFound)) {
@@ -204,7 +202,6 @@ public class Server extends Thread implements Runnable {
                                     writer.println("success");
                                 }
                             }
-
                             try {
                                 if (thisUser.isBuyer()) {
                                     writer.println("b");
@@ -214,20 +211,9 @@ public class Server extends Thread implements Runnable {
                             } catch (Exception e) {
                                 writer.println("s");
                             }
-
-
-
-
                             //go through each element in user array list, if username matches with any check if password
                             //matches. if it does, then get all other info and create new user with user constructor
-
-
-
-
-
-
                         }
-
  */
                 } else if (clientAction == 8) {
                     System.out.println("process for creating a product as a seller");
@@ -399,8 +385,7 @@ public class Server extends Thread implements Runnable {
                         writer.println(productCart.get(i));
                         writer.flush();
                     }
-                }
-                else if (clientAction == 34) {
+                } else if (clientAction == 34) {
 
 
                     for (int i = 0; i < productCart.size(); i++) {
@@ -420,20 +405,29 @@ public class Server extends Thread implements Runnable {
 
 
                 } else if (clientAction == 31) { //cart
-                    writer.println(productList.size());
+                    String pName = reader.readLine();
+                    ArrayList<String> viewCart = new ArrayList<>();
+                    viewCart.add(pName);
+                    productCart.add(viewCart);
+                    writer.println(productCart.size());
                     writer.flush();
                     for (int i = 0; i < productCart.size(); i++) {
-                        //System.out.println(productList.get(i));
-                        writer.println(productCart.get(i));
+                        //System.out.println(productCart.get(i));
+                        writer.println(productCart);
                         writer.flush();
+                        // for (int i = 0; i < productCart.size(); i++) {
+                        //System.out.println(productList.get(i));
+                        //writer.println(productCart.get(i));
+                        //writer.flush();
                     }
 
 
                 }
-
             }
+
+
         }catch (IOException e) {
 
-            }
         }
     }
+}
