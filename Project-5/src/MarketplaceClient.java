@@ -1417,7 +1417,7 @@ public class MarketplaceClient extends Thread {
         JPanel panel25 = new JPanel(); // creating new panel25
         frame25.getContentPane();
 
-        JLabel storeLabel25 = new JLabel("Store List :"); // new jlabel welcome message
+        JLabel storeLabel25 = new JLabel("Product List :"); // new jlabel welcome message
         storeLabel25.setForeground(Color.cyan); // welcome message color
         Dimension size = storeLabel25.getPreferredSize();
         storeLabel25.setBounds(120, 50, size.width, size.height); // welcome message position in frame25
