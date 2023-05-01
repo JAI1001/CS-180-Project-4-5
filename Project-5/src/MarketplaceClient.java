@@ -149,7 +149,7 @@ public class MarketplaceClient extends Thread {
                 if (uName.equals("") || password.equals("") || email.equals("")) {
                     marketplaceClient.Twenty(reader, writer, ois, oos);
                 } else {
-                    System.out.println("Here, fields are not blank.");
+                    //System.out.println("Here, fields are not blank.");
                     int buyer = options.getSelectedIndex();
                     boolean type = true;
                     if (buyer == 0) {
@@ -161,10 +161,10 @@ public class MarketplaceClient extends Thread {
                     try {
                         //User user2 = new User(uName, password, email, type);
                         //user2.writeUser();
-                        System.out.println("We are sending for frame two, so we will send the string 2");
+                        //System.out.println("We are sending for frame two, so we will send the string 2");
                         writer.println("2");
                         writer.flush();
-                        System.out.println("We are now sending the user strings/type");
+                        //System.out.println("We are now sending the user strings/type");
                         writer.println(uName);
                         writer.println(password);
                         writer.println(email);
@@ -172,10 +172,10 @@ public class MarketplaceClient extends Thread {
                         writer.flush();
 
                         if (type) {
-                            System.out.println("Going to GUI 7");
+                            //System.out.println("Going to GUI 7");
                             marketplaceClient.Seven(reader, writer, ois, oos);
                         } else {
-                            System.out.println("Going to GUI 3");
+                            //System.out.println("Going to GUI 3");
                             marketplaceClient.Three(reader, writer, ois, oos);
                         }
                     } catch (Exception ex) {
@@ -279,16 +279,16 @@ public class MarketplaceClient extends Thread {
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
                 String uName = usernameText.getText();
                 String uPassword = passwordText.getText();
-                System.out.println(uName);
-                System.out.println(uPassword);
-                System.out.println("Hello");
+                //System.out.println(uName);
+                //System.out.println(uPassword);
+                //System.out.println("Hello");
                 try {
                     writer.println("4");
                     writer.println(uName);
                     writer.println(uPassword);
                     writer.flush();
                     String result = reader.readLine();
-                    System.out.println("hello");
+                    //System.out.println("hello");
                     String type = reader.readLine();
                     if (result.equals("success")) {
                         if (type.equals("b")) {
@@ -350,13 +350,13 @@ public class MarketplaceClient extends Thread {
                 frame3.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
                 String storeName = sNameText.getText();
-                System.out.println("Writing 3 to server");
+                //System.out.println("Writing 3 to server");
                 writer.println("3");
                 writer.flush();
-                System.out.println("Got store name from user: " + storeName);
+                //System.out.println("Got store name from user: " + storeName);
                 writer.println(storeName);
                 writer.flush();
-                System.out.println("Going to GUI 6");
+                //System.out.println("Going to GUI 6");
                 marketplaceClient.Six(reader, writer, ois, oos);
             }
         });
@@ -476,6 +476,29 @@ public class MarketplaceClient extends Thread {
                 frame6.dispose();
                 MarketplaceClient marketplaceClient = new MarketplaceClient();
                 marketplaceClient.Eleven(reader, writer, ois, oos);
+                /*
+                try {
+                    writer.println("6");
+                    writer.flush();
+                    int uSize=Integer.parseInt(reader.readLine());
+                    ArrayList<String> uList=new ArrayList<String>();
+                    ArrayList<String> qList=new ArrayList<String>();
+                    for (int i=0;i<uSize;i++){
+                        uList.add(reader.readLine());
+                    }
+                    int qSize=Integer.parseInt(reader.readLine());
+                    for (int j=0;j<qSize;j++){
+                        qList.add(reader.readLine());
+                    }
+
+                    MarketplaceClient marketplaceClient = new MarketplaceClient();
+                    marketplaceClient.Eleven(reader, writer, ois, oos, uList,qList);
+                }
+                catch (Exception exception){
+                    exception.printStackTrace();
+                }
+
+                 */
             }
         });
 
@@ -652,14 +675,14 @@ public class MarketplaceClient extends Thread {
                 String pPrice = priceText8.getText();
                 String pQty = qtyText8.getText();
                 String pDescription = descriptionText8.getText();
-                System.out.println(pName);
-                System.out.println(pPrice);
-                System.out.println(pQty);
-                System.out.println(pDescription);
+                //System.out.println(pName);
+                //System.out.println(pPrice);
+                //System.out.println(pQty);
+                //System.out.println(pDescription);
                 try {
-                    System.out.println("Server Connected");
+                    //System.out.println("Server Connected");
                     writer.println("8");
-                    System.out.println("Hello");
+                    //System.out.println("Hello");
                     writer.println(pName);
                     writer.println(pPrice);
                     writer.println(pQty);
@@ -667,10 +690,10 @@ public class MarketplaceClient extends Thread {
                     writer.flush();
                     String result = reader.readLine();
                     if (result.equals("success")) {
-                        System.out.println("success");
+                        //System.out.println("success");
                         marketplaceClient.Thirteen(reader, writer, ois, oos);
                     } else {
-                        System.out.println("unsuccessful");
+                        //System.out.println("unsuccessful");
                         marketplaceClient.Seventeen(reader, writer, ois, oos);
                     }
                 } catch (Exception exception) {
@@ -850,6 +873,31 @@ public class MarketplaceClient extends Thread {
         JButton ok11 = new JButton("Ok");// new jlabel login button
         ok11.setBounds(250, 120, 100, 30); // login button position in frame11
 
+        /*
+
+        int j=50;
+        JLabel statisticsInfoOne = new JLabel(); // new jlabel welcome message
+        for (int i=0;i<uList.size();i++){
+            statisticsInfoOne = new JLabel(uList.get(i)); // new jlabel welcome message
+            statisticsInfoOne.setForeground(Color.cyan); // welcome message color
+            size = statisticsInfoOne.getPreferredSize();
+            statisticsInfoOne.setBounds(80, j, size.width, size.height); // welcome message position in frame11
+            j=j+20;
+            panel11.add(statisticsInfoOne);
+        }
+        j=50;
+
+        for (int k=0;k<qList.size();k++){
+            statisticsInfoOne = new JLabel(qList.get(k)); // new jlabel welcome message
+            statisticsInfoOne.setForeground(Color.cyan); // welcome message color
+            size = statisticsInfoOne.getPreferredSize();
+            statisticsInfoOne.setBounds(250, j, size.width, size.height); // welcome message position in frame11
+            j=j+20;
+            panel11.add(statisticsInfoOne);
+        }
+
+         */
+
         panel11.setLayout(null);
         panel11.add(statisticsInfo);
         panel11.add(ok11);
@@ -899,7 +947,7 @@ public class MarketplaceClient extends Thread {
         frame12.setSize(400, 250);
         frame12.setLocationRelativeTo(null);
         frame12.setVisible(true);
-        System.out.println("First");
+        //System.out.println("First");
 
 
         ok12.addActionListener(new ActionListener() {
@@ -1032,7 +1080,7 @@ public class MarketplaceClient extends Thread {
                 String pQty = qtyText14.getText();
                 String pDescription = descriptionText14.getText();
                 try {
-                    System.out.println("Server Connected");
+                    //System.out.println("Server Connected");
                     writer.println("14");
                     writer.println(pName);
                     writer.println(pPrice);
@@ -1292,7 +1340,7 @@ public class MarketplaceClient extends Thread {
                     for (int i = 0; i < size; i++) {
                         String a = reader.readLine();
                         storeList.add(a.substring(0, a.indexOf(",")));
-                        System.out.println(storeList.get(i));
+                        //System.out.println(storeList.get(i));
                     }
                     marketplaceClient.TwentyFive(reader, writer, ois, oos, storeList);
                 } catch (Exception exception) {
@@ -1354,16 +1402,16 @@ public class MarketplaceClient extends Thread {
                     writer.println(pName);
                     writer.flush();
                     String result = reader.readLine();
-                    System.out.println(result);
+                    //System.out.println(result);
                     if (result.equals("success")) {
                         String p_Name = reader.readLine();
                         String p_Price = reader.readLine();
                         String p_Qty = reader.readLine();
                         String p_Desc = reader.readLine();
-                        System.out.println(p_Name);
-                        System.out.println(p_Price);
-                        System.out.println(p_Qty);
-                        System.out.println(p_Desc);
+                        //System.out.println(p_Name);
+                        //System.out.println(p_Price);
+                        //System.out.println(p_Qty);
+                        //System.out.println(p_Desc);
                         marketplaceClient.TwentySeven(reader, writer, ois, oos, p_Name, p_Price, p_Qty, p_Desc);
                     } else {
                         marketplaceClient.TwentyFour(reader, writer, ois, oos);
@@ -1461,16 +1509,19 @@ public class MarketplaceClient extends Thread {
                     writer.println("25");
                     writer.println(storeList.get(options25.getSelectedIndex()));
                     writer.flush();
+                    //System.out.println("Test-1");
                     String result = reader.readLine();
+                    //System.out.println("Test-2");
                     if (result.equals("success")) {
+                        //System.out.println("Test-3");
                         String p_Name = reader.readLine();
                         String p_Price = reader.readLine();
                         String p_Qty = reader.readLine();
                         String p_Desc = reader.readLine();
-                        System.out.println(p_Name);
-                        System.out.println(p_Price);
-                        System.out.println(p_Qty);
-                        System.out.println(p_Desc);
+                        //System.out.println(p_Name);
+                        //System.out.println(p_Price);
+                        //System.out.println(p_Qty);
+                        //System.out.println(p_Desc);
                         marketplaceClient.TwentySeven(reader, writer, ois, oos, p_Name, p_Price, p_Qty, p_Desc);
                     }
                 } catch (Exception exception) {
@@ -1571,8 +1622,15 @@ public class MarketplaceClient extends Thread {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame27.dispose();
-                MarketplaceClient marketplaceClient = new MarketplaceClient();
-                marketplaceClient.Seven(reader, writer, ois, oos);
+                try {
+                    writer.println("27");
+                    writer.println(pName);
+                    writer.flush();
+                    MarketplaceClient marketplaceClient = new MarketplaceClient();
+                    marketplaceClient.Seven(reader, writer, ois, oos);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             }
         });
     }
@@ -1696,7 +1754,12 @@ public class MarketplaceClient extends Thread {
                 try {
                     writer.println("31");
                     writer.flush();
-                    ArrayList<String> viewCart = (ArrayList<String>) ois.readObject();
+                    int size = Integer.parseInt(reader.readLine());
+                    ArrayList<String> viewCart = new ArrayList<>();
+                    for (int i = 0; i < size; i++) {
+                        viewCart.add(reader.readLine());
+                    }
+                    //ArrayList<String> viewCart = (ArrayList<String>) ois.readObject();
                     marketplaceClient.ThirtyThree(reader, writer, ois, oos, viewCart);
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -1796,8 +1859,8 @@ public class MarketplaceClient extends Thread {
         JComboBox<String> options33 = new JComboBox();
         //ArrayList<String> arrayList=new ArrayList<>();
         //arrayList.add("Buyer");
-        options33.addItem("Buyer");
-        options33.addItem("Seller");
+        //options33.addItem("Buyer");
+        //options33.addItem("Seller");
         //options33.addItem(arrayList.get(0));
         for (int i = 0; i < viewCart.size(); i++) {
             options33.addItem(viewCart.get(i));
