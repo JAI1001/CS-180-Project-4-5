@@ -45,7 +45,6 @@ Edit product test
 5. User clicks ok button
 6. User clicks ok button
 
-
 Expected result: User will edit the product
 Test Status: Passed.
 
@@ -55,10 +54,13 @@ See statistics test
 2. User clicks on statistics button
 
 Expected result: User will see displayed statistics
-
 Test Status: Passed?????????
 
 Purchase product test
+
+Expected result: User will purchase product and purchase will be recorded in purchase history
+Test Status: not passed
+
 Shopping cart test
 
 Buy shopping cart test
